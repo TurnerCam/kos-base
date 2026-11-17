@@ -48,11 +48,11 @@ class UserSocialsTableSeeder extends Seeder
     {
         switch ($service) {
             case 'twitter':
-                return '@'.$this->faker->word;
+                return '@'.$this->faker->word();
             case 'facebook':
-                return 'https://facebook.com/'.$this->faker->word;
+                return 'https://facebook.com/'.$this->faker->word();
             case 'instagram':
-                return $this->faker->word;
+                return $this->faker->word();
             default:
                 return '';
         }
