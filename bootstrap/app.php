@@ -13,7 +13,26 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->redirectGuestsTo(fn () => route('login'));
+        $middleware->redirectUsersTo(RouteServiceProvider::HOME);
+
+        $middleware->validateCsrfTokens(except: [
+            'keys/*',
+            'keys',
+            '/deploy',
+        ]);
+
+        $middleware->web([
+            \Illuminate\Session\Middleware\AuthenticateSession::class,
+            \App\Http\Middleware\HttpsProtocol::class,
+            \App\Http\Middleware\CheckUserStatus::class,
+        ]);
+
+        $middleware->throttleApi();
+
+        $middleware->alias([
+            'api_token' => \App\Http\Middleware\ApiTokenAuth::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

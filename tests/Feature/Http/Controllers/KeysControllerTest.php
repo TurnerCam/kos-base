@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use App\Http\Middleware\VerifyCsrfToken;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use App\Models\Authentication;
 use App\Models\Authorization;
 use App\Models\Gatekeeper;
