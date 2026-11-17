@@ -5,6 +5,7 @@ namespace Tests\Unit\Http\Middleware;
 use App\Http\Middleware\HttpsProtocol;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\URL;
 use Tests\TestCase;
 
@@ -42,13 +43,18 @@ class HttpsProtocolTest extends TestCase
 
         $this->assertFalse($request->isSecure());
 
+        // A real next middleware always returns a response; the request is not
+        // redirected when that same response is passed straight back.
         $nextMiddlewareCalled = false;
-        $response = $middleware->handle(app(Request::class), function () use (&$nextMiddlewareCalled) {
+        $nextResponse = new Response;
+        $response = $middleware->handle(app(Request::class), function () use (&$nextMiddlewareCalled, $nextResponse) {
             $nextMiddlewareCalled = true;
+
+            return $nextResponse;
         });
 
         $this->assertTrue(
-            $nextMiddlewareCalled === true && is_null($response),
+            $nextMiddlewareCalled === true && $response === $nextResponse,
             "Failed asserting that non-secure request is not redirected in $environment environment."
         );
     }

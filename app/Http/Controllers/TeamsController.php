@@ -47,7 +47,7 @@ class TeamsController extends Controller
     }
 
     // Team dashboard
-    public function dashboard($team_id): View
+    public function dashboard($team_id)
     {
         $team = \App\Models\Team::find($team_id);
 
@@ -232,7 +232,7 @@ class TeamsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|unique:teams',
@@ -278,7 +278,7 @@ class TeamsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(int $id): View
+    public function show($id)
     {
         $team = \App\Models\Team::find($id);
 
@@ -294,7 +294,7 @@ class TeamsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit(int $id)
+    public function edit($id)
     {
         $team = \App\Models\Team::find($id);
 
@@ -332,7 +332,7 @@ class TeamsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, int $id): RedirectResponse
+    public function update(Request $request, $id): RedirectResponse
     {
         // load existing record
         $team = \App\Models\Team::find($id);
@@ -397,7 +397,7 @@ class TeamsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(int $id): JsonResponse
+    public function destroy($id): JsonResponse
     {
         if (\Gate::allows('manage-teams')) {
             $team = \App\Models\Team::find($id);

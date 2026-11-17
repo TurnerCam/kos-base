@@ -41,7 +41,7 @@ class HelpdeskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show(int $id)
+    public function show($id)
     {
         //
     }
@@ -51,7 +51,7 @@ class HelpdeskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit(int $id)
+    public function edit($id)
     {
         //
     }
@@ -61,7 +61,7 @@ class HelpdeskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, int $id)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -71,7 +71,7 @@ class HelpdeskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(int $id)
+    public function destroy($id)
     {
         //
     }

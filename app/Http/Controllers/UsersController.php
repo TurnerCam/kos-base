@@ -57,7 +57,7 @@ class UsersController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(): View
+    public function create()
     {
 
         // See if we have an form designated as a new user application and redirect if needed
@@ -84,7 +84,7 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show(int $id)
+    public function show($id)
     {
         //
     }
@@ -92,7 +92,7 @@ class UsersController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(int $id): View
+    public function edit($id): View
     {
         $user = \App\Models\User::find($id);
 
@@ -246,7 +246,7 @@ class UsersController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, int $id): RedirectResponse
+    public function update(Request $request, $id)
     {
         if (Gate::allows('manage-users')) {
             $request->validate([
@@ -292,7 +292,7 @@ class UsersController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(int $id): RedirectResponse
+    public function destroy($id)
     {
         if (Gate::allows('manage-users')) {
             $this->validate(request(), [
@@ -350,7 +350,7 @@ class UsersController extends Controller
     }
 
     // get key add form
-    public function create_key($user_id): View
+    public function create_key($user_id)
     {
         $user = \App\Models\User::find($user_id);
         if (count($user) != 0) {

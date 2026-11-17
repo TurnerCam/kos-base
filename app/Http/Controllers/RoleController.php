@@ -89,7 +89,7 @@ class RoleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show(int $id)
+    public function show($id)
     {
         //
     }
@@ -97,7 +97,7 @@ class RoleController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(int $id): View
+    public function edit($id): View
     {
         $role = \App\Models\Role::find($id);
 
@@ -134,7 +134,7 @@ class RoleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, int $id): RedirectResponse
+    public function update(Request $request, $id): RedirectResponse
     {
         $request->validate([
             'name' => 'required',
@@ -181,7 +181,7 @@ class RoleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(int $id): RedirectResponse
+    public function destroy($id): RedirectResponse
     {
         $this->validate(request(), [
             'confirm' => 'required',

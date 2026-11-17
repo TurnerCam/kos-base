@@ -122,7 +122,7 @@ class GatekeepersController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(int $id): View
+    public function show($id)
     {
         $gatekeeper = \App\Models\Gatekeeper::find($id);
 
@@ -156,7 +156,7 @@ class GatekeepersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit(int $id)
+    public function edit($id)
     {
         if (\Gate::allows('manage-gatekeepers')) {
             $gatekeeper = \App\Models\Gatekeeper::find($id);
@@ -196,7 +196,7 @@ class GatekeepersController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, int $id): RedirectResponse
+    public function update(Request $request, $id): RedirectResponse
     {
         if (\Gate::allows('manage-gatekeepers')) {
             $request->validate([
@@ -253,7 +253,7 @@ class GatekeepersController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(int $id): RedirectResponse
+    public function destroy($id): RedirectResponse
     {
         if (\Gate::allows('manage-gatekeepers')) {
             $this->validate(request(), [
@@ -443,7 +443,7 @@ class GatekeepersController extends Controller
 
     /* User dashboard for authorizations, machine locking, etc */
     /* Open to gatekeeper managers and team members the gatekeeper is assigned to */
-    public function dashboard($id): View
+    public function dashboard($id)
     {
         $gatekeeper = \App\Models\Gatekeeper::find($id);
 

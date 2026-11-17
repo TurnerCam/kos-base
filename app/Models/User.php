@@ -292,7 +292,7 @@ class User extends Authenticatable implements AuditableContract
      *
      * @return HasMany|BelongsToMany
      */
-    public function roles($relational = false): BelongsToMany
+    public function roles($relational = false): HasMany|BelongsToMany
     {
         if ($relational) {
             return $this->belongsToMany(Role::class, 'user_roles');

@@ -48,7 +48,7 @@ class MemberApp extends Mailable implements ShouldQueue
      *
      * @return $this
      */
-    public function build(): static
+    public function build()
     {
         switch ($this->destination) {
             case 'admin':

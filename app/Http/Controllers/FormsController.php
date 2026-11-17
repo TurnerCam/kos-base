@@ -9,7 +9,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
-use Illuminate\View\View;
 
 class FormsController extends Controller
 {
@@ -188,7 +187,7 @@ class FormsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show(int $id)
+    public function show($id)
     {
         $form = \App\Models\Form::find($id);
         \Session::flash('skip_individual_errors', 1);
@@ -270,7 +269,7 @@ class FormsController extends Controller
     }
 
     // saves a form submission
-    public function save(Request $request): RedirectResponse
+    public function save(Request $request)
     {
 
         // clean up last photo upload filename (dont need it at this point)
@@ -547,7 +546,7 @@ class FormsController extends Controller
     }
 
     // displays a form submission
-    public function submission($id): View
+    public function submission($id)
     {
         $submission = \App\Models\FormSubmission::find($id);
         if ($submission != null) {
@@ -570,7 +569,7 @@ class FormsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit(int $id)
+    public function edit($id)
     {
         //
     }
@@ -580,7 +579,7 @@ class FormsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, int $id)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -590,7 +589,7 @@ class FormsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(int $id)
+    public function destroy($id)
     {
         //
     }

@@ -35,7 +35,7 @@ class TrainingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show(int $id)
+    public function show($id)
     {
         //
     }
@@ -45,14 +45,14 @@ class TrainingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit(int $id) {}
+    public function edit($id) {}
 
     /**
      * Update the specified resource in storage.
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, int $id)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -62,5 +62,5 @@ class TrainingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy($gatekeeper_id, int $id) {}
+    public function destroy($gatekeeper_id, $id) {}
 }
