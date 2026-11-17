@@ -160,7 +160,7 @@ final class StatusChangesTest extends TestCase
      */
     public function test_a_change_made_by_a_person_can_be_deleted(): void
     {
-        $status = $this->status($this->member, 'inactive', now()->addWeek(), $this->admin->id);
+        $status = $this->addStatus($this->member, 'inactive', now()->addWeek(), $this->admin->id);
 
         $this->actingAs($this->admin)->delete("/users/{$this->member->id}/status", ['status_id' => $status->id])->assertOk();
 
@@ -175,7 +175,7 @@ final class StatusChangesTest extends TestCase
      */
     public function test_a_change_made_by_kos_cannot_be_deleted(): void
     {
-        $status = $this->status($this->member, 'inactive', now()->addWeek(), 0);
+        $status = $this->addStatus($this->member, 'inactive', now()->addWeek(), 0);
 
         $this->actingAs($this->admin)->delete("/users/{$this->member->id}/status", ['status_id' => $status->id])->assertJson(['error' => 'error']);
 
@@ -191,7 +191,7 @@ final class StatusChangesTest extends TestCase
     public function test_a_change_cannot_be_deleted_through_another_member(): void
     {
         $other = $this->activeMember();
-        $status = $this->status($other, 'inactive', now()->addWeek(), $this->admin->id);
+        $status = $this->addStatus($other, 'inactive', now()->addWeek(), $this->admin->id);
 
         $this->actingAs($this->admin)->delete("/users/{$this->member->id}/status", ['status_id' => $status->id])->assertJson(['error' => 'error']);
 
@@ -201,12 +201,12 @@ final class StatusChangesTest extends TestCase
     private function activeMember(): User
     {
         $user = User::factory()->active()->create();
-        $this->status($user, 'active', now()->subYear(), 0);
+        $this->addStatus($user, 'active', now()->subYear(), 0);
 
         return $user;
     }
 
-    private function status(User $user, string $status, $date, int $updatedBy): UserStatus
+    private function addStatus(User $user, string $status, $date, int $updatedBy): UserStatus
     {
         return UserStatus::query()->create(['user_id' => $user->id, 'status' => $status, 'updated_by' => $updatedBy, 'created_at' => $date, 'updated_at' => $date]);
     }

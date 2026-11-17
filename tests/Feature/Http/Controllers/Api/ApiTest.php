@@ -331,8 +331,8 @@ final class ApiTest extends TestCase
         $this->withToken(self::TOKEN)->getJson('/api/user_statuses/latest')->assertExactJson(['id' => 0]);
 
         $user = User::factory()->create();
-        $this->status($user, 'applicant', now()->subDays(10));
-        $newest = $this->status($user, 'active', now()->subDays(3));
+        $this->addStatus($user, 'applicant', now()->subDays(10));
+        $newest = $this->addStatus($user, 'active', now()->subDays(3));
 
         $this->withToken(self::TOKEN)->getJson('/api/user_statuses/latest')->assertJson(['id' => $newest->id]);
     }
@@ -346,8 +346,8 @@ final class ApiTest extends TestCase
     public function test_index_returns_the_first_status_change_from_the_given_id(): void
     {
         $user = User::factory()->create();
-        $first = $this->status($user, 'applicant', now()->subDays(10));
-        $second = $this->status($user, 'active', now()->subDays(3));
+        $first = $this->addStatus($user, 'applicant', now()->subDays(10));
+        $second = $this->addStatus($user, 'active', now()->subDays(3));
 
         $this->withToken(self::TOKEN)->getJson('/api/user_statuses')->assertJson(['id' => $first->id, 'status' => 'applicant']);
         $this->withToken(self::TOKEN)->getJson("/api/user_statuses?status_id={$second->id}")->assertJson(['id' => $second->id, 'status' => 'active']);
@@ -364,9 +364,9 @@ final class ApiTest extends TestCase
     public function test_upcoming_returns_status_changes_in_the_next_days_only(): void
     {
         $user = User::factory()->create();
-        $this->status($user, 'active', now()->subDay());
-        $soon = $this->status($user, 'hiatus', now()->addDays(3));
-        $later = $this->status($user, 'active', now()->addDays(20));
+        $this->addStatus($user, 'active', now()->subDay());
+        $soon = $this->addStatus($user, 'hiatus', now()->addDays(3));
+        $later = $this->addStatus($user, 'active', now()->addDays(20));
 
         $this->withToken(self::TOKEN)->getJson('/api/user_statuses/upcoming')->assertJsonCount(1)->assertJsonPath('0.id', $soon->id);
         $this->withToken(self::TOKEN)->getJson('/api/user_statuses/upcoming?days=30')->assertJsonCount(2)->assertJsonPath('1.id', $later->id);
@@ -383,9 +383,9 @@ final class ApiTest extends TestCase
     {
         $this->travelTo(now()->startOfSecond());
         $user = User::factory()->create();
-        $lastDay = $this->status($user, 'hiatus', now()->addDays(7));
-        $this->status($user, 'active', now()->addDays(7)->addSecond());
-        $this->status($user, 'inactive', now()->addDays(90)->addSecond());
+        $lastDay = $this->addStatus($user, 'hiatus', now()->addDays(7));
+        $this->addStatus($user, 'active', now()->addDays(7)->addSecond());
+        $this->addStatus($user, 'inactive', now()->addDays(90)->addSecond());
 
         $this->withToken(self::TOKEN)->getJson('/api/user_statuses/upcoming')->assertJsonCount(1)->assertJsonPath('0.id', $lastDay->id);
         $this->withToken(self::TOKEN)->getJson('/api/user_statuses/upcoming?days=5000')->assertJsonCount(2);
@@ -411,7 +411,7 @@ final class ApiTest extends TestCase
         return $entry;
     }
 
-    private function status(User $user, string $status, $date): UserStatus
+    private function addStatus(User $user, string $status, $date): UserStatus
     {
         return UserStatus::query()->create(['user_id' => $user->id, 'status' => $status, 'updated_by' => 0, 'created_at' => $date, 'updated_at' => $date]);
     }

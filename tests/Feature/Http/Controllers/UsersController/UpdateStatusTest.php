@@ -104,7 +104,8 @@ final class UpdateStatusTest extends TestCase
 
     #[DataProvider('provideValidInviteStatuses')]
     public function test_it_does_not_queue_slack_invite_email_when_user_is_moved_from_valid_status_to_active_when_not_enabled(
-        string $status
+        string $status,
+        bool $shouldSend // supplied by the shared provider; unused, since nothing is sent while invites are disabled
     ): void {
         Mail::fake();
         config(['services.slack.auto_invite.enabled' => false]);
