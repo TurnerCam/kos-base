@@ -2,11 +2,11 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Auth;
 use App\Services\Slack\KosBot;
 use App\Services\Slack\Slack;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider

@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use App\Models\Authentication;
 use App\Models\Authorization;
 use App\Models\Gatekeeper;
@@ -10,6 +9,7 @@ use App\Models\GatekeeperStatus;
 use App\Models\Key;
 use App\Models\User;
 use App\Models\UserFlag;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use Illuminate\Session\TokenMismatchException;

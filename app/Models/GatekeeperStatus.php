@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class GatekeeperStatus extends Model
 {
-
     protected function casts(): array
     {
         return [
