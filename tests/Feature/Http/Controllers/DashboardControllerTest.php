@@ -31,7 +31,7 @@ class DashboardControllerTest extends TestCase
         $this->assertEquals(1, FakeEvent::$callCount);
     }
 
-    public function provideNonProductionEnvironments(): array
+    public static function provideNonProductionEnvironments(): array
     {
         return [
             'testing' => ['environment' => 'testing'],

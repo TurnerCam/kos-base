@@ -27,7 +27,7 @@ class PublicInfoControllerTest extends TestCase
     /**
      * @return int[][]
      */
-    public function publicUserCountData(): array
+    public static function publicUserCountData(): array
     {
         return [
             // [activeUsers, expectedUserCount, hiatusUsers = 0]

@@ -31,7 +31,7 @@ class UpdateStatusTest extends TestCase
         $this->adminUser->roles(true)->attach($role);
     }
 
-    public function provideValidInviteStatuses(): array
+    public static function provideValidInviteStatuses(): array
     {
         return [
             UserStatus::STATUS_INACTIVE => [

@@ -573,7 +573,7 @@ class AuthorizationFixesTest extends TestCase
     }
 
     // statuses whose records an application must never be allowed to re-use
-    public function protectedStatuses(): array
+    public static function protectedStatuses(): array
     {
         return [['active'], ['hiatus'], ['suspended'], ['terminated'], ['applicant'], ['applicant-denied'], ['inactive-in-memoriam']];
     }
@@ -629,7 +629,7 @@ class AuthorizationFixesTest extends TestCase
     }
 
     // each malformed application, and the form field the error must be reported on
-    public function malformedApplications(): array
+    public static function malformedApplications(): array
     {
         return [
             'returning, email is a list' => ['returning, email is a list', 'email'],
@@ -662,7 +662,7 @@ class AuthorizationFixesTest extends TestCase
     }
 
     // statuses whose records a returning applicant is allowed to re-use
-    public function returningStatuses(): array
+    public static function returningStatuses(): array
     {
         return [['inactive'], ['inactive-abandoned'], ['applicant-abandoned']];
     }
@@ -724,7 +724,7 @@ class AuthorizationFixesTest extends TestCase
     }
 
     // the two ways a deploy secret can be missing: not set at all, or set to nothing
-    public function blankSecrets(): array
+    public static function blankSecrets(): array
     {
         return [[null], ['']];
     }

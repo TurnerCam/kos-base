@@ -43,7 +43,7 @@ class SlackInviteControllerTest extends TestCase
         $this->get("/slack/invite?t={$token}")->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
-    public function provideNonActiveMemberStatuses(): array
+    public static function provideNonActiveMemberStatuses(): array
     {
         return [
             UserStatus::STATUS_INACTIVE => ['status' => UserStatus::STATUS_INACTIVE],

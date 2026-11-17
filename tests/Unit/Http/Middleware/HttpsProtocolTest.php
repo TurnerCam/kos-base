@@ -67,7 +67,7 @@ class HttpsProtocolTest extends TestCase
         parent::tearDown();
     }
 
-    public function provideNonProductionEnvironments(): array
+    public static function provideNonProductionEnvironments(): array
     {
         return [
             'local' => ['environment' => 'local'],
