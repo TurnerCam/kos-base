@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\View\View;
 use Illuminate\Http\Request;
 
 class ReportsController extends Controller
 {
-    public function index()
+    public function index(): View
     {
         $reports = [
             [

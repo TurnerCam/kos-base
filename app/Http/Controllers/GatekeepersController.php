@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -83,7 +86,7 @@ class GatekeepersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         if (\Gate::allows('manage-gatekeepers')) {
             $request->validate([
@@ -124,7 +127,7 @@ class GatekeepersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(int $id): View
     {
         $gatekeeper = \App\Models\Gatekeeper::find($id);
 
@@ -159,7 +162,7 @@ class GatekeepersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(int $id)
     {
         if (\Gate::allows('manage-gatekeepers')) {
             $gatekeeper = \App\Models\Gatekeeper::find($id);
@@ -202,7 +205,7 @@ class GatekeepersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id): RedirectResponse
     {
         if (\Gate::allows('manage-gatekeepers')) {
             $request->validate([
@@ -262,7 +265,7 @@ class GatekeepersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(int $id): RedirectResponse
     {
         if (\Gate::allows('manage-gatekeepers')) {
             $this->validate(request(), [
@@ -295,7 +298,7 @@ class GatekeepersController extends Controller
     }
 
     // approves / rejects gatekeeper-related team assignments
-    public function assignments($request_action, $request_id)
+    public function assignments($request_action, $request_id): JsonResponse
     {
         if (\Gate::allows('manage-teams')) {
             switch ($request_action) {
@@ -324,7 +327,7 @@ class GatekeepersController extends Controller
     }
 
     // assign trainer to gatekeeper
-    public function add_trainer($gatekeeper_id, $user_id)
+    public function add_trainer($gatekeeper_id, $user_id): JsonResponse
     {
 
         // get gatekeeper ID from request
@@ -363,7 +366,7 @@ class GatekeepersController extends Controller
     }
 
     // delete trainer from gatekeeper
-    public function remove_trainer($gatekeeper_id, $trainer_id)
+    public function remove_trainer($gatekeeper_id, $trainer_id): JsonResponse
     {
 
         // get gatekeeper ID from request
@@ -388,7 +391,7 @@ class GatekeepersController extends Controller
     }
 
     // assign maintainer to gatekeeper
-    public function add_maintainer($gatekeeper_id, $user_id)
+    public function add_maintainer($gatekeeper_id, $user_id): JsonResponse
     {
 
         // get gatekeeper ID from request
@@ -426,7 +429,7 @@ class GatekeepersController extends Controller
     }
 
     // delete maintainer from gatekeeper
-    public function remove_maintainer($gatekeeper_id, $maintainer_id)
+    public function remove_maintainer($gatekeeper_id, $maintainer_id): JsonResponse
     {
 
         // get gatekeeper ID from request
@@ -452,7 +455,7 @@ class GatekeepersController extends Controller
 
     /* User dashboard for authorizations, machine locking, etc */
     /* Open to gatekeeper managers and team members the gatekeeper is assigned to */
-    public function dashboard($id)
+    public function dashboard($id): View
     {
         $gatekeeper = \App\Models\Gatekeeper::find($id);
 
@@ -499,7 +502,7 @@ class GatekeepersController extends Controller
     }
 
     // shows tool lockouts with usage information (for general users)
-    public function tool_list()
+    public function tool_list(): View
     {
         $gatekeepers = \App\Models\Gatekeeper::where(['status' => 'enabled', 'type' => 'lockout'])->get();
 
@@ -507,7 +510,7 @@ class GatekeepersController extends Controller
     }
 
     // authorizes a user for a gatekeeper (bypasses training system)
-    public function grant_auth(Request $request)
+    public function grant_auth(Request $request): RedirectResponse
     {
 
         // get gatekeeper ID from request
@@ -546,7 +549,7 @@ class GatekeepersController extends Controller
     }
 
     // de-authorizes a user from a gatekeeper
-    public function revoke_auth($auth_id)
+    public function revoke_auth($auth_id): JsonResponse
     {
         $auth_record = \App\Models\Authorization::find($auth_id);
         $gatekeeper = ($auth_record != null) ? $auth_record->gatekeeper()->first() : null;
@@ -567,7 +570,7 @@ class GatekeepersController extends Controller
     }
 
     // de-authroizaes all users from a gatekeeper
-    public function revoke_all_auth($gatekeeper_id)
+    public function revoke_all_auth($gatekeeper_id): RedirectResponse
     {
         \App\Models\Authorization::where('gatekeeper_id', $gatekeeper_id)->delete();
 

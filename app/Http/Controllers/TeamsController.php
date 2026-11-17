@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class TeamsController extends Controller
@@ -11,7 +14,7 @@ class TeamsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): View
     {
 
         // get teams user belongs to
@@ -46,7 +49,7 @@ class TeamsController extends Controller
     }
 
     // Team dashboard
-    public function dashboard($team_id)
+    public function dashboard($team_id): View
     {
         $team = \App\Models\Team::find($team_id);
 
@@ -66,7 +69,7 @@ class TeamsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function training()
+    public function training(): View
     {
         $gatekeepers = \App\Models\Gatekeeper::where('status', 'enabled')->orderby('name')->get();
         $request_status = config('kwartzlabos.team_request_status');
@@ -129,7 +132,7 @@ class TeamsController extends Controller
         return ($team != null) && ((\Auth::user()->can('manage-teams')) || ($team->is_lead()));
     }
 
-    public function training_cancel($request_id)
+    public function training_cancel($request_id): JsonResponse
     {
         $training_request = \App\Models\TeamRequest::find($request_id);
 
@@ -144,7 +147,7 @@ class TeamsController extends Controller
         }
     }
 
-    public function training_pass($request_id)
+    public function training_pass($request_id): JsonResponse
     {
         $training_request = \App\Models\TeamRequest::find($request_id);
 
@@ -170,7 +173,7 @@ class TeamsController extends Controller
         }
     }
 
-    public function training_fail($request_id)
+    public function training_fail($request_id): JsonResponse
     {
         $training_request = \App\Models\TeamRequest::find($request_id);
 
@@ -235,7 +238,7 @@ class TeamsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $request->validate([
             'name' => 'required|unique:teams',
@@ -284,7 +287,7 @@ class TeamsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(int $id): View
     {
         $team = \App\Models\Team::find($id);
 
@@ -301,7 +304,7 @@ class TeamsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(int $id)
     {
         $team = \App\Models\Team::find($id);
 
@@ -342,7 +345,7 @@ class TeamsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id): RedirectResponse
     {
         // load existing record
         $team = \App\Models\Team::find($id);
@@ -410,7 +413,7 @@ class TeamsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(int $id): JsonResponse
     {
         if (\Gate::allows('manage-teams')) {
             $team = \App\Models\Team::find($id);

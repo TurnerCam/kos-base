@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class KeysController extends Controller
 {
     // main json parsing function - redirects to internal procs and outputs result
-    public function index(Request $request)
+    public function index(Request $request): JsonResponse
     {
         if ($request->has('status')) {
             $status = $request->input('status');

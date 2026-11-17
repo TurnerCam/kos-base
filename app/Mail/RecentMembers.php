@@ -31,7 +31,7 @@ class RecentMembers extends Mailable
      *
      * @return $this
      */
-    public function build()
+    public function build(): static
     {
         $this->to(config('kwartzlabos.membership_app.admin.to'));
         $this->subject('Active member visits for '.$this->month_reported);

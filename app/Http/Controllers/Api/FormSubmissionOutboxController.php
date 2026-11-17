@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Models\FormSubmissionOutbox;
 use Illuminate\Http\Request;
@@ -26,7 +27,7 @@ class FormSubmissionOutboxController extends Controller
             ->paginate($perPage);
     }
 
-    public function next()
+    public function next(): JsonResponse
     {
         $cutoff = now()->subMinutes(5);
 
@@ -62,7 +63,7 @@ class FormSubmissionOutboxController extends Controller
         ]);
     }
 
-    public function markProcessed(Request $request, FormSubmissionOutbox $formSubmissionOutbox)
+    public function markProcessed(Request $request, FormSubmissionOutbox $formSubmissionOutbox): JsonResponse
     {
         $lastError = $request->input('last_error');
         $updates = [];
@@ -85,7 +86,7 @@ class FormSubmissionOutboxController extends Controller
         ]);
     }
 
-    public function show(FormSubmissionOutbox $formSubmissionOutbox)
+    public function show(FormSubmissionOutbox $formSubmissionOutbox): JsonResponse
     {
         $formSubmission = $formSubmissionOutbox->formSubmission;
 

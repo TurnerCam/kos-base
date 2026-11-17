@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 use App\Mail\MemberAppInterviewConfirmation;
 use App\Services\Slack\KosBot;
 use Carbon\Carbon;
@@ -58,7 +60,7 @@ class FormsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         if (\Gate::allows('manage-forms')) {
             // build our field array and convert to json
@@ -189,7 +191,7 @@ class FormsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(int $id)
     {
         $form = \App\Models\Form::find($id);
         \Session::flash('skip_individual_errors', 1);
@@ -271,7 +273,7 @@ class FormsController extends Controller
     }
 
     // saves a form submission
-    public function save(Request $request)
+    public function save(Request $request): RedirectResponse
     {
 
         // clean up last photo upload filename (dont need it at this point)
@@ -548,7 +550,7 @@ class FormsController extends Controller
     }
 
     // displays a form submission
-    public function submission($id)
+    public function submission($id): View
     {
         $submission = \App\Models\FormSubmission::find($id);
         if ($submission != null) {
@@ -572,7 +574,7 @@ class FormsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(int $id)
     {
         //
     }
@@ -583,7 +585,7 @@ class FormsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id)
     {
         //
     }
@@ -594,7 +596,7 @@ class FormsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
         //
     }

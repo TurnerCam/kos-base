@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 use App\Mail\SlackInvite;
 use App\Models\UserStatus;
 use App\Traits\UserStatusTrait;
@@ -19,7 +22,7 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($filter = 'active')
+    public function index($filter = 'active'): View
     {
         $user_status = config('kwartzlabos.user_status');
 
@@ -58,7 +61,7 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(): View
     {
 
         // See if we have an form designated as a new user application and redirect if needed
@@ -86,7 +89,7 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(int $id)
     {
         //
     }
@@ -97,7 +100,7 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(int $id): View
     {
         $user = \App\Models\User::find($id);
 
@@ -108,7 +111,7 @@ class UsersController extends Controller
     }
 
     // (ajax) checks an email address and returns user data if it exists (used in new user process for returning users)
-    public function check_attributes(Request $request)
+    public function check_attributes(Request $request): JsonResponse
     {
         if ($request->has('email')) {
             $user = \App\Models\User::where('email', $request->input('email'))->first();
@@ -130,13 +133,13 @@ class UsersController extends Controller
         return response()->json(['user_id' => 0]);
     }
 
-    public function do_stuff(Request $request, $id)
+    public function do_stuff(Request $request, $id): JsonResponse
     {
         return response()->json(['status' => 'wheeeee']);
     }
 
     // adds or modifies a user status update
-    public function update_status(Request $request, $id)
+    public function update_status(Request $request, $id): JsonResponse
     {
         $user = \App\Models\User::find($id);
 
@@ -254,7 +257,7 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id): RedirectResponse
     {
         if (Gate::allows('manage-users')) {
             $request->validate([
@@ -303,7 +306,7 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(int $id): RedirectResponse
     {
         if (Gate::allows('manage-users')) {
             $this->validate(request(), [
@@ -338,7 +341,7 @@ class UsersController extends Controller
     }
 
     // toggles a user flag
-    public function toggle_flag($user_id, $flag)
+    public function toggle_flag($user_id, $flag): JsonResponse
     {
 
         // ensure specified flag exists
@@ -361,7 +364,7 @@ class UsersController extends Controller
     }
 
     // get key add form
-    public function create_key($user_id)
+    public function create_key($user_id): View
     {
         $user = \App\Models\User::find($user_id);
         if (count($user) != 0) {
@@ -372,7 +375,7 @@ class UsersController extends Controller
     }
 
     // post new key
-    public function store_key($user_id)
+    public function store_key($user_id): RedirectResponse
     {
         $request->validate([
             'rfid' => 'required',
@@ -390,7 +393,7 @@ class UsersController extends Controller
     }
 
     // delete single key
-    public function destroy_key($user_id, $key_id)
+    public function destroy_key($user_id, $key_id): RedirectResponse
     {
         $key = \App\Models\Key::find($key_id);
         $key->delete();

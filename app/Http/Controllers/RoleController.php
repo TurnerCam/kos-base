@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
@@ -11,7 +13,7 @@ class RoleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): View
     {
         $roles = \App\Models\Role::orderby('name')->get();
 
@@ -23,7 +25,7 @@ class RoleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(): View
     {
 
         // Build permissions array for easy searching to build dropdown
@@ -49,7 +51,7 @@ class RoleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $request->validate([
             'name' => 'required|unique:roles',
@@ -94,7 +96,7 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(int $id)
     {
         //
     }
@@ -105,7 +107,7 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(int $id): View
     {
         $role = \App\Models\Role::find($id);
 
@@ -145,7 +147,7 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id): RedirectResponse
     {
         $request->validate([
             'name' => 'required',
@@ -195,7 +197,7 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(int $id): RedirectResponse
     {
         $this->validate(request(), [
             'confirm' => 'required',
@@ -221,7 +223,7 @@ class RoleController extends Controller
     }
 
     // post new trainer to gatekeeper
-    public function add_user($role_id)
+    public function add_user($role_id): RedirectResponse
     {
 
         // make sure trainer isn't already in there
@@ -245,7 +247,7 @@ class RoleController extends Controller
     }
 
     // delete trainer from gatekeeper
-    public function remove_user($role_id, $user_id)
+    public function remove_user($role_id, $user_id): RedirectResponse
     {
 
         // ensure there is at least one superuser remaining

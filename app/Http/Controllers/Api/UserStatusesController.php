@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Models\UserStatus;
 use Carbon\Carbon;
@@ -9,7 +10,7 @@ use Illuminate\Http\Request;
 
 class UserStatusesController extends Controller
 {
-    public function latest()
+    public function latest(): JsonResponse
     {
         $status = UserStatus::query()->orderByDesc('id')->first(['id', 'created_at']);
 
@@ -23,7 +24,7 @@ class UserStatusesController extends Controller
         ]);
     }
 
-    public function index(Request $request)
+    public function index(Request $request): JsonResponse
     {
         $status_id = (int) $request->query('status_id', 0);
 
@@ -47,7 +48,7 @@ class UserStatusesController extends Controller
         return response()->json($status);
     }
 
-    public function upcoming(Request $request)
+    public function upcoming(Request $request): JsonResponse
     {
         $days = max(1, min((int) $request->query('days', 7), 90));
         $now = Carbon::now();

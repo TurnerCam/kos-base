@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Models\FormSubmission;
 use Illuminate\Http\Request;
@@ -25,7 +26,7 @@ class FormSubmissionsController extends Controller
             ->paginate($perPage);
     }
 
-    public function show(Request $request, FormSubmission $formSubmission)
+    public function show(Request $request, FormSubmission $formSubmission): JsonResponse
     {
         return response()->json([
             'form_id' => $formSubmission->form_id,

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -44,7 +45,7 @@ class RegisterController extends Controller
      *
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator(array $data)
+    protected function validator(array $data): \Illuminate\Contracts\Validation\Validator
     {
         return Validator::make($data, [
             'name' => 'required|max:255',
@@ -58,7 +59,7 @@ class RegisterController extends Controller
      *
      * @return User
      */
-    protected function create(array $data)
+    protected function create(array $data): User
     {
         /*        return User::create([
                     'name' => $data['name'],
@@ -67,7 +68,7 @@ class RegisterController extends Controller
                 ]); */
     }
 
-    public function showRegistrationForm()
+    public function showRegistrationForm(): RedirectResponse
     {
         return redirect('/');
     }
