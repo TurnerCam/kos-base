@@ -51,4 +51,5 @@ return [
             'url' => env('SLACK_INVITE_URL'),
         ],
     ],
+
 ];
