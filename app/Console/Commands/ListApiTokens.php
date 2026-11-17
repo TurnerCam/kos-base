@@ -60,10 +60,10 @@ class ListApiTokens extends Command
                     $token->id,
                     $token->name,
                     $token->abilities ? implode(',', $token->abilities) : '',
-                    optional($token->last_used_at)->toDateTimeString(),
-                    optional($token->expires_at)->toDateTimeString(),
-                    optional($token->revoked_at)->toDateTimeString(),
-                    optional($token->created_at)->toDateTimeString(),
+                    $token->last_used_at?->toDateTimeString(),
+                    $token->expires_at?->toDateTimeString(),
+                    $token->revoked_at?->toDateTimeString(),
+                    $token->created_at?->toDateTimeString(),
                 ];
             })->all()
         );

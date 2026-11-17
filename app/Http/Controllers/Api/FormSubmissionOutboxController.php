@@ -56,9 +56,9 @@ class FormSubmissionOutboxController extends Controller
             'submitted_by' => $formSubmission->submitted_by,
             'user_id' => $formSubmission->user_id,
             'data' => json_decode($formSubmission->data, true),
-            'created_at' => optional($formSubmission->created_at)->toDateTimeString(),
+            'created_at' => $formSubmission->created_at?->toDateTimeString(),
             'last_error' => $outboxItem->last_error,
-            'last_error_at' => optional($outboxItem->last_error_at)->toDateTimeString(),
+            'last_error_at' => $outboxItem->last_error_at?->toDateTimeString(),
         ]);
     }
 
@@ -79,9 +79,9 @@ class FormSubmissionOutboxController extends Controller
 
         return response()->json([
             'outbox_id' => $formSubmissionOutbox->id,
-            'processed_at' => optional($formSubmissionOutbox->processed_at)->toDateTimeString(),
+            'processed_at' => $formSubmissionOutbox->processed_at?->toDateTimeString(),
             'last_error' => $formSubmissionOutbox->last_error,
-            'last_error_at' => optional($formSubmissionOutbox->last_error_at)->toDateTimeString(),
+            'last_error_at' => $formSubmissionOutbox->last_error_at?->toDateTimeString(),
         ]);
     }
 
@@ -101,9 +101,9 @@ class FormSubmissionOutboxController extends Controller
             'submitted_by' => $formSubmission->submitted_by,
             'user_id' => $formSubmission->user_id,
             'data' => json_decode($formSubmission->data, true),
-            'created_at' => optional($formSubmission->created_at)->toDateTimeString(),
+            'created_at' => $formSubmission->created_at?->toDateTimeString(),
             'last_error' => $formSubmissionOutbox->last_error,
-            'last_error_at' => optional($formSubmissionOutbox->last_error_at)->toDateTimeString(),
+            'last_error_at' => $formSubmissionOutbox->last_error_at?->toDateTimeString(),
         ]);
     }
 }

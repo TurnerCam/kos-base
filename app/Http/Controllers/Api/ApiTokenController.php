@@ -14,7 +14,7 @@ class ApiTokenController extends Controller
         return response()->json([
             'name' => $apiToken->name,
             'abilities' => $apiToken->abilities ?? [],
-            'last_used_at' => optional($apiToken->last_used_at)->toDateTimeString(),
+            'last_used_at' => $apiToken->last_used_at?->toDateTimeString(),
         ]);
     }
 }
