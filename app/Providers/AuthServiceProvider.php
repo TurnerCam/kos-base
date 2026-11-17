@@ -24,8 +24,6 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->registerPolicies();
-
         // if superuser, disregard all other gates
         Gate::before(function ($user, $ability) {
             if ($user->is_superuser()) {
