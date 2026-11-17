@@ -289,8 +289,6 @@ class User extends Authenticatable implements AuditableContract
      * This method should have been a relationship THROUGH `user_roles` to the `roles` table.
      * The $relational parameter has been introduced to switch between the old relationship, and the correct one.
      * TODO: refactor all instances of the old relationship, then remove the switch and only return the belongsToMany
-     *
-     * @return HasMany|BelongsToMany
      */
     public function roles($relational = false): HasMany|BelongsToMany
     {

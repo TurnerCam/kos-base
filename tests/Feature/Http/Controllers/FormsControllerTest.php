@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use PHPUnit\Framework\Attributes\Test;
 use App\Mail\MemberApp;
 use App\Mail\MemberAppInterviewConfirmation;
 use App\Models\FormSubmission;
@@ -15,6 +14,7 @@ use Illuminate\Mail\MailManager;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Testing\TestResponse;
 use Mockery\MockInterface;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 /**

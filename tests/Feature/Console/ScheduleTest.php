@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Console;
 
-use PHPUnit\Framework\Attributes\DataProvider;
 use Illuminate\Console\Scheduling\Event;
 use Illuminate\Console\Scheduling\Schedule;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 /**

@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Http\Controllers\UsersController;
 
-use PHPUnit\Framework\Attributes\DataProvider;
 use App\Mail\SlackInvite;
 use App\Models\Role;
 use App\Models\RolePermission;
@@ -10,6 +9,7 @@ use App\Models\User;
 use App\Models\UserStatus;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 final class UpdateStatusTest extends TestCase

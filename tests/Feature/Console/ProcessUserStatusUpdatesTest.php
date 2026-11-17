@@ -2,10 +2,10 @@
 
 namespace Tests\Feature\Console;
 
-use PHPUnit\Framework\Attributes\DataProvider;
 use App\Models\User;
 use App\Models\UserStatus;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 /**

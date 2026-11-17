@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Http;
 
-use PHPUnit\Framework\Attributes\DataProvider;
 use App\Models\Role;
 use App\Models\RolePermission;
 use App\Models\User;
@@ -11,6 +10,7 @@ use App\Models\UserStatus;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Testing\TestResponse;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 /**

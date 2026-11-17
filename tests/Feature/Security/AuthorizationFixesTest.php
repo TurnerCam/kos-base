@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Security;
 
-use PHPUnit\Framework\Attributes\DataProvider;
 use App\Models\Authorization;
 use App\Models\Gatekeeper;
 use App\Models\Team;
@@ -14,6 +13,7 @@ use Database\Seeders\FormsTableSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 /**

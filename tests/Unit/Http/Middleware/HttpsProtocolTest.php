@@ -2,12 +2,12 @@
 
 namespace Tests\Unit\Http\Middleware;
 
-use PHPUnit\Framework\Attributes\DataProvider;
 use App\Http\Middleware\HttpsProtocol;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\URL;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 final class HttpsProtocolTest extends TestCase
