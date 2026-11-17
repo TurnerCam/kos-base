@@ -33,7 +33,7 @@ backups
 *.swp
 
 # PHPUnit
-.phpunit.result.cache
+/.phpunit.cache
 
 # Local Development
 tink.php
