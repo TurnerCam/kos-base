@@ -30,7 +30,7 @@ class AuditingTest extends TestCase
      * Expects: one "updated" audit row with only the changed field (old and new value) and the id
      * of the logged-in member who made the change.
      */
-    public function test_changing_a_member_is_audited_with_who_changed_it()
+    public function test_changing_a_member_is_audited_with_who_changed_it(): void
     {
         $admin = User::factory()->create();
         $member = User::factory()->create(['city' => 'Kitchener']);
@@ -52,7 +52,7 @@ class AuditingTest extends TestCase
      * Note: the token is assigned directly because it is not mass-assignable; update() would
      * silently ignore it and the test would pass without proving anything.
      */
-    public function test_the_remember_token_is_left_out_of_the_audit()
+    public function test_the_remember_token_is_left_out_of_the_audit(): void
     {
         $member = User::factory()->create();
 
@@ -70,7 +70,7 @@ class AuditingTest extends TestCase
      *
      * Expects: an "updated" audit row with the old and new status.
      */
-    public function test_changing_a_gatekeeper_is_audited()
+    public function test_changing_a_gatekeeper_is_audited(): void
     {
         $gatekeeper = Gatekeeper::factory()->create(['status' => 'enabled']);
 

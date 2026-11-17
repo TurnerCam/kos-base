@@ -12,7 +12,7 @@ class ComposerServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         // Using class based composers...
         // View::composer('header', 'App\Http\ViewComposers\UserMenuComposer');
@@ -23,7 +23,7 @@ class ComposerServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         //
     }

@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use OwenIt\Auditing\Contracts\Auditable;
 
@@ -23,13 +25,13 @@ class Gatekeeper extends Model implements Auditable
         'last_seen',
     ];
 
-    public function authentications()
+    public function authentications(): HasMany
     {
         return $this->hasMany(Authentication::class);
     }
 
     // returns active trainers
-    public function trainers($with_status = null)
+    public function trainers($with_status = null): HasMany
     {
         if ($with_status == null) {
             return $this->hasMany(TeamAssignment::class)->where(['team_role' => 'trainer']);
@@ -39,7 +41,7 @@ class Gatekeeper extends Model implements Auditable
     }
 
     // returns active maintainers
-    public function maintainers($with_status = null)
+    public function maintainers($with_status = null): HasMany
     {
         if ($with_status == null) {
             return $this->hasMany(TeamAssignment::class)->where(['team_role' => 'maintainer']);
@@ -48,7 +50,7 @@ class Gatekeeper extends Model implements Auditable
         }
     }
 
-    public function current_status()
+    public function current_status(): HasOne
     {
         return $this->hasOne(GatekeeperStatus::class);
     }
@@ -139,7 +141,7 @@ class Gatekeeper extends Model implements Auditable
     }
 
     // returns all authorizations for gatekeeper
-    public function authorizations()
+    public function authorizations(): HasMany
     {
         if ($this->shared_auth == 0) {
             return $this->hasMany(Authorization::class, 'gatekeeper_id', 'id');
@@ -149,7 +151,7 @@ class Gatekeeper extends Model implements Auditable
     }
 
     // returns team gatekeeper belongs to (if any)
-    public function team()
+    public function team(): HasOne
     {
         return $this->hasOne(Team::class, 'id', 'team_id');
     }
@@ -168,7 +170,7 @@ class Gatekeeper extends Model implements Auditable
     }
 
     // returns requests of a specific type (or all)
-    public function training_requests()
+    public function training_requests(): HasMany
     {
         return $this->hasMany(TeamRequest::class, 'gatekeeper_id', 'id');
     }

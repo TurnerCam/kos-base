@@ -39,7 +39,7 @@ class TrainingRequestTest extends TestCase
      * Expects: a "new" training request for this member and tool, assigned to the tool's team so
      * its trainers see it.
      */
-    public function test_a_member_can_request_training_on_a_tool()
+    public function test_a_member_can_request_training_on_a_tool(): void
     {
         $this->actingAs($this->member)->get("/teams/training_request/{$this->tool->id}")->assertJson(['status' => 'success']);
 
@@ -53,7 +53,7 @@ class TrainingRequestTest extends TestCase
      *
      * Expects: "Request already exists." and still only one request.
      */
-    public function test_a_second_request_for_the_same_tool_is_refused_while_the_first_is_open()
+    public function test_a_second_request_for_the_same_tool_is_refused_while_the_first_is_open(): void
     {
         $this->actingAs($this->member)->get("/teams/training_request/{$this->tool->id}");
 
@@ -66,7 +66,7 @@ class TrainingRequestTest extends TestCase
      *
      * Expects: the member can cancel their own request and then make a new one.
      */
-    public function test_a_member_can_ask_again_after_cancelling()
+    public function test_a_member_can_ask_again_after_cancelling(): void
     {
         $this->actingAs($this->member)->get("/teams/training_request/{$this->tool->id}");
         $first = TeamRequest::query()->sole();
@@ -86,7 +86,7 @@ class TrainingRequestTest extends TestCase
      * Expects: a redirect to the training page with "Unknown Gatekeeper." for a disabled tool and
      * for an id that does not exist, and no request created.
      */
-    public function test_training_cannot_be_requested_on_a_disabled_or_unknown_tool()
+    public function test_training_cannot_be_requested_on_a_disabled_or_unknown_tool(): void
     {
         $this->tool->update(['status' => 'disabled']);
 
@@ -100,7 +100,7 @@ class TrainingRequestTest extends TestCase
      *
      * Expects: the request is still saved, with team 0, instead of failing.
      */
-    public function test_a_tool_without_a_team_still_takes_requests()
+    public function test_a_tool_without_a_team_still_takes_requests(): void
     {
         $loneTool = Gatekeeper::factory()->create(['name' => 'Drill Press', 'team_id' => 0]);
 

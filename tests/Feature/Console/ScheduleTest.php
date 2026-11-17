@@ -33,7 +33,7 @@ class ScheduleTest extends TestCase
      *
      * @dataProvider provideScheduledJobs
      */
-    public function test_the_job_is_scheduled_at_the_expected_time(string $command, string $expression)
+    public function test_the_job_is_scheduled_at_the_expected_time(string $command, string $expression): void
     {
         $matching = collect($this->app->make(Schedule::class)->events())
             ->filter(fn (Event $event) => str_contains((string) $event->command, $command))

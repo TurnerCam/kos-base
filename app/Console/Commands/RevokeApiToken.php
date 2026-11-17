@@ -26,7 +26,7 @@ class RevokeApiToken extends Command
      *
      * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         $tokenId = (int) $this->argument('id');
         $token = ApiToken::find($tokenId);

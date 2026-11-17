@@ -11,7 +11,7 @@ return new class extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('form_submission_outbox', function (Blueprint $table) {
             // Track when the last error occurred
@@ -24,7 +24,7 @@ return new class extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('form_submission_outbox', function (Blueprint $table) {
             $table->dropColumn('last_error_at');

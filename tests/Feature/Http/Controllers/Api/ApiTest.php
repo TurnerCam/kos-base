@@ -50,7 +50,7 @@ class ApiTest extends TestCase
      * here.
      * Upgrade risk: Laravel 11 changes how routes/api.php and the api middleware are registered.
      */
-    public function test_every_api_route_requires_a_token()
+    public function test_every_api_route_requires_a_token(): void
     {
         // Real records for the routes that name one, so the answer comes from the token check
         // and not from "no such record".
@@ -90,7 +90,7 @@ class ApiTest extends TestCase
      *
      * Expects: 401 "Invalid API token." for a token that is not in api_tokens.
      */
-    public function test_an_unknown_token_is_rejected()
+    public function test_an_unknown_token_is_rejected(): void
     {
         $this->withToken('not-a-real-token')->getJson('/api/token')->assertUnauthorized()->assertJson(['message' => 'Invalid API token.']);
     }
@@ -100,7 +100,7 @@ class ApiTest extends TestCase
      *
      * Expects: 401 for a token whose revoked_at is set.
      */
-    public function test_a_revoked_token_is_rejected()
+    public function test_a_revoked_token_is_rejected(): void
     {
         $this->apiToken->forceFill(['revoked_at' => now()->subMinute()])->save();
 
@@ -113,7 +113,7 @@ class ApiTest extends TestCase
      * Expects: accepted while expires_at is in the future, 401 once it has passed.
      * Edge case: both sides are checked with the same token, so an inverted date comparison fails.
      */
-    public function test_an_expired_token_is_rejected_and_an_unexpired_one_accepted()
+    public function test_an_expired_token_is_rejected_and_an_unexpired_one_accepted(): void
     {
         $this->apiToken->forceFill(['expires_at' => now()->addDay()])->save();
         $this->withToken(self::TOKEN)->getJson('/api/token')->assertOk();
@@ -128,7 +128,7 @@ class ApiTest extends TestCase
      *
      * Expects: the header works, and /api/token reports which token was used.
      */
-    public function test_the_token_can_also_be_sent_in_the_x_api_token_header()
+    public function test_the_token_can_also_be_sent_in_the_x_api_token_header(): void
     {
         $this->withHeaders(['X-Api-Token' => self::TOKEN])->getJson('/api/token')->assertOk()->assertJson(['name' => 'coordinator']);
     }
@@ -139,7 +139,7 @@ class ApiTest extends TestCase
      *
      * Expects: last_used_at is set after a request.
      */
-    public function test_using_a_token_records_when_it_was_last_used()
+    public function test_using_a_token_records_when_it_was_last_used(): void
     {
         $this->withToken(self::TOKEN)->getJson('/api/token')->assertOk();
 
@@ -153,7 +153,7 @@ class ApiTest extends TestCase
      * Note: checking the exact field list (rather than "password is missing") means any new column
      * that starts leaking, such as phone or address, fails the test.
      */
-    public function test_users_are_listed_without_private_details()
+    public function test_users_are_listed_without_private_details(): void
     {
         $member = User::factory()->create(['first_name' => 'Ada', 'status' => 'active']);
 
@@ -171,7 +171,7 @@ class ApiTest extends TestCase
      * Note: the exact field check matters here. The model already hides password, so a check for
      * "no password" alone would pass even if this returned the whole member record.
      */
-    public function test_a_single_user_is_returned_without_private_details()
+    public function test_a_single_user_is_returned_without_private_details(): void
     {
         $member = User::factory()->create(['status' => 'hiatus']);
 
@@ -189,7 +189,7 @@ class ApiTest extends TestCase
      * Expects: per_page is honoured, capped at 200.
      * Edge cases: 5000 (capped to 200) and 0 (raised to 1).
      */
-    public function test_list_page_size_is_capped()
+    public function test_list_page_size_is_capped(): void
     {
         User::factory(3)->create();
 
@@ -204,7 +204,7 @@ class ApiTest extends TestCase
      *
      * Expects: the submission with "data" as an object.
      */
-    public function test_a_form_submission_is_returned_with_its_data_decoded()
+    public function test_a_form_submission_is_returned_with_its_data_decoded(): void
     {
         $submission = $this->submission(['answer' => 'yes']);
 
@@ -221,7 +221,7 @@ class ApiTest extends TestCase
      * Regression: this URL always answered 404, because the /form_submissions/{id} route was
      * registered first and took "outbox" as an id.
      */
-    public function test_the_outbox_lists_every_entry()
+    public function test_the_outbox_lists_every_entry(): void
     {
         $this->outboxEntry($this->submission());
         $this->outboxEntry($this->submission(), ['processed_at' => now()]);
@@ -236,7 +236,7 @@ class ApiTest extends TestCase
      * Expects: the oldest unprocessed entry, with its submission data.
      * Edge case: an even older entry that is already processed is skipped.
      */
-    public function test_next_returns_the_oldest_unprocessed_submission()
+    public function test_next_returns_the_oldest_unprocessed_submission(): void
     {
         $this->outboxEntry($this->submission(), ['processed_at' => now(), 'created_at' => now()->subDays(3)]);
         $oldest = $this->outboxEntry($this->submission(['name' => 'oldest']), ['created_at' => now()->subDays(2)]);
@@ -255,7 +255,7 @@ class ApiTest extends TestCase
      * older one that failed 4 minutes 59 seconds ago is skipped.
      * Edge case: both sides of the 5-minute limit, with the clock frozen.
      */
-    public function test_next_skips_an_entry_that_failed_in_the_last_five_minutes()
+    public function test_next_skips_an_entry_that_failed_in_the_last_five_minutes(): void
     {
         $this->travelTo(now()->startOfSecond());
         $this->outboxEntry($this->submission(), ['created_at' => now()->subDays(2), 'last_error' => 'Slack down', 'last_error_at' => now()->subMinutes(5)->addSecond()]);
@@ -270,7 +270,7 @@ class ApiTest extends TestCase
      *
      * Expects: 204 No Content (not an error) when the outbox is empty.
      */
-    public function test_next_returns_no_content_when_nothing_is_waiting()
+    public function test_next_returns_no_content_when_nothing_is_waiting(): void
     {
         $this->withToken(self::TOKEN)->getJson('/api/form_submissions/outbox/next')->assertNoContent();
     }
@@ -280,7 +280,7 @@ class ApiTest extends TestCase
      *
      * Expects: processed_at is set and "next" no longer offers it.
      */
-    public function test_an_outbox_entry_can_be_marked_processed()
+    public function test_an_outbox_entry_can_be_marked_processed(): void
     {
         $entry = $this->outboxEntry($this->submission());
 
@@ -296,7 +296,7 @@ class ApiTest extends TestCase
      * Expects: still unprocessed, with the error message and time saved (which start the 5-minute
      * wait tested above).
      */
-    public function test_an_outbox_entry_can_be_marked_failed()
+    public function test_an_outbox_entry_can_be_marked_failed(): void
     {
         $entry = $this->outboxEntry($this->submission());
 
@@ -314,7 +314,7 @@ class ApiTest extends TestCase
      *
      * Expects: one outbox entry by id, with its submission data.
      */
-    public function test_a_single_outbox_entry_is_returned()
+    public function test_a_single_outbox_entry_is_returned(): void
     {
         $entry = $this->outboxEntry($this->submission(['name' => 'Ada']));
 
@@ -326,7 +326,7 @@ class ApiTest extends TestCase
      *
      * Expects: {"id": 0} when there are none, otherwise the highest id.
      */
-    public function test_latest_returns_the_newest_status_change_or_zero()
+    public function test_latest_returns_the_newest_status_change_or_zero(): void
     {
         $this->withToken(self::TOKEN)->getJson('/api/user_statuses/latest')->assertExactJson(['id' => 0]);
 
@@ -343,7 +343,7 @@ class ApiTest extends TestCase
      * Expects: the first change when no id is given; the change with exactly that id when one is
      * given (the starting id is included); 204 past the end.
      */
-    public function test_index_returns_the_first_status_change_from_the_given_id()
+    public function test_index_returns_the_first_status_change_from_the_given_id(): void
     {
         $user = User::factory()->create();
         $first = $this->status($user, 'applicant', now()->subDays(10));
@@ -361,7 +361,7 @@ class ApiTest extends TestCase
      * Expects: by default only changes within 7 days; ?days=30 widens the window.
      * Edge case: a change in the past is never included.
      */
-    public function test_upcoming_returns_status_changes_in_the_next_days_only()
+    public function test_upcoming_returns_status_changes_in_the_next_days_only(): void
     {
         $user = User::factory()->create();
         $this->status($user, 'active', now()->subDay());
@@ -379,7 +379,7 @@ class ApiTest extends TestCase
      * ?days=5000 is capped at 90 days, so a change 90 days and a second ahead is left out.
      * Edge case: both sides of each limit, with the clock frozen.
      */
-    public function test_upcoming_looks_seven_days_ahead_by_default_and_at_most_ninety()
+    public function test_upcoming_looks_seven_days_ahead_by_default_and_at_most_ninety(): void
     {
         $this->travelTo(now()->startOfSecond());
         $user = User::factory()->create();

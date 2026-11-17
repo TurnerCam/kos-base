@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 
@@ -18,12 +19,12 @@ class FormSubmission extends Model implements Auditable
         'form_id', 'form_name', 'submitted_by', 'user_id', 'data', 'submitter_ip', 'submitter_agent', 'special_form',
     ];
 
-    public function user()
+    public function user(): HasOne
     {
         return $this->hasOne(User::class, 'id', 'user_id');
     }
 
-    public function submitter()
+    public function submitter(): HasOne
     {
         return $this->hasOne(User::class, 'id', 'submitted_by');
     }

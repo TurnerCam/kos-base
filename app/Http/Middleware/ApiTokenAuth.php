@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use Symfony\Component\HttpFoundation\Response;
 use App\Models\ApiToken;
 use Closure;
 use Illuminate\Http\Request;
@@ -11,7 +12,7 @@ class ApiTokenAuth
     /**
      * Handle an incoming request.
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next): Response
     {
         $token = $request->bearerToken();
 

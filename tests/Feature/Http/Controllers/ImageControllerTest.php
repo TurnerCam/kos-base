@@ -34,7 +34,7 @@ class ImageControllerTest extends TestCase
      * Note: writes real files to public/storage; tearDown deletes them. Uploading for someone else
      * (manage-users only) is not covered.
      */
-    public function test_uploading_a_photo_saves_it_in_every_size_and_attaches_it_to_the_member()
+    public function test_uploading_a_photo_saves_it_in_every_size_and_attaches_it_to_the_member(): void
     {
         $member = User::factory()->create(['photo' => '']);
 

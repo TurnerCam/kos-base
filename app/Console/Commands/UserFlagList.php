@@ -35,7 +35,7 @@ class UserFlagList extends Command
      *
      * @return mixed
      */
-    public function handle()
+    public function handle(): void
     {
         if ($this->option('email')) {                   // specific user
             // lookup email address

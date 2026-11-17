@@ -41,7 +41,7 @@ class KeysControllerTest extends TestCase
      * Note: this API always answers HTTP 200 and puts the result in a "code" field, because that is
      * what the device firmware reads. The tests check "code", not the HTTP status.
      */
-    public function test_it_rejects_requests_without_an_auth_key_or_endpoint()
+    public function test_it_rejects_requests_without_an_auth_key_or_endpoint(): void
     {
         $this->post('/keys', ['endpoint' => 'ping'])->assertJson(['code' => '400']);
         $this->post('/keys', ['auth_key' => $this->door->auth_key])->assertJson(['code' => '400']);
@@ -52,7 +52,7 @@ class KeysControllerTest extends TestCase
      *
      * Expects: code 403 for a key that matches no device, and for a disabled device's real key.
      */
-    public function test_it_rejects_unknown_and_disabled_gatekeepers()
+    public function test_it_rejects_unknown_and_disabled_gatekeepers(): void
     {
         $this->post('/keys', ['auth_key' => 'not-a-real-key', 'endpoint' => 'ping'])->assertJson(['code' => '403']);
 
@@ -66,7 +66,7 @@ class KeysControllerTest extends TestCase
      *
      * Expects: code 404 for an endpoint name that does not exist, even with a valid device key.
      */
-    public function test_it_rejects_unknown_endpoints()
+    public function test_it_rejects_unknown_endpoints(): void
     {
         $this->post('/keys', ['auth_key' => $this->door->auth_key, 'endpoint' => 'self_destruct'])->assertJson(['code' => '404']);
     }
@@ -77,7 +77,7 @@ class KeysControllerTest extends TestCase
      *
      * Expects: "PING? PONG!", last_seen within the last minute, and the request's IP stored.
      */
-    public function test_ping_answers_and_records_when_and_where_the_device_was_seen()
+    public function test_ping_answers_and_records_when_and_where_the_device_was_seen(): void
     {
         $this->post('/keys', ['auth_key' => $this->door->auth_key, 'endpoint' => 'ping'], ['REMOTE_ADDR' => '10.0.0.42'])
             ->assertOk()
@@ -95,7 +95,7 @@ class KeysControllerTest extends TestCase
      *
      * Expects: a GET ping with query parameters succeeds like a POST one.
      */
-    public function test_get_requests_work_the_same_as_post()
+    public function test_get_requests_work_the_same_as_post(): void
     {
         $this->get('/keys?auth_key='.$this->door->auth_key.'&endpoint=ping')->assertJson(['code' => '0']);
     }
@@ -108,7 +108,7 @@ class KeysControllerTest extends TestCase
      * Edge cases: members on hiatus and inactive members get no keys; an active member with the
      * keys_disabled flag gets no keys.
      */
-    public function test_doors_get_the_keys_of_every_active_member_without_disabled_keys()
+    public function test_doors_get_the_keys_of_every_active_member_without_disabled_keys(): void
     {
         $active = $this->memberWithKey('active-key');
         $this->memberWithKey('hiatus-key', 'hiatus');
@@ -130,7 +130,7 @@ class KeysControllerTest extends TestCase
      * Edge cases: an untrained active member, a trained but inactive member, and a trained member
      * with keys_disabled all get nothing.
      */
-    public function test_tools_only_get_the_keys_of_active_members_trained_on_them()
+    public function test_tools_only_get_the_keys_of_active_members_trained_on_them(): void
     {
         $trained = $this->memberWithKey('trained-key');
         $this->memberWithKey('untrained-key');
@@ -150,7 +150,7 @@ class KeysControllerTest extends TestCase
      *
      * Expects: the second tool sends the key of a member trained only on the first.
      */
-    public function test_a_tool_sharing_authorizations_uses_the_other_tools_training()
+    public function test_a_tool_sharing_authorizations_uses_the_other_tools_training(): void
     {
         $shared = Gatekeeper::factory()->create(['name' => 'Laser Cutter 2', 'type' => 'lockout', 'shared_auth' => $this->tool->id]);
         $trained = $this->memberWithKey('trained-key');
@@ -169,7 +169,7 @@ class KeysControllerTest extends TestCase
      * Not covered: a malformed batch currently gives a 500 after saving the earlier rows; that is a
      * known issue, not tested behaviour.
      */
-    public function test_send_auths_records_each_tap_against_the_member_who_owns_the_key()
+    public function test_send_auths_records_each_tap_against_the_member_who_owns_the_key(): void
     {
         $member = $this->memberWithKey('member-key');
         $payload = [
@@ -199,7 +199,7 @@ class KeysControllerTest extends TestCase
      *
      * Expects: both times saved exactly as sent.
      */
-    public function test_send_auths_records_tool_sessions_with_their_end_time()
+    public function test_send_auths_records_tool_sessions_with_their_end_time(): void
     {
         $this->memberWithKey('member-key');
         $payload = [['rfid' => 'member-key', 'result' => 'granted', 'metadata' => null, 'lock_in' => '2026-10-20 19:05:00', 'lock_out' => '2026-10-20 20:35:00', 'created_at' => '2026-10-20 19:05:00']];
@@ -217,7 +217,7 @@ class KeysControllerTest extends TestCase
      * Expects: a status row with "inuse", the status text, the member that key belongs to, and the
      * session start time.
      */
-    public function test_a_status_report_records_who_is_using_a_tool()
+    public function test_a_status_report_records_who_is_using_a_tool(): void
     {
         $member = $this->memberWithKey('member-key');
         $status = ['status' => 'inuse', 'user_rfid' => 'member-key', 'user_lock_in' => '2026-10-20 19:05:00', 'status_text' => 'Cutting'];
@@ -237,7 +237,7 @@ class KeysControllerTest extends TestCase
      *
      * Expects: the whole request is refused with code 403 (the code treats it as untrusted).
      */
-    public function test_a_status_report_with_an_unknown_key_is_rejected()
+    public function test_a_status_report_with_an_unknown_key_is_rejected(): void
     {
         $status = ['status' => 'inuse', 'user_rfid' => 'stranger-key', 'user_lock_in' => '2026-10-20 19:05:00'];
 
@@ -254,7 +254,7 @@ class KeysControllerTest extends TestCase
      * Upgrade risk: Laravel 13 renames this middleware (PreventRequestForgery); the /keys exemption
      * must move with it, or every door stops syncing.
      */
-    public function test_devices_can_post_without_a_csrf_token()
+    public function test_devices_can_post_without_a_csrf_token(): void
     {
         $middleware = new class($this->app, $this->app['encrypter']) extends VerifyCsrfToken
         {

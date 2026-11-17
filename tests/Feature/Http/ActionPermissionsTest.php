@@ -136,7 +136,7 @@ class ActionPermissionsTest extends TestCase
      *
      * @dataProvider provideAdminActions
      */
-    public function test_an_ordinary_member_cannot_perform_an_admin_action(string $action)
+    public function test_an_ordinary_member_cannot_perform_an_admin_action(string $action): void
     {
         $member = $this->member();
         $before = $this->adminData();
@@ -159,7 +159,7 @@ class ActionPermissionsTest extends TestCase
      *
      * @dataProvider provideAdminActions
      */
-    public function test_a_superuser_can_perform_the_same_admin_action(string $action)
+    public function test_a_superuser_can_perform_the_same_admin_action(string $action): void
     {
         $superuser = $this->member();
         UserRole::query()->create(['user_id' => $superuser->id, 'role_id' => 1]);
@@ -180,7 +180,7 @@ class ActionPermissionsTest extends TestCase
      *
      * Expects: the other member's record is unchanged; the member's own record is updated.
      */
-    public function test_a_member_can_only_edit_their_own_profile()
+    public function test_a_member_can_only_edit_their_own_profile(): void
     {
         $member = $this->member();
         $profile = fn (string $email) => ['email' => $email, 'address' => '1 New Street', 'city' => 'Waterloo', 'province' => 'ON', 'postal' => 'N2L 1A1'];

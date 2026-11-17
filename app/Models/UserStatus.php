@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -43,7 +44,7 @@ class UserStatus extends Model implements Auditable
     protected $fillable = ['user_id', 'status', 'updated_by', 'note', 'created_at', 'updated_at'];
 
     // returns user the request is for
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

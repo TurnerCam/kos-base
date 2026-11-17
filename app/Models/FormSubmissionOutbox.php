@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
 
 class FormSubmissionOutbox extends Model
@@ -27,7 +28,7 @@ class FormSubmissionOutbox extends Model
     /**
      * 1:1 relationship back to the form submission
      */
-    public function formSubmission()
+    public function formSubmission(): BelongsTo
     {
         return $this->belongsTo(FormSubmission::class, 'form_submission_id');
     }

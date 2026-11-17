@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class Key extends Model implements Auditable
@@ -9,7 +10,7 @@ class Key extends Model implements Auditable
     //
     use \OwenIt\Auditing\Auditable;
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

@@ -46,7 +46,7 @@ class SendActiveMembersEmailTest extends TestCase
      * Note: the job's own description says "3 or more" but the code counts "more than 3". This
      * test records what the code does today.
      */
-    public function test_it_emails_the_active_members_with_more_than_three_door_taps_in_the_past_month()
+    public function test_it_emails_the_active_members_with_more_than_three_door_taps_in_the_past_month(): void
     {
         Mail::fake();
 

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 
@@ -19,7 +20,7 @@ class UserCert extends Model implements Auditable
 
     protected $fillable = ['user_id', 'type', 'name', 'expiry_date'];
 
-    public function user()
+    public function user(): HasOne
     {
         return $this->hasOne(User::class);
     }

@@ -24,7 +24,7 @@ class SchemaTest extends TestCase
      * Upgrade risk: expected to FAIL after the Laravel 11 upgrade until the migration (or a new one)
      * says nullable() explicitly. That failure is the point of the test.
      */
-    public function test_a_form_can_be_saved_without_a_description()
+    public function test_a_form_can_be_saved_without_a_description(): void
     {
         DB::table('forms')->insert(['name' => 'No description', 'description' => null]);
 
@@ -40,7 +40,7 @@ class SchemaTest extends TestCase
      * Note: these two are the only ->change() calls in database/migrations; add a test here for
      * any new one.
      */
-    public function test_a_member_can_be_saved_without_a_phone_number()
+    public function test_a_member_can_be_saved_without_a_phone_number(): void
     {
         DB::table('users')->insert(User::factory()->raw(['email' => 'no.phone@example.com', 'phone' => null]));
 

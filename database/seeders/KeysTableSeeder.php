@@ -8,7 +8,7 @@ use Illuminate\Database\Seeder;
 
 class KeysTableSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         User::all()->each(function (User $user) {
             do {

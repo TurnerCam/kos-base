@@ -17,7 +17,7 @@ class UserSocialsTableSeeder extends Seeder
         $this->faker = Faker::create();
     }
 
-    public function run()
+    public function run(): void
     {
         User::all()->each(function (User $user) {
             if (random_int(0, 10) >= 2) {

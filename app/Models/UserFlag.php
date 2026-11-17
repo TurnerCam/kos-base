@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 
@@ -15,7 +16,7 @@ class UserFlag extends Model implements Auditable
 
     protected $fillable = ['user_id', 'flag'];
 
-    public function user()
+    public function user(): HasOne
     {
         return $this->hasOne(\App\Models\User::class);
     }

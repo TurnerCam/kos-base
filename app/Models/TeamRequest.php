@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 
@@ -11,18 +12,18 @@ class TeamRequest extends Model implements Auditable
 
     protected $fillable = ['request_type', 'status', 'user_id', 'team_id', 'gatekeeper_id'];
 
-    public function team()
+    public function team(): BelongsTo
     {
         return $this->belongsTo(Team::class, 'team_id', 'id');
     }
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     // returns gatekeeper object of current request
-    public function gatekeeper()
+    public function gatekeeper(): BelongsTo
     {
         return $this->belongsTo(Gatekeeper::class, 'gatekeeper_id', 'id');
     }

@@ -11,7 +11,7 @@ return new class extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('team_assignments', function (Blueprint $table) {
             $table->integer('gatekeeper_id')->default(0)->after('team_id');
@@ -24,7 +24,7 @@ return new class extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('team_assignments', function (Blueprint $table) {
             $table->dropColumn('gatekeeper_id');

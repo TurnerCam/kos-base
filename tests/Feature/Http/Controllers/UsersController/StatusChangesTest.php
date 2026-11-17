@@ -43,7 +43,7 @@ class StatusChangesTest extends TestCase
      * Expects: a status history row with the status, the admin's note and the admin's id, and the
      * member's status already updated.
      */
-    public function test_a_change_effective_today_is_recorded_and_applied()
+    public function test_a_change_effective_today_is_recorded_and_applied(): void
     {
         $this->actingAs($this->admin)
             ->post("/users/{$this->member->id}/status", ['status_type' => 'suspended', 'effective_date' => now()->toDateString(), 'note' => 'Unpaid dues'])
@@ -61,7 +61,7 @@ class StatusChangesTest extends TestCase
      *
      * Expects: a history row dated next week, and the member still active today.
      */
-    public function test_a_change_effective_later_is_recorded_but_not_applied_yet()
+    public function test_a_change_effective_later_is_recorded_but_not_applied_yet(): void
     {
         $this->actingAs($this->admin)
             ->post("/users/{$this->member->id}/status", ['status_type' => 'inactive', 'effective_date' => now()->addWeek()->toDateString()])
@@ -80,7 +80,7 @@ class StatusChangesTest extends TestCase
      * "Ending Hiatus - <note>".
      * Edge case: the admin's note goes on the return row only; the hiatus row has no note.
      */
-    public function test_a_hiatus_records_its_start_and_its_return_to_active()
+    public function test_a_hiatus_records_its_start_and_its_return_to_active(): void
     {
         $start = now()->addDays(2)->toDateString();
         $end = now()->addMonths(2)->toDateString();
@@ -103,7 +103,7 @@ class StatusChangesTest extends TestCase
      * Regression: both used to crash with a 500 (the code passed null where the error page expects
      * data).
      */
-    public function test_a_change_without_a_status_or_for_an_unknown_member_is_refused()
+    public function test_a_change_without_a_status_or_for_an_unknown_member_is_refused(): void
     {
         $this->actingAs($this->admin)->post("/users/{$this->member->id}/status", ['effective_date' => now()->toDateString()])->assertForbidden();
         $this->actingAs($this->admin)->post('/users/999999/status', ['status_type' => 'active', 'effective_date' => now()->toDateString()])->assertForbidden();
@@ -116,7 +116,7 @@ class StatusChangesTest extends TestCase
      * Expects: 422 for a status the form does not offer, and nothing saved.
      * Regression: it used to answer "ok" while saving nothing, so the admin thought it had worked.
      */
-    public function test_an_unknown_status_type_is_refused()
+    public function test_an_unknown_status_type_is_refused(): void
     {
         $this->actingAs($this->admin)
             ->post("/users/{$this->member->id}/status", ['status_type' => 'banana', 'effective_date' => now()->toDateString()])
@@ -133,7 +133,7 @@ class StatusChangesTest extends TestCase
      * exist (for example one deleted in another tab).
      * Regression: this used to crash with a 500.
      */
-    public function test_deleting_an_unknown_status_change_is_refused()
+    public function test_deleting_an_unknown_status_change_is_refused(): void
     {
         $this->actingAs($this->admin)->delete("/users/{$this->member->id}/status", ['status_id' => 999999])->assertJson(['error' => 'error']);
     }
@@ -144,7 +144,7 @@ class StatusChangesTest extends TestCase
      *
      * Expects: 403 for a member without users/manage, and the target's status unchanged.
      */
-    public function test_an_ordinary_member_cannot_change_statuses()
+    public function test_an_ordinary_member_cannot_change_statuses(): void
     {
         $this->actingAs($this->activeMember())
             ->post("/users/{$this->member->id}/status", ['status_type' => 'terminated', 'effective_date' => now()->toDateString()])
@@ -158,7 +158,7 @@ class StatusChangesTest extends TestCase
      *
      * Expects: the row is deleted.
      */
-    public function test_a_change_made_by_a_person_can_be_deleted()
+    public function test_a_change_made_by_a_person_can_be_deleted(): void
     {
         $status = $this->status($this->member, 'inactive', now()->addWeek(), $this->admin->id);
 
@@ -173,7 +173,7 @@ class StatusChangesTest extends TestCase
      *
      * Expects: an error answer, and the row still exists.
      */
-    public function test_a_change_made_by_kos_cannot_be_deleted()
+    public function test_a_change_made_by_kos_cannot_be_deleted(): void
     {
         $status = $this->status($this->member, 'inactive', now()->addWeek(), 0);
 
@@ -188,7 +188,7 @@ class StatusChangesTest extends TestCase
      *
      * Expects: an error answer, and the other member's row still exists.
      */
-    public function test_a_change_cannot_be_deleted_through_another_member()
+    public function test_a_change_cannot_be_deleted_through_another_member(): void
     {
         $other = $this->activeMember();
         $status = $this->status($other, 'inactive', now()->addWeek(), $this->admin->id);

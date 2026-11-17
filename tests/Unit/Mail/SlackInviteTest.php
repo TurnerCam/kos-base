@@ -11,7 +11,7 @@ class SlackInviteTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_it_builds_with_expected_recipient_and_content()
+    public function test_it_builds_with_expected_recipient_and_content(): void
     {
         $user = User::factory()->active()->create();
 

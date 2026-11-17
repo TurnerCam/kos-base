@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 
@@ -11,17 +13,17 @@ class TeamAssignment extends Model implements Auditable
 
     protected $fillable = ['user_id', 'role_id', 'team_id', 'team_role', 'gatekeeper_id', 'status', 'approved_by'];
 
-    public function team()
+    public function team(): BelongsTo
     {
         return $this->belongsTo(Team::class, 'team_id', 'id');
     }
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function gatekeeper()
+    public function gatekeeper(): HasOne
     {
         return $this->hasOne(Gatekeeper::class, 'id', 'gatekeeper_id');
     }

@@ -80,7 +80,7 @@ class FormsControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_sends_a_confirmation_email_to_applicant_when_application_is_submitted()
+    public function it_sends_a_confirmation_email_to_applicant_when_application_is_submitted(): void
     {
         $submittingUser = User::factory()->active()->create();
 
@@ -120,7 +120,7 @@ class FormsControllerTest extends TestCase
      *  - an outbox entry, so outside tools pick the application up.
      * Regression: date_applied used to be dropped silently (it was not mass-assignable).
      */
-    public function test_submitting_an_application_creates_the_applicant()
+    public function test_submitting_an_application_creates_the_applicant(): void
     {
         $submittingUser = User::factory()->active()->create();
 
@@ -149,7 +149,7 @@ class FormsControllerTest extends TestCase
      *
      * Expects: two MemberApp emails queued (one for members, one for admins) and one Slack post.
      */
-    public function test_submitting_an_application_notifies_members_admins_and_slack()
+    public function test_submitting_an_application_notifies_members_admins_and_slack(): void
     {
         $this->submitApplication(User::factory()->active()->create());
 
@@ -164,7 +164,7 @@ class FormsControllerTest extends TestCase
      * Expects: form errors for a blank required question and a blank address, and no account
      * created.
      */
-    public function test_an_application_needs_the_required_answers()
+    public function test_an_application_needs_the_required_answers(): void
     {
         $this->submitApplication(User::factory()->active()->create(), ['element-cdf75849-ccb8-4cdf' => null, 'address' => null])
             ->assertSessionHasErrors(['element-cdf75849-ccb8-4cdf', 'address']);
@@ -180,7 +180,7 @@ class FormsControllerTest extends TestCase
      * Regression: the email rule was never applied (a stray "break" skipped it), so this used to
      * fail with a database error (500) instead.
      */
-    public function test_an_application_needs_an_email_address()
+    public function test_an_application_needs_an_email_address(): void
     {
         $this->submitApplication(User::factory()->active()->create(), ['email' => null])->assertSessionHasErrors('email');
 

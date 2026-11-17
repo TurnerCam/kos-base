@@ -35,7 +35,7 @@ class UserFlagSet extends Command
      *
      * @return mixed
      */
-    public function handle()
+    public function handle(): void
     {
 
         // ensure user flag is defined in kos config

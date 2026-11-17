@@ -36,7 +36,7 @@ class CheckUserStatusTest extends TestCase
      *
      * @dataProvider provideLoggedOutStatuses
      */
-    public function test_a_member_who_is_no_longer_active_is_logged_out(string $status)
+    public function test_a_member_who_is_no_longer_active_is_logged_out(string $status): void
     {
         $user = $this->member('active');
         $this->actingAs($user)->get('/dashboard')->assertOk();
@@ -52,7 +52,7 @@ class CheckUserStatusTest extends TestCase
      *
      * Expects: the dashboard loads and they stay logged in.
      */
-    public function test_a_member_on_hiatus_stays_logged_in()
+    public function test_a_member_on_hiatus_stays_logged_in(): void
     {
         $this->actingAs($this->member('hiatus'))->get('/dashboard')->assertOk();
         $this->assertAuthenticated();

@@ -54,7 +54,7 @@ class GatekeepersControllerTest extends TestCase
      *
      * @dataProvider provideHeartbeats
      */
-    public function test_the_dashboard_heartbeat_shows_whether_the_device_is_checking_in(int $minutesAgo, string $expected)
+    public function test_the_dashboard_heartbeat_shows_whether_the_device_is_checking_in(int $minutesAgo, string $expected): void
     {
         // Freeze the clock so the 20 and 21 minute cases sit exactly on either side of the limit.
         $this->travelTo(now()->startOfSecond());
@@ -71,7 +71,7 @@ class GatekeepersControllerTest extends TestCase
      *
      * Expects: "warning" (yellow) instead of an error or a green light.
      */
-    public function test_the_dashboard_heartbeat_shows_a_warning_for_a_device_never_seen()
+    public function test_the_dashboard_heartbeat_shows_a_warning_for_a_device_never_seen(): void
     {
         $gatekeeper = Gatekeeper::factory()->create(['last_seen' => null]);
 

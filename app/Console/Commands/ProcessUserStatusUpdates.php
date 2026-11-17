@@ -38,7 +38,7 @@ class ProcessUserStatusUpdates extends Command
      *
      * @return mixed
      */
-    public function handle()
+    public function handle(): void
     {
         $this->info('['.date('Y-m-d G:i:s').'] Processing user status...');
 

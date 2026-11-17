@@ -52,48 +52,48 @@ class User extends Authenticatable implements AuditableContract
         'password', 'remember_token',
     ];
 
-    public function keys()
+    public function keys(): HasMany
     {
         return $this->hasMany(Key::class);
     }
 
-    public function authentications()
+    public function authentications(): HasMany
     {
         return $this->hasMany(Authentication::class);
     }
 
-    public function authorizations()
+    public function authorizations(): HasMany
     {
         return $this->hasMany(Authorization::class);
     }
 
-    public function socials()
+    public function socials(): HasMany
     {
         return $this->hasMany(UserSocial::class);
     }
 
-    public function skills()
+    public function skills(): HasMany
     {
         return $this->hasMany(UserSkill::class);
     }
 
-    public function certs()
+    public function certs(): HasMany
     {
         return $this->hasMany(UserCert::class);
     }
 
-    public function status_history()
+    public function status_history(): HasMany
     {
         return $this->hasMany(UserStatus::class)->orderby('created_at');
     }
 
-    public function flags()
+    public function flags(): HasMany
     {
         return $this->hasMany(UserFlag::class);
     }
 
     // returns first instance of status type
-    public function first_status($type = null)
+    public function first_status($type = null): HasMany
     {
         if ($type == null) {
             return $this->hasMany(UserStatus::class)->orderby('created_at')->limit(1);
@@ -103,7 +103,7 @@ class User extends Authenticatable implements AuditableContract
     }
 
     // returns last instance of status type
-    public function last_status($type = null)
+    public function last_status($type = null): HasMany
     {
         if ($type == null) {
             return $this->hasMany(UserStatus::class)->orderby('created_at', 'desc')->limit(1);
@@ -112,12 +112,12 @@ class User extends Authenticatable implements AuditableContract
         }
     }
 
-    public function current_status()
+    public function current_status(): HasMany
     {
         return $this->hasMany(UserStatus::class)->where('created_at', '<', date('Y-m-d H:i:s', strtotime('tomorrow midnight')))->orderby('created_at', 'desc')->limit(1);
     }
 
-    public function team_assignments($team_id = 'all')
+    public function team_assignments($team_id = 'all'): HasMany
     {
         if ($team_id == 'all') {
             return $this->hasMany(TeamAssignment::class);
@@ -127,13 +127,13 @@ class User extends Authenticatable implements AuditableContract
     }
 
     // returns user's membership application (if exists)
-    public function memberapp()
+    public function memberapp(): HasMany
     {
         return $this->hasMany(FormSubmission::class, 'user_id', 'id')->where('special_form', 'new_user_app');
     }
 
     // returns all forms the user has submitted (with optional special form filter)
-    public function submitted_forms($special_form = null)
+    public function submitted_forms($special_form = null): HasMany
     {
         if ($special_form != null) {
             return $this->hasMany(FormSubmission::class, 'submitted_by', 'id')->where('special_form', $special_form)->orderby('created_at');
@@ -271,7 +271,7 @@ class User extends Authenticatable implements AuditableContract
     }
 
     // returns all teams the user is part of
-    public function teams()
+    public function teams(): BelongsToMany
     {
         return $this->belongsToMany(Team::class, 'team_assignments', 'user_id');
     }
@@ -292,7 +292,7 @@ class User extends Authenticatable implements AuditableContract
      *
      * @return HasMany|BelongsToMany
      */
-    public function roles($relational = false)
+    public function roles($relational = false): BelongsToMany
     {
         if ($relational) {
             return $this->belongsToMany(Role::class, 'user_roles');

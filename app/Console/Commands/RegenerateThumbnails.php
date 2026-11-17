@@ -36,7 +36,7 @@ class RegenerateThumbnails extends Command
      *
      * @return mixed
      */
-    public function handle()
+    public function handle(): int
     {
         $image_type = $this->option('type');
 

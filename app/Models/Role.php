@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 
@@ -21,12 +23,12 @@ class Role extends Model implements Auditable
 
     protected $fillable = ['name', 'description', 'permissions'];
 
-    public function permissions()
+    public function permissions(): HasMany
     {
         return $this->hasMany(RolePermission::class, 'role_id', 'id');
     }
 
-    public function users()
+    public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'user_roles');
     }

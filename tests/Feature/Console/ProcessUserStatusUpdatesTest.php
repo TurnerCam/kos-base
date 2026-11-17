@@ -28,7 +28,7 @@ class ProcessUserStatusUpdatesTest extends TestCase
      * Expects: status becomes active and date_admitted is the date of the active status change
      * (not the date the job ran).
      */
-    public function test_an_applicant_becomes_active_and_gets_an_admission_date()
+    public function test_an_applicant_becomes_active_and_gets_an_admission_date(): void
     {
         $user = $this->userWithHistory('applicant', [['applicant', now()->subDays(14)], ['active', now()->subDay()]]);
 
@@ -46,7 +46,7 @@ class ProcessUserStatusUpdatesTest extends TestCase
      * Edge case: the latest possible time today. Paired with the midnight-tomorrow test below, this
      * pins the cut-off to exactly midnight.
      */
-    public function test_a_change_dated_later_today_already_applies()
+    public function test_a_change_dated_later_today_already_applies(): void
     {
         $user = $this->userWithHistory('active', [['active', now()->subYear()], ['hiatus', now()->endOfDay()->subMinute()]]);
 
@@ -61,7 +61,7 @@ class ProcessUserStatusUpdatesTest extends TestCase
      *
      * Expects: the member stays active until the hiatus date.
      */
-    public function test_a_change_dated_in_the_future_waits()
+    public function test_a_change_dated_in_the_future_waits(): void
     {
         $user = $this->userWithHistory('active', [['active', now()->subYear()], ['hiatus', now()->addDays(3)]]);
 
@@ -76,7 +76,7 @@ class ProcessUserStatusUpdatesTest extends TestCase
      * Edge case: the first possible moment of tomorrow. Without this, the cut-off could move a day
      * or more later and the "future" test (3 days ahead) would still pass.
      */
-    public function test_a_change_dated_midnight_tomorrow_waits()
+    public function test_a_change_dated_midnight_tomorrow_waits(): void
     {
         $user = $this->userWithHistory('active', [['active', now()->subYear()], ['hiatus', now()->addDay()->startOfDay()]]);
 
@@ -91,7 +91,7 @@ class ProcessUserStatusUpdatesTest extends TestCase
      *
      * Expects: date_admitted is still a year ago after the member returns.
      */
-    public function test_returning_from_hiatus_keeps_the_admission_date()
+    public function test_returning_from_hiatus_keeps_the_admission_date(): void
     {
         $user = $this->userWithHistory('hiatus', [['active', now()->subYear()], ['hiatus', now()->subMonths(2)], ['active', now()->subDay()]]);
         $user->forceFill(['date_admitted' => now()->subYear()->toDateString()])->save();
@@ -107,7 +107,7 @@ class ProcessUserStatusUpdatesTest extends TestCase
      *
      * Expects: a member on hiatus whose return date was yesterday is active again.
      */
-    public function test_a_hiatus_ends_on_its_end_date()
+    public function test_a_hiatus_ends_on_its_end_date(): void
     {
         $user = $this->userWithHistory('hiatus', [['active', now()->subYear()], ['hiatus', now()->subMonths(2)], ['active', now()->subDay()]]);
 
@@ -135,7 +135,7 @@ class ProcessUserStatusUpdatesTest extends TestCase
      *
      * @dataProvider provideWithdrawals
      */
-    public function test_a_withdrawal_records_the_withdrawal_date(string $status)
+    public function test_a_withdrawal_records_the_withdrawal_date(string $status): void
     {
         $user = $this->userWithHistory('active', [['active', now()->subYear()], [$status, now()->subDays(2)]]);
 
@@ -152,7 +152,7 @@ class ProcessUserStatusUpdatesTest extends TestCase
      *
      * Expects: status becomes suspended and date_withdrawn stays empty.
      */
-    public function test_a_suspension_does_not_record_a_withdrawal_date()
+    public function test_a_suspension_does_not_record_a_withdrawal_date(): void
     {
         $user = $this->userWithHistory('active', [['active', now()->subYear()], ['suspended', now()->subDay()]]);
 
@@ -169,7 +169,7 @@ class ProcessUserStatusUpdatesTest extends TestCase
      *
      * Expects: the "no changes made" message, and updated_at unchanged.
      */
-    public function test_members_already_up_to_date_are_left_alone()
+    public function test_members_already_up_to_date_are_left_alone(): void
     {
         $user = $this->userWithHistory('active', [['active', now()->subYear()]]);
         $before = $user->fresh()->updated_at;
@@ -186,7 +186,7 @@ class ProcessUserStatusUpdatesTest extends TestCase
      * Regression: this used to crash the whole job ("property of null"), so nobody after that
      * member was updated.
      */
-    public function test_a_member_without_status_history_does_not_stop_the_others()
+    public function test_a_member_without_status_history_does_not_stop_the_others(): void
     {
         User::factory()->create(['status' => 'active']);
         $user = $this->userWithHistory('applicant', [['applicant', now()->subDays(14)], ['active', now()->subDay()]]);

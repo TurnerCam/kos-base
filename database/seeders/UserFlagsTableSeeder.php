@@ -9,7 +9,7 @@ use Illuminate\Database\Seeder;
 
 class UserFlagsTableSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         User::query()->where('status', UserStatus::STATUS_ACTIVE)
             ->get()

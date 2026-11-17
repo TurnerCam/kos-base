@@ -72,7 +72,7 @@ class PermissionsTest extends TestCase
      *
      * @dataProvider provideAdminPages
      */
-    public function test_an_ordinary_member_is_refused(string $uri)
+    public function test_an_ordinary_member_is_refused(string $uri): void
     {
         $this->assertDenied($this->actingAs($this->member())->get($uri));
     }
@@ -85,7 +85,7 @@ class PermissionsTest extends TestCase
      *
      * @dataProvider provideAdminPages
      */
-    public function test_the_matching_permission_opens_the_page(string $uri, string $object, string $operation)
+    public function test_the_matching_permission_opens_the_page(string $uri, string $object, string $operation): void
     {
         $this->actingAs($this->member([[$object, $operation]]))->get($uri)->assertOk();
     }
@@ -96,7 +96,7 @@ class PermissionsTest extends TestCase
      * Expects: a membership admin (users/manage) can open the register but is refused on roles,
      * gatekeepers and key enrolment.
      */
-    public function test_a_permission_only_opens_its_own_area()
+    public function test_a_permission_only_opens_its_own_area(): void
     {
         $userAdmin = $this->member([['users', 'manage']]);
 
@@ -113,7 +113,7 @@ class PermissionsTest extends TestCase
      * Expects: reports/manage alone opens neither report; reports/users opens only the status
      * report; reports/gatekeepers opens the activity report.
      */
-    public function test_each_report_needs_its_own_permission_as_well_as_reports_access()
+    public function test_each_report_needs_its_own_permission_as_well_as_reports_access(): void
     {
         $reportsOnly = $this->member([['reports', 'manage']]);
         $this->assertDenied($this->actingAs($reportsOnly)->get('/reports/member-status-report'));
@@ -132,7 +132,7 @@ class PermissionsTest extends TestCase
      *
      * Expects: a membership admin is refused /forms; a superuser can open it.
      */
-    public function test_forms_are_managed_by_superusers_only()
+    public function test_forms_are_managed_by_superusers_only(): void
     {
         $this->assertDenied($this->actingAs($this->member([['users', 'manage']]))->get('/forms'));
         $this->actingAs($this->superuser())->get('/forms')->assertOk();
@@ -156,7 +156,7 @@ class PermissionsTest extends TestCase
      *
      * @dataProvider provideMemberPages
      */
-    public function test_an_ordinary_member_can_use_the_member_pages(string $uri)
+    public function test_an_ordinary_member_can_use_the_member_pages(string $uri): void
     {
         $this->actingAs($this->member())->get($uri)->assertOk();
     }
@@ -176,7 +176,7 @@ class PermissionsTest extends TestCase
      * Expects: every address outside PUBLIC_ROUTES redirects to /login, and every entry in
      * PUBLIC_ROUTES still exists (so the list cannot quietly go out of date).
      */
-    public function test_every_page_and_action_requires_a_login_unless_listed_as_public()
+    public function test_every_page_and_action_requires_a_login_unless_listed_as_public(): void
     {
         $open = [];
         $seen = [];

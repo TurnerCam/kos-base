@@ -26,7 +26,7 @@ class ListApiTokens extends Command
      *
      * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         $query = ApiToken::query()->orderBy('id');
 

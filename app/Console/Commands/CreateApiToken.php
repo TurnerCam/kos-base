@@ -30,7 +30,7 @@ class CreateApiToken extends Command
      *
      * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         $expiresAt = null;
         $expiresInput = $this->option('expires');

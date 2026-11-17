@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 
@@ -11,7 +12,7 @@ class Form extends Model implements Auditable
 
     protected $fillable = ['name', 'description', 'status', 'special_form', 'fields', 'conditions', 'actions'];
 
-    public function submissions()
+    public function submissions(): HasMany
     {
         return $this->hasMany(FormSubmissions::class);
     }

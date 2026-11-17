@@ -61,7 +61,7 @@ class PageSmokeTest extends TestCase
      * /users/index). Routes that need a parameter are covered by the next test. API routes,
      * debug-tool routes (starting with _) and the SKIPPED list are left out.
      */
-    public function test_every_page_without_parameters_loads()
+    public function test_every_page_without_parameters_loads(): void
     {
         $uris = collect(RouteFacade::getRoutes()->getRoutes())
             ->filter(fn (Route $route) => in_array('GET', $route->methods()))
@@ -82,7 +82,7 @@ class PageSmokeTest extends TestCase
      * Expects: none of them errors.
      * Note: this list is written by hand. Add new record pages here.
      */
-    public function test_pages_for_existing_records_load()
+    public function test_pages_for_existing_records_load(): void
     {
         $team = Team::query()->create(['name' => 'Woodworking', 'description' => 'Wood things']);
         $gatekeeper = Gatekeeper::factory()->create(['name' => 'Table Saw', 'team_id' => $team->id, 'last_seen' => now()]);
