@@ -23,7 +23,7 @@ use Tests\TestCase;
  *
  * Limits: these tests load pages (GET requests) only. Actions that save data need their own tests.
  */
-class PermissionsTest extends TestCase
+final class PermissionsTest extends TestCase
 {
     use RefreshDatabase;
 

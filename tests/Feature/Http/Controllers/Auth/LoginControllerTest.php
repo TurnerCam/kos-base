@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
-class LoginControllerTest extends TestCase
+final class LoginControllerTest extends TestCase
 {
     use RefreshDatabase;
 

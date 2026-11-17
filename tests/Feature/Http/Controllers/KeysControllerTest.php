@@ -19,7 +19,7 @@ use Tests\TestCase;
  * The API the door and tool gatekeeper devices call: authenticate with the device's auth key, download
  * the keys allowed through, upload taps and sessions, and report status.
  */
-class KeysControllerTest extends TestCase
+final class KeysControllerTest extends TestCase
 {
     use RefreshDatabase;
 

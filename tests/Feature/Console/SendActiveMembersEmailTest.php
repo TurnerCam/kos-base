@@ -16,7 +16,7 @@ use Tests\TestCase;
  *
  * Mail is faked, so nothing is sent.
  */
-class SendActiveMembersEmailTest extends TestCase
+final class SendActiveMembersEmailTest extends TestCase
 {
     use RefreshDatabase;
 

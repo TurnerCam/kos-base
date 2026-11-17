@@ -12,7 +12,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
-class UpdateStatusTest extends TestCase
+final class UpdateStatusTest extends TestCase
 {
     use RefreshDatabase;
 

@@ -26,7 +26,7 @@ use Tests\TestCase;
  * Mail is faked (nothing is sent) and the Slack bot is replaced by a spy, so the tests never post
  * to the real Slack workspace and do not need a network connection.
  */
-class FormsControllerTest extends TestCase
+final class FormsControllerTest extends TestCase
 {
     use RefreshDatabase;
 

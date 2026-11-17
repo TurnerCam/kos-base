@@ -15,7 +15,7 @@ use Tests\TestCase;
  * The gatekeeper (door or tool) dashboard. Covers the heartbeat indicator that tells admins whether
  * a device is still checking in.
  */
-class GatekeepersControllerTest extends TestCase
+final class GatekeepersControllerTest extends TestCase
 {
     use RefreshDatabase;
 

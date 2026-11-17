@@ -12,7 +12,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\MockObject\MockObject;
 use Tests\TestCase;
 
-class KosBotTest extends TestCase
+final class KosBotTest extends TestCase
 {
     use RefreshDatabase;
 

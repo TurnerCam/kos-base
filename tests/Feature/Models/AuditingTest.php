@@ -11,7 +11,7 @@ use Tests\TestCase;
 /**
  * Changes to members and gatekeepers are written to the audit log, along with who made them.
  */
-class AuditingTest extends TestCase
+final class AuditingTest extends TestCase
 {
     use RefreshDatabase;
 

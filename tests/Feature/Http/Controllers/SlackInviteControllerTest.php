@@ -10,7 +10,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Crypt;
 use Tests\TestCase;
 
-class SlackInviteControllerTest extends TestCase
+final class SlackInviteControllerTest extends TestCase
 {
     use RefreshDatabase;
 

@@ -9,7 +9,7 @@ use Spatie\GoogleCalendar\Event;
 use Tests\Fakes\Event as FakeEvent;
 use Tests\TestCase;
 
-class DashboardControllerTest extends TestCase
+final class DashboardControllerTest extends TestCase
 {
     use RefreshDatabase;
 

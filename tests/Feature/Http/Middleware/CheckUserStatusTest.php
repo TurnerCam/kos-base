@@ -12,7 +12,7 @@ use Tests\TestCase;
  * Only active members and members on hiatus stay logged in. Anyone else is logged out on their
  * next page load, so a status change takes effect immediately.
  */
-class CheckUserStatusTest extends TestCase
+final class CheckUserStatusTest extends TestCase
 {
     use RefreshDatabase;
 

@@ -10,7 +10,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\URL;
 use Tests\TestCase;
 
-class HttpsProtocolTest extends TestCase
+final class HttpsProtocolTest extends TestCase
 {
     public function test_it_redirects_to_https_in_production_environment(): void
     {

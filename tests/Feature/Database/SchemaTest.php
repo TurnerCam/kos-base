@@ -11,7 +11,7 @@ use Tests\TestCase;
  * Checks columns of a freshly migrated database that later migrations modified. From Laravel 11, a
  * column change drops any attribute the migration does not repeat, such as nullable.
  */
-class SchemaTest extends TestCase
+final class SchemaTest extends TestCase
 {
     use RefreshDatabase;
 

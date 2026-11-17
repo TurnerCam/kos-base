@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class SlackInviteTest extends TestCase
+final class SlackInviteTest extends TestCase
 {
     use RefreshDatabase;
 

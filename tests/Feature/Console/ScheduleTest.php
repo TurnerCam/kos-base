@@ -11,7 +11,7 @@ use Tests\TestCase;
  * The jobs kOS runs by itself on a timetable. The other tests check what each job does; this one
  * checks that the jobs are still on the timetable, and when.
  */
-class ScheduleTest extends TestCase
+final class ScheduleTest extends TestCase
 {
     public static function provideScheduledJobs(): array
     {

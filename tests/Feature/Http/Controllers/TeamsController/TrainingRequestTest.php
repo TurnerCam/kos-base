@@ -16,7 +16,7 @@ use Tests\TestCase;
  * Not covered here: who may pass, fail or cancel a request, and who may see the team's list of
  * requests. Those rules are tested in Tests\Feature\Security\AuthorizationFixesTest.
  */
-class TrainingRequestTest extends TestCase
+final class TrainingRequestTest extends TestCase
 {
     use RefreshDatabase;
 

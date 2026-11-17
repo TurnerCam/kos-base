@@ -19,7 +19,7 @@ use Tests\TestCase;
  * Note: current_status reads the real clock (strtotime), not Laravel's test clock, so these tests
  * place their dates relative to now() instead of freezing time.
  */
-class ProcessUserStatusUpdatesTest extends TestCase
+final class ProcessUserStatusUpdatesTest extends TestCase
 {
     use RefreshDatabase;
 

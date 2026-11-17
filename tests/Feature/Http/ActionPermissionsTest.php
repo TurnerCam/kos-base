@@ -38,7 +38,7 @@ use Tests\TestCase;
  * Upgrade risk: these rules live partly in route middleware ("can:manage-...") and partly inside
  * controllers. Both are touched by the Laravel upgrade.
  */
-class ActionPermissionsTest extends TestCase
+final class ActionPermissionsTest extends TestCase
 {
     use RefreshDatabase;
 

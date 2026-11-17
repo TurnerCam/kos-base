@@ -14,7 +14,7 @@ use Tests\TestCase;
  * Membership admins record status changes with an effective date. Changes effective today apply
  * at once; later ones wait for the nightly job. Only changes made by a person can be deleted.
  */
-class StatusChangesTest extends TestCase
+final class StatusChangesTest extends TestCase
 {
     use RefreshDatabase;
 

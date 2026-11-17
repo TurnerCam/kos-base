@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class PublicInfoControllerTest extends TestCase
+final class PublicInfoControllerTest extends TestCase
 {
     use RefreshDatabase;
 

@@ -47,7 +47,7 @@ use Tests\TestCase;
  * A failure here means one of the holes above may have re-opened; do not relax a test to make it
  * pass without understanding which problem it guards.
  */
-class AuthorizationFixesTest extends TestCase
+final class AuthorizationFixesTest extends TestCase
 {
     use RefreshDatabase;
 

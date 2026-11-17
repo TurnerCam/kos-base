@@ -10,7 +10,7 @@ use Tests\TestCase;
  * Uploading a cropped photo saves the original as a JPEG plus three thumbnail sizes, and attaches
  * it to the member's profile.
  */
-class ImageControllerTest extends TestCase
+final class ImageControllerTest extends TestCase
 {
     use RefreshDatabase;
 

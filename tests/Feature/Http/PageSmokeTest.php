@@ -22,7 +22,7 @@ use Tests\TestCase;
  * a superuser skips every permission check, so this says nothing about permissions (see
  * PermissionsTest).
  */
-class PageSmokeTest extends TestCase
+final class PageSmokeTest extends TestCase
 {
     use RefreshDatabase;
 

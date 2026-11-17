@@ -15,7 +15,7 @@ use Tests\TestCase;
  * The token-protected API used by outside services: membership coordinator tools read members,
  * form submissions (through an outbox they mark as processed) and status changes.
  */
-class ApiTest extends TestCase
+final class ApiTest extends TestCase
 {
     use RefreshDatabase;
 
