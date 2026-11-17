@@ -11,8 +11,6 @@ class TeamsController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function index(): View
     {
@@ -66,8 +64,6 @@ class TeamsController extends Controller
 
     /**
      * Send training requests & view past requests
-     *
-     * @return \Illuminate\Http\Response
      */
     public function training(): View
     {
@@ -235,8 +231,6 @@ class TeamsController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function store(Request $request): RedirectResponse
     {
@@ -283,9 +277,6 @@ class TeamsController extends Controller
 
     /**
      * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function show(int $id): View
     {
@@ -301,7 +292,6 @@ class TeamsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit(int $id)
@@ -341,9 +331,6 @@ class TeamsController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, int $id): RedirectResponse
     {
@@ -409,9 +396,6 @@ class TeamsController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function destroy(int $id): JsonResponse
     {
