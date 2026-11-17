@@ -26,14 +26,6 @@ class User extends Authenticatable implements AuditableContract
         'first_name', 'last_name', 'first_preferred', 'last_preferred', 'email', 'password', 'status', 'acl', 'member_id', 'phone', 'address', 'city', 'province', 'postal', 'photo', 'notes', 'pronouns', 'date_applied',
     ];
 
-    protected $casts = [
-        'date_applied' => 'datetime',
-        'date_admitted' => 'datetime',
-        'date_hiatus_start' => 'datetime',
-        'date_hiatus_end' => 'datetime',
-        'date_withdrawn' => 'datetime',
-    ];
-
     /**
      * Attributes to exclude from the Audit.
      *
@@ -51,6 +43,17 @@ class User extends Authenticatable implements AuditableContract
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'date_applied' => 'datetime',
+            'date_admitted' => 'datetime',
+            'date_hiatus_start' => 'datetime',
+            'date_hiatus_end' => 'datetime',
+            'date_withdrawn' => 'datetime',
+        ];
+    }
 
     public function keys(): HasMany
     {

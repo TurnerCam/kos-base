@@ -7,10 +7,14 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class GatekeeperStatus extends Model
 {
-    protected $casts = [
-        'lock_in' => 'datetime',
-        'last_seen' => 'datetime',
-    ];
+
+    protected function casts(): array
+    {
+        return [
+            'lock_in' => 'datetime',
+            'last_seen' => 'datetime',
+        ];
+    }
 
     public function gatekeeper(): HasOne
     {

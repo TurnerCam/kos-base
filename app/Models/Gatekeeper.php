@@ -12,10 +12,6 @@ class Gatekeeper extends Model implements Auditable
     use HasFactory;
     use \OwenIt\Auditing\Auditable;
 
-    protected $casts = [
-        'last_seen' => 'datetime',
-    ];
-
     /**
      * Attributes to exclude from the Audit.
      *
@@ -24,6 +20,13 @@ class Gatekeeper extends Model implements Auditable
     protected $auditExclude = [
         'last_seen',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'last_seen' => 'datetime',
+        ];
+    }
 
     public function authentications(): HasMany
     {

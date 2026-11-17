@@ -19,11 +19,14 @@ class FormSubmissionOutbox extends Model
         'last_error_at',
     ];
 
-    protected $casts = [
-        'created_at' => 'datetime',
-        'processed_at' => 'datetime',
-        'last_error_at' => 'datetime',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'created_at' => 'datetime',
+            'processed_at' => 'datetime',
+            'last_error_at' => 'datetime',
+        ];
+    }
 
     /**
      * 1:1 relationship back to the form submission
