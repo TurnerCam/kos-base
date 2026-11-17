@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Http\Controllers;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use App\Models\Gatekeeper;
 use App\Models\Role;
 use App\Models\User;
@@ -51,9 +52,8 @@ class GatekeepersControllerTest extends TestCase
      * or moving the limit is caught.
      * Upgrade risk: Carbon 3 (Laravel 11) makes now()->diffInMinutes($past) negative, which would
      * show every device as online. The 21-minute and yesterday cases catch that.
-     *
-     * @dataProvider provideHeartbeats
      */
+    #[DataProvider('provideHeartbeats')]
     public function test_the_dashboard_heartbeat_shows_whether_the_device_is_checking_in(int $minutesAgo, string $expected): void
     {
         // Freeze the clock so the 20 and 21 minute cases sit exactly on either side of the limit.

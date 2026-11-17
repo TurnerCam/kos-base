@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Security;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use App\Models\Authorization;
 use App\Models\Gatekeeper;
 use App\Models\Team;
@@ -557,9 +558,8 @@ class AuthorizationFixesTest extends TestCase
      * Why: this is the original attack. The application would overwrite the named record,
      * replacing its name, contact details and status. The application must be refused and the
      * record must be exactly as it was, including its password.
-     *
-     * @dataProvider protectedStatuses
      */
+    #[DataProvider('protectedStatuses')]
     public function test_an_application_cannot_overwrite_a_record_in_a_protected_status(string $status): void
     {
         $victim = User::factory()->create(['status' => $status, 'first_name' => 'Victor', 'email' => 'victor@example.com']);
@@ -606,9 +606,8 @@ class AuthorizationFixesTest extends TestCase
      * to look up and match a member record, so their shape must be checked first. Each case must be
      * refused as an ordinary form error (not a crash), the former member's record must be unchanged
      * and no new account may be created.
-     *
-     * @dataProvider malformedApplications
      */
+    #[DataProvider('malformedApplications')]
     public function test_an_application_with_a_malformed_record_id_or_email_is_refused(string $case, string $fieldInError): void
     {
         $victim = User::factory()->create(['status' => 'inactive', 'first_name' => 'Victor', 'email' => 'victor@example.com']);
@@ -648,9 +647,8 @@ class AuthorizationFixesTest extends TestCase
      * Why: proves the fix did not break re-applying, which is a normal thing for a returning
      * member to do. Their old record must become an applicant again, with the new details, and
      * no second record may be created for the same person.
-     *
-     * @dataProvider returningStatuses
      */
+    #[DataProvider('returningStatuses')]
     public function test_a_returning_applicant_re_uses_their_old_record(string $status): void
     {
         $returning = User::factory()->create(['status' => $status, 'first_name' => 'Old', 'email' => 'returning@example.com']);
@@ -713,9 +711,8 @@ class AuthorizationFixesTest extends TestCase
      *
      * Why: this is the original attack. With no secret, anyone can calculate a signature the
      * server accepts, and so trigger a deployment. A server with no secret must refuse everything.
-     *
-     * @dataProvider blankSecrets
      */
+    #[DataProvider('blankSecrets')]
     public function test_the_deploy_webhook_refuses_everything_when_no_secret_is_configured($secret): void
     {
         config(['app.deploy_secret' => $secret]);

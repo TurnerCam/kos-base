@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Http\Middleware;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use App\Models\User;
 use App\Models\UserStatus;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -33,9 +34,8 @@ class CheckUserStatusTest extends TestCase
      * are logged out.
      * Edge cases: inactive, suspended, terminated, and applicant (an applicant account must not get
      * into the members' area either).
-     *
-     * @dataProvider provideLoggedOutStatuses
      */
+    #[DataProvider('provideLoggedOutStatuses')]
     public function test_a_member_who_is_no_longer_active_is_logged_out(string $status): void
     {
         $user = $this->member('active');

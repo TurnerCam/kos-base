@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Console;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use App\Models\User;
 use App\Models\UserStatus;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -132,9 +133,8 @@ class ProcessUserStatusUpdatesTest extends TestCase
      * Expects: the status is applied and date_withdrawn is the date of the change.
      * Edge cases: all four leaving statuses.
      * Regression: inactive-in-memoriam used to be missed (the code listed "terminated" twice).
-     *
-     * @dataProvider provideWithdrawals
      */
+    #[DataProvider('provideWithdrawals')]
     public function test_a_withdrawal_records_the_withdrawal_date(string $status): void
     {
         $user = $this->userWithHistory('active', [['active', now()->subYear()], [$status, now()->subDays(2)]]);

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Http\Controllers;
 
+use PHPUnit\Framework\Attributes\Test;
 use App\Mail\MemberApp;
 use App\Mail\MemberAppInterviewConfirmation;
 use App\Models\FormSubmission;
@@ -79,7 +80,7 @@ class FormsControllerTest extends TestCase
         $this->kosBot = $this->spy(KosBot::class);
     }
 
-    /** @test */
+    #[Test]
     public function it_sends_a_confirmation_email_to_applicant_when_application_is_submitted(): void
     {
         $submittingUser = User::factory()->active()->create();

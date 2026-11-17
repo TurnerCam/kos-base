@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Console;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Illuminate\Console\Scheduling\Event;
 use Illuminate\Console\Scheduling\Schedule;
 use Tests\TestCase;
@@ -30,9 +31,8 @@ class ScheduleTest extends TestCase
      * Expects: each job is scheduled exactly once, at the time shown (in cron notation).
      * Upgrade risk: Laravel 11 moves the schedule out of app/Console/Kernel.php. This test is
      * expected to catch a job that gets lost in that move.
-     *
-     * @dataProvider provideScheduledJobs
      */
+    #[DataProvider('provideScheduledJobs')]
     public function test_the_job_is_scheduled_at_the_expected_time(string $command, string $expression): void
     {
         $matching = collect($this->app->make(Schedule::class)->events())

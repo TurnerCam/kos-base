@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Http\Controllers\UsersController;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use App\Mail\SlackInvite;
 use App\Models\Role;
 use App\Models\RolePermission;
@@ -72,7 +73,7 @@ class UpdateStatusTest extends TestCase
         ];
     }
 
-    /** @dataProvider provideValidInviteStatuses */
+    #[DataProvider('provideValidInviteStatuses')]
     public function test_it_queues_slack_invite_email_when_user_is_moved_from_valid_status_to_active(
         string $status,
         bool $shouldSend
@@ -101,7 +102,7 @@ class UpdateStatusTest extends TestCase
         Mail::assertNotQueued(SlackInvite::class);
     }
 
-    /** @dataProvider provideValidInviteStatuses */
+    #[DataProvider('provideValidInviteStatuses')]
     public function test_it_does_not_queue_slack_invite_email_when_user_is_moved_from_valid_status_to_active_when_not_enabled(
         string $status
     ): void {

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Http\Controllers;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Spatie\GoogleCalendar\Event;
@@ -39,9 +40,7 @@ class DashboardControllerTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provideNonProductionEnvironments
-     */
+    #[DataProvider('provideNonProductionEnvironments')]
     public function test_it_does_not_load_calendar_events_in_non_production_environment(string $environment): void
     {
         config(['app.env' => $environment]);

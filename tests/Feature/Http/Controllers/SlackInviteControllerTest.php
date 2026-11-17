@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Http\Controllers;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use App\Models\User;
 use App\Models\UserStatus;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -56,7 +57,7 @@ class SlackInviteControllerTest extends TestCase
         ];
     }
 
-    /** @dataProvider provideNonActiveMemberStatuses */
+    #[DataProvider('provideNonActiveMemberStatuses')]
     public function test_it_returns_forbidden_with_a_valid_user_token_that_is_not_an_active_member(string $status): void
     {
         config(['services.slack.auto_invite.enabled' => true]);

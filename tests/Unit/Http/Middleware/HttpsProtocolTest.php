@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Http\Middleware;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use App\Http\Middleware\HttpsProtocol;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -31,7 +32,7 @@ class HttpsProtocolTest extends TestCase
         );
     }
 
-    /** @dataProvider provideNonProductionEnvironments */
+    #[DataProvider('provideNonProductionEnvironments')]
     public function test_it_does_not_redirect_to_https_outside_production_environment(string $environment): void
     {
         config(['app.env' => $environment]);

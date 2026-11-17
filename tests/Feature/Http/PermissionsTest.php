@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Http;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use App\Models\Role;
 use App\Models\RolePermission;
 use App\Models\User;
@@ -69,9 +70,8 @@ class PermissionsTest extends TestCase
      *
      * Expects: refused (403, or a redirect to the dashboard with an error) on every page above.
      * Regression: /teams/manage and /teams/create used to show a blank page instead of refusing.
-     *
-     * @dataProvider provideAdminPages
      */
+    #[DataProvider('provideAdminPages')]
     public function test_an_ordinary_member_is_refused(string $uri): void
     {
         $this->assertDenied($this->actingAs($this->member())->get($uri));
@@ -82,9 +82,8 @@ class PermissionsTest extends TestCase
      * Without this, a page that refused everyone would also pass.
      *
      * Expects: 200 for a member whose only role grants the page's permission.
-     *
-     * @dataProvider provideAdminPages
      */
+    #[DataProvider('provideAdminPages')]
     public function test_the_matching_permission_opens_the_page(string $uri, string $object, string $operation): void
     {
         $this->actingAs($this->member([[$object, $operation]]))->get($uri)->assertOk();
@@ -153,9 +152,8 @@ class PermissionsTest extends TestCase
      * Guards against the opposite mistake: locking members out of the pages meant for everyone.
      *
      * Expects: 200 for an active member with no roles on each page above.
-     *
-     * @dataProvider provideMemberPages
      */
+    #[DataProvider('provideMemberPages')]
     public function test_an_ordinary_member_can_use_the_member_pages(string $uri): void
     {
         $this->actingAs($this->member())->get($uri)->assertOk();

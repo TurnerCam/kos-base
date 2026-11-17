@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Http;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use App\Models\Authorization;
 use App\Models\Gatekeeper;
 use App\Models\Key;
@@ -133,9 +134,8 @@ class ActionPermissionsTest extends TestCase
      * so each one must be refused for a member who has not been given that permission.
      *
      * Expects: no server error, and every admin table exactly as it was before the request.
-     *
-     * @dataProvider provideAdminActions
      */
+    #[DataProvider('provideAdminActions')]
     public function test_an_ordinary_member_cannot_perform_an_admin_action(string $action): void
     {
         $member = $this->member();
@@ -156,9 +156,8 @@ class ActionPermissionsTest extends TestCase
      * guards against an upgrade locking the admins out.
      *
      * Expects: no server error, and the admin data is different afterwards.
-     *
-     * @dataProvider provideAdminActions
      */
+    #[DataProvider('provideAdminActions')]
     public function test_a_superuser_can_perform_the_same_admin_action(string $action): void
     {
         $superuser = $this->member();
