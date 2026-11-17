@@ -147,6 +147,6 @@ class UsersStatusesTableSeeder extends Seeder
 
     private function randomDateBetween(Carbon $from, Carbon $to): Carbon
     {
-        return $from->addDays(random_int(1, $from->diffInDays($to)));
+        return $from->addDays(random_int(1, intval($from->diffInDays($to, true))));
     }
 }

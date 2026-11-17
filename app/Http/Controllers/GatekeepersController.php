@@ -474,7 +474,7 @@ class GatekeepersController extends Controller
                 if ($gatekeeper->last_seen != null) {
                     $current_time = Carbon::now();
                     $last_seen = new Carbon($gatekeeper->last_seen);
-                    $time_diff = $current_time->diffInMinutes($last_seen);
+                    $time_diff = intval($current_time->diffInMinutes($last_seen, true));
                     if ($time_diff > 20) {
                         $heartbeat_status = 'danger';
                     } else {
