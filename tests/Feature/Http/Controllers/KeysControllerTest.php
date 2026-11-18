@@ -10,7 +10,7 @@ use App\Models\Key;
 use App\Models\User;
 use App\Models\UserFlag;
 use Illuminate\Contracts\Http\Kernel as HttpKernel;
-use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
+use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use Illuminate\Session\TokenMismatchException;
@@ -261,7 +261,7 @@ final class KeysControllerTest extends TestCase
         // HTTP kernel is built, which every real request does; build it here the same way.
         $this->app->make(HttpKernel::class);
 
-        $middleware = new class($this->app, $this->app['encrypter']) extends ValidateCsrfToken
+        $middleware = new class($this->app, $this->app['encrypter']) extends PreventRequestForgery
         {
             protected function runningUnitTests()
             {
