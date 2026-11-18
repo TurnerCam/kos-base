@@ -13,6 +13,4 @@ use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
  * second, nested transaction breaks the shared in-memory connection
  * ("There is already an active transaction"), so it was removed.
  */
-abstract class TestCase extends BaseTestCase
-{
-}
+abstract class TestCase extends BaseTestCase {}
