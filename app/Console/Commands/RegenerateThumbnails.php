@@ -2,24 +2,16 @@
 
 namespace App\Console\Commands;
 
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 use Image;
 
+#[Signature('generate:thumbnails {--type= : Image types to process (valid: all, users, teams, gatekeepers)}')]
+#[Description('Regenerates image thumbnails of database-linked photos')]
 class RegenerateThumbnails extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'generate:thumbnails {--type= : Image types to process (valid: all, users, teams, gatekeepers)}';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Regenerates image thumbnails of database-linked photos';
 
     /**
      * Create a new command instance.

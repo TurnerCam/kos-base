@@ -2,21 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 
+#[Fillable('user_id', 'gatekeeper_id')]
 class Trainers extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'user_id', 'gatekeeper_id',
-    ];
 
     // returns the name of the trainer this record is for
     public function name()

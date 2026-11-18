@@ -2,26 +2,18 @@
 
 namespace App\Console\Commands;
 
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use App\Traits\UserStatusTrait;
 use Illuminate\Console\Command;
 
+#[Signature('process:userstatus')]
+#[Description('Processes status updates for all users')]
 class ProcessUserStatusUpdates extends Command
 {
     use UserStatusTrait;
 
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'process:userstatus';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Processes status updates for all users';
 
     /**
      * Create a new command instance.

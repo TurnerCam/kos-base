@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use OwenIt\Auditing\Contracts\Auditable;
 
+#[Fillable('user_id', 'type', 'name', 'expiry_date')]
 class UserCert extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
@@ -18,7 +20,6 @@ class UserCert extends Model implements Auditable
 
     public const CERT_OTHER = 'other';
 
-    protected $fillable = ['user_id', 'type', 'name', 'expiry_date'];
 
     public function user(): HasOne
     {

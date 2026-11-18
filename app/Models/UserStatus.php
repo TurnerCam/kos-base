@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use OwenIt\Auditing\Contracts\Auditable;
 
+#[Fillable('user_id', 'status', 'updated_by', 'note', 'created_at', 'updated_at')]
 class UserStatus extends Model implements Auditable
 {
     use HasFactory;
@@ -41,7 +43,6 @@ class UserStatus extends Model implements Auditable
         self::STATUS_APPLICANT,
     ];
 
-    protected $fillable = ['user_id', 'status', 'updated_by', 'note', 'created_at', 'updated_at'];
 
     // returns user the request is for
     public function user(): BelongsTo

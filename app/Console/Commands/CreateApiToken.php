@@ -2,28 +2,17 @@
 
 namespace App\Console\Commands;
 
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use App\Models\ApiToken;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
 
+#[Signature('api-token:create {name : Friendly name for the token} {--expires= : Expiration date (Y-m-d or any strtotime format)} {--abilities=* : Token abilities for future use}')]
+#[Description('Create an API token for external services')]
 class CreateApiToken extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'api-token:create
-                            {name : Friendly name for the token}
-                            {--expires= : Expiration date (Y-m-d or any strtotime format)}
-                            {--abilities=* : Token abilities for future use}';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Create an API token for external services';
 
     /**
      * Execute the console command.

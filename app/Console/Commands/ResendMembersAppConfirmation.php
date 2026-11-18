@@ -2,27 +2,19 @@
 
 namespace App\Console\Commands;
 
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use App\Mail\MemberAppInterviewConfirmation;
 use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 
+#[Signature('email:memberappconfirmation {--email= : Member email address (will re-send latest application) } {--recipient= : Recipient address to send emails (overrides pre-configured options)}')]
+#[Description('Resends a membership application')]
 class ResendMembersAppConfirmation extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'email:memberappconfirmation {--email= : Member email address (will re-send latest application) } {--recipient= : Recipient address to send emails (overrides pre-configured options)}';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Resends a membership application';
 
     /**
      * Execute the console command.

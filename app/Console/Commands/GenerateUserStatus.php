@@ -2,24 +2,16 @@
 
 namespace App\Console\Commands;
 
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 
+#[Signature('generate:userstatus')]
+#[Description('Generates User Status table from previous user dates')]
 class GenerateUserStatus extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'generate:userstatus';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Generates User Status table from previous user dates';
 
     /**
      * Create a new command instance.

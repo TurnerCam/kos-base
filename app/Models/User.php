@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Hidden;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -11,20 +13,14 @@ use Illuminate\Support\Facades\DB;
 use OwenIt\Auditing\Auditable as AuditableTrait;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
+#[Fillable('first_name', 'last_name', 'first_preferred', 'last_preferred', 'email', 'password', 'status', 'acl', 'member_id', 'phone', 'address', 'city', 'province', 'postal', 'photo', 'notes', 'pronouns', 'date_applied')]
+#[Hidden('password', 'remember_token')]
 class User extends Authenticatable implements AuditableContract
 {
     use AuditableTrait;
     use HasFactory;
     use Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'first_name', 'last_name', 'first_preferred', 'last_preferred', 'email', 'password', 'status', 'acl', 'member_id', 'phone', 'address', 'city', 'province', 'postal', 'photo', 'notes', 'pronouns', 'date_applied',
-    ];
 
     /**
      * Attributes to exclude from the Audit.
@@ -35,14 +31,6 @@ class User extends Authenticatable implements AuditableContract
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
 
     protected function casts(): array
     {

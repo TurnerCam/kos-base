@@ -2,23 +2,15 @@
 
 namespace App\Console\Commands;
 
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 
+#[Signature('userflag:set {--email= : Set flag for specific user by email address (if omitted, flag will apply to all users)} {flag}')]
+#[Description('Sets a user flag for one or all users')]
 class UserFlagSet extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'userflag:set {--email= : Set flag for specific user by email address (if omitted, flag will apply to all users)} {flag}';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Sets a user flag for one or all users';
 
     /**
      * Create a new command instance.

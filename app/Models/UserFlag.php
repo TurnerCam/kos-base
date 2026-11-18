@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use OwenIt\Auditing\Contracts\Auditable;
 
+#[Fillable('user_id', 'flag')]
 class UserFlag extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
@@ -14,7 +16,6 @@ class UserFlag extends Model implements Auditable
 
     public const FLAG_KEYS_DISABLED = 'keys_disabled';
 
-    protected $fillable = ['user_id', 'flag'];
 
     public function user(): HasOne
     {

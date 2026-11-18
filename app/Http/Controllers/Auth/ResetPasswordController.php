@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Routing\Attributes\Controllers\Middleware;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
-use Illuminate\Routing\Controllers\HasMiddleware;
 
-class ResetPasswordController extends Controller implements HasMiddleware
+#[Middleware('guest')]
+class ResetPasswordController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
@@ -28,10 +29,4 @@ class ResetPasswordController extends Controller implements HasMiddleware
      */
     protected $redirectTo = '/';
 
-    public static function middleware(): array
-    {
-        return [
-            'guest',
-        ];
-    }
 }

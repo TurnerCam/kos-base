@@ -2,24 +2,16 @@
 
 namespace App\Console\Commands;
 
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use App\Models\ApiToken;
 use Illuminate\Console\Command;
 
+#[Signature('api-token:list {--revoked : Show revoked tokens only} {--active : Show active tokens only}')]
+#[Description('List API tokens')]
 class ListApiTokens extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'api-token:list {--revoked : Show revoked tokens only} {--active : Show active tokens only}';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'List API tokens';
 
     /**
      * Execute the console command.

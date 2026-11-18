@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Routing\Attributes\Controllers\Middleware;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\View\View;
 
-class LoginController extends Controller implements HasMiddleware
+#[Middleware('guest', except: ['logout'])]
+class LoginController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
@@ -30,12 +30,6 @@ class LoginController extends Controller implements HasMiddleware
      */
     protected $redirectTo = '/dashboard';
 
-    public static function middleware(): array
-    {
-        return [
-            new Middleware('guest', except: ['logout']),
-        ];
-    }
 
     public function showLoginForm(): View
     {
