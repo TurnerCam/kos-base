@@ -72,8 +72,9 @@ final class PermissionsTest extends TestCase
      * Regression: /teams/manage and /teams/create used to show a blank page instead of refusing.
      */
     #[DataProvider('provideAdminPages')]
-    public function test_an_ordinary_member_is_refused(string $uri): void
+    public function test_an_ordinary_member_is_refused(string $uri, string $object, string $operation): void
     {
+        // $object and $operation come from the shared provider; this test grants no permission.
         $this->assertDenied($this->actingAs($this->member())->get($uri));
     }
 
