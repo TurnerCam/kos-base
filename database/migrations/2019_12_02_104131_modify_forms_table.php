@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('forms', function (Blueprint $table) {
             $table->string('special_form', 50)->after('status')->nullable();
-            $table->text('description')->change();
+            $table->text('description')->nullable()->change();
         });
     }
 
@@ -27,7 +27,7 @@ return new class extends Migration
         });
 
         Schema::table('forms', function (Blueprint $table) {
-            $table->string('description')->change();
+            $table->string('description')->nullable()->change();
         });
     }
 };

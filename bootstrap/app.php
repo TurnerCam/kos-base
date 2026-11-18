@@ -11,7 +11,6 @@ return Application::configure(basePath: dirname(__DIR__))
         api: __DIR__.'/../routes/api.php',
         commands: __DIR__.'/../routes/console.php',
         // channels: __DIR__.'/../routes/channels.php',
-        health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->redirectGuestsTo(fn () => route('login'));
@@ -28,6 +27,10 @@ return Application::configure(basePath: dirname(__DIR__))
             \App\Http\Middleware\HttpsProtocol::class,
             \App\Http\Middleware\CheckUserStatus::class,
         ]);
+
+        // Laravel 11 adds CORS handling by default; kOS never had it and its API has no
+        // browser clients, so keep responses unchanged.
+        $middleware->remove(\Illuminate\Http\Middleware\HandleCors::class);
 
         $middleware->throttleApi();
 

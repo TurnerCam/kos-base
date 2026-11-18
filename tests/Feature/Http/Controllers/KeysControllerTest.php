@@ -9,7 +9,8 @@ use App\Models\GatekeeperStatus;
 use App\Models\Key;
 use App\Models\User;
 use App\Models\UserFlag;
-use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Illuminate\Contracts\Http\Kernel as HttpKernel;
+use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use Illuminate\Session\TokenMismatchException;
@@ -256,7 +257,11 @@ final class KeysControllerTest extends TestCase
      */
     public function test_devices_can_post_without_a_csrf_token(): void
     {
-        $middleware = new class($this->app, $this->app['encrypter']) extends VerifyCsrfToken
+        // Since Laravel 11 the exempt list lives in bootstrap/app.php and is loaded when the
+        // HTTP kernel is built, which every real request does; build it here the same way.
+        $this->app->make(HttpKernel::class);
+
+        $middleware = new class($this->app, $this->app['encrypter']) extends ValidateCsrfToken
         {
             protected function runningUnitTests()
             {

@@ -34,7 +34,7 @@ class SendActiveMembersEmail extends Command
     /**
      * Execute the console command.
      */
-    public function handle(): int
+    public function handle()
     {
         $this->info('Generating list of active members...');
 

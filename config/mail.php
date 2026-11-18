@@ -2,6 +2,9 @@
 
 return [
 
+    // Laravel 11 changed the framework default to "log" (mail is never sent); keep SMTP.
+    'default' => env('MAIL_MAILER', 'smtp'),
+
     'mailers' => [
         'mailgun' => [
             'transport' => 'mailgun',
