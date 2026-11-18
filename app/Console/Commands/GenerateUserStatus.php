@@ -34,7 +34,7 @@ class GenerateUserStatus extends Command
     /**
      * Execute the console command.
      */
-    public function handle(): int
+    public function handle()
     {
         $this->info('Generating user status...');
 
