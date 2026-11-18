@@ -12,7 +12,6 @@ class FormSubmission extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
 
-
     public function user(): HasOne
     {
         return $this->hasOne(User::class, 'id', 'user_id');

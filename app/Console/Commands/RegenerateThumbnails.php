@@ -11,8 +11,6 @@ use Image;
 #[Description('Regenerates image thumbnails of database-linked photos')]
 class RegenerateThumbnails extends Command
 {
-
-
     /**
      * Create a new command instance.
      *

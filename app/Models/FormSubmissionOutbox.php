@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Attributes\Fillable;
-use Illuminate\Database\Eloquent\Attributes\WithoutTimestamps;
 use Illuminate\Database\Eloquent\Attributes\Table;
+use Illuminate\Database\Eloquent\Attributes\WithoutTimestamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -13,9 +13,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 #[Fillable('form_submission_id', 'processed_at', 'last_error', 'last_error_at')]
 class FormSubmissionOutbox extends Model
 {
-
-
-
     protected function casts(): array
     {
         return [

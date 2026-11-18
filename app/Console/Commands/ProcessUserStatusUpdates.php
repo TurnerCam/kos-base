@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Traits\UserStatusTrait;
 use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
-use App\Traits\UserStatusTrait;
 use Illuminate\Console\Command;
 
 #[Signature('process:userstatus')]
@@ -12,8 +12,6 @@ use Illuminate\Console\Command;
 class ProcessUserStatusUpdates extends Command
 {
     use UserStatusTrait;
-
-
 
     /**
      * Create a new command instance.

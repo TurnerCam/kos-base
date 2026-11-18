@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 #[Fillable('service', 'profile')]
 class UserSocial extends Model
 {
-
     public function user(): HasOne
     {
         return $this->hasOne(\App\Models\User::class);

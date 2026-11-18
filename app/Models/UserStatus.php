@@ -43,7 +43,6 @@ class UserStatus extends Model implements Auditable
         self::STATUS_APPLICANT,
     ];
 
-
     // returns user the request is for
     public function user(): BelongsTo
     {

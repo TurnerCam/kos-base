@@ -11,7 +11,6 @@ class Trainers extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
 
-
     // returns the name of the trainer this record is for
     public function name()
     {

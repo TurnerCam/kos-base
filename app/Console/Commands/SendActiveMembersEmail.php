@@ -2,17 +2,15 @@
 
 namespace App\Console\Commands;
 
+use Carbon\Carbon;
 use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
-use Carbon\Carbon;
 use Illuminate\Console\Command;
 
 #[Signature('generate:recentmembersemail')]
 #[Description('Generates an emailed report of active members with 3 or more key events in the past month')]
 class SendActiveMembersEmail extends Command
 {
-
-
     /**
      * Create a new command instance.
      *

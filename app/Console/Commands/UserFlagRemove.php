@@ -10,8 +10,6 @@ use Illuminate\Console\Command;
 #[Description('Removes a user flag for one or all users')]
 class UserFlagRemove extends Command
 {
-
-
     /**
      * Create a new command instance.
      *

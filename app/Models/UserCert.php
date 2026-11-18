@@ -20,7 +20,6 @@ class UserCert extends Model implements Auditable
 
     public const CERT_OTHER = 'other';
 
-
     public function user(): HasOne
     {
         return $this->hasOne(User::class);

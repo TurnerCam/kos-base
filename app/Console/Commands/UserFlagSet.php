@@ -10,8 +10,6 @@ use Illuminate\Console\Command;
 #[Description('Sets a user flag for one or all users')]
 class UserFlagSet extends Command
 {
-
-
     /**
      * Create a new command instance.
      *

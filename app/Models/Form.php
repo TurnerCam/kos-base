@@ -12,7 +12,6 @@ class Form extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
 
-
     public function submissions(): HasMany
     {
         return $this->hasMany(FormSubmissions::class);

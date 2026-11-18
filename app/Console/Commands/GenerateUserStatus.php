@@ -2,17 +2,15 @@
 
 namespace App\Console\Commands;
 
+use Carbon\Carbon;
 use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
-use Carbon\Carbon;
 use Illuminate\Console\Command;
 
 #[Signature('generate:userstatus')]
 #[Description('Generates User Status table from previous user dates')]
 class GenerateUserStatus extends Command
 {
-
-
     /**
      * Create a new command instance.
      *

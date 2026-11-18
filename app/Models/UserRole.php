@@ -14,8 +14,6 @@ class UserRole extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
 
-
-
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'id');

@@ -14,8 +14,6 @@ class RolePermission extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
 
-
-
     public function role(): BelongsTo
     {
         return $this->belongsTo(Role::class, 'role_id', 'id');

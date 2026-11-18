@@ -2,10 +2,10 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Attributes\Description;
-use Illuminate\Console\Attributes\Signature;
 use App\Mail\MemberAppInterviewConfirmation;
 use App\Models\User;
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
@@ -14,8 +14,6 @@ use Illuminate\Support\Facades\URL;
 #[Description('Resends a membership application')]
 class ResendMembersAppConfirmation extends Command
 {
-
-
     /**
      * Execute the console command.
      */

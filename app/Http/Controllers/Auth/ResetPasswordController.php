@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Illuminate\Routing\Attributes\Controllers\Middleware;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use Illuminate\Routing\Attributes\Controllers\Middleware;
 
 #[Middleware('guest')]
 class ResetPasswordController extends Controller
@@ -28,5 +28,4 @@ class ResetPasswordController extends Controller
      * @var string
      */
     protected $redirectTo = '/';
-
 }

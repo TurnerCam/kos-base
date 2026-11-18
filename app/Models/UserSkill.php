@@ -9,8 +9,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 #[Fillable('user_id', 'skill')]
 class UserSkill extends Model
 {
-
-
     public function user(): HasOne
     {
         return $this->hasOne(\App\Models\User::class);

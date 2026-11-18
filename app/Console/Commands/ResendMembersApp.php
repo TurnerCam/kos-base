@@ -10,8 +10,6 @@ use Illuminate\Console\Command;
 #[Description('Resends a membership application')]
 class ResendMembersApp extends Command
 {
-
-
     /**
      * Execute the console command.
      */

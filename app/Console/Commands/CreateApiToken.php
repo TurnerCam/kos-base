@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Models\ApiToken;
 use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
-use App\Models\ApiToken;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
 
@@ -12,8 +12,6 @@ use Illuminate\Support\Carbon;
 #[Description('Create an API token for external services')]
 class CreateApiToken extends Command
 {
-
-
     /**
      * Execute the console command.
      */

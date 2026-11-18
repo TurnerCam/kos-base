@@ -13,7 +13,6 @@ class Team extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
 
-
     public function assignments(): HasMany
     {
         return $this->hasMany(TeamAssignment::class, 'team_id', 'id');

@@ -16,7 +16,6 @@ class UserFlag extends Model implements Auditable
 
     public const FLAG_KEYS_DISABLED = 'keys_disabled';
 
-
     public function user(): HasOne
     {
         return $this->hasOne(\App\Models\User::class);

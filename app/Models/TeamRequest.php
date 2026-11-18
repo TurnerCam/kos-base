@@ -12,7 +12,6 @@ class TeamRequest extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
 
-
     public function team(): BelongsTo
     {
         return $this->belongsTo(Team::class, 'team_id', 'id');

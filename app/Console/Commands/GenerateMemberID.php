@@ -10,8 +10,6 @@ use Illuminate\Console\Command;
 #[Description('Generates a unique membership ID for all users based on date_admitted (sorted alphabetically)')]
 class GenerateMemberID extends Command
 {
-
-
     /**
      * Create a new command instance.
      *

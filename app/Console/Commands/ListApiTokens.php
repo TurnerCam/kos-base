@@ -2,17 +2,15 @@
 
 namespace App\Console\Commands;
 
+use App\Models\ApiToken;
 use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
-use App\Models\ApiToken;
 use Illuminate\Console\Command;
 
 #[Signature('api-token:list {--revoked : Show revoked tokens only} {--active : Show active tokens only}')]
 #[Description('List API tokens')]
 class ListApiTokens extends Command
 {
-
-
     /**
      * Execute the console command.
      */

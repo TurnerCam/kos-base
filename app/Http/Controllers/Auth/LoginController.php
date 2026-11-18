@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Illuminate\Routing\Attributes\Controllers\Middleware;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Illuminate\View\View;
 
 #[Middleware('guest', except: ['logout'])]
@@ -29,7 +29,6 @@ class LoginController extends Controller
      * @var string
      */
     protected $redirectTo = '/dashboard';
-
 
     public function showLoginForm(): View
     {

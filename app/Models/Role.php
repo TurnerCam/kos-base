@@ -23,8 +23,6 @@ class Role extends Model implements Auditable
 
     public const ROLE_BOOKKEEPER_NAME = 'Bookkeeper';
 
-
-
     public function permissions(): HasMany
     {
         return $this->hasMany(RolePermission::class, 'role_id', 'id');
