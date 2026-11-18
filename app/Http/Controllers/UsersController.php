@@ -295,7 +295,7 @@ class UsersController extends Controller
     public function destroy($id)
     {
         if (Gate::allows('manage-users')) {
-            $this->validate(request(), [
+            request()->validate([
                 'confirm' => 'required',
             ]);
 

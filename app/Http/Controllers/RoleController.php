@@ -183,7 +183,7 @@ class RoleController extends Controller
      */
     public function destroy($id): RedirectResponse
     {
-        $this->validate(request(), [
+        request()->validate([
             'confirm' => 'required',
         ]);
 

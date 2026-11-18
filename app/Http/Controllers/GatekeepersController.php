@@ -256,7 +256,7 @@ class GatekeepersController extends Controller
     public function destroy($id): RedirectResponse
     {
         if (\Gate::allows('manage-gatekeepers')) {
-            $this->validate(request(), [
+            request()->validate([
                 'confirm' => 'required',
             ]);
 
