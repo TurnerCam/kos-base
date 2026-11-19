@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
-use Image;
+use Intervention\Image\ImageManagerStatic as Image;
 
 #[Signature('generate:thumbnails {--type= : Image types to process (valid: all, users, teams, gatekeepers)}')]
 #[Description('Regenerates image thumbnails of database-linked photos')]

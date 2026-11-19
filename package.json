@@ -17,10 +17,6 @@
         "laravel-mix": "^6.0.12",
         "lodash": "^4.17.4",
         "vue": "^2.1.10",
-        "postcss": "^8.2.8",
-        "concurrently": "^9.0.1"
-    },
-    "optionalDependencies": {
-        "@laravel/multiplex": "^0.4.1"
+        "postcss": "^8.2.8"
     }
 }

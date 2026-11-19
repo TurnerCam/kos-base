@@ -6,7 +6,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
-use Image;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class ImageController extends Controller
 {

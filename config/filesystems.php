@@ -10,7 +10,6 @@ return [
             'driver' => 'local',
             'root' => storage_path('app'),
             'throw' => false,
-            'serve' => true,
             'report' => false,
         ],
 
