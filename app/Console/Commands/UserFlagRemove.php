@@ -2,24 +2,14 @@
 
 namespace App\Console\Commands;
 
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 
+#[Signature('userflag:remove {--email= : Removes flag for specific user by email address (if omitted, flag will be removed from all users)} {flag}')]
+#[Description('Removes a user flag for one or all users')]
 class UserFlagRemove extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'userflag:remove {--email= : Removes flag for specific user by email address (if omitted, flag will be removed from all users)} {flag}';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Removes a user flag for one or all users';
-
     /**
      * Create a new command instance.
      *
@@ -32,10 +22,8 @@ class UserFlagRemove extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return mixed
      */
-    public function handle()
+    public function handle(): void
     {
 
         // ensure user flag is defined in kos config

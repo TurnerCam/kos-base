@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class Authorization extends Model implements Auditable
@@ -9,12 +11,12 @@ class Authorization extends Model implements Auditable
     //
     use \OwenIt\Auditing\Auditable;
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function gatekeeper()
+    public function gatekeeper(): HasOne
     {
         return $this->hasOne(Gatekeeper::class, 'id', 'gatekeeper_id');
     }

@@ -8,22 +8,23 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('gatekeepers', function (Blueprint $table) {
             $table->string('type')->after('description')->nullable();
+        });
+
+        // Production made this required after it was filled in (SQLite cannot add it required).
+        Schema::table('gatekeepers', function (Blueprint $table) {
+            $table->string('type')->nullable(false)->change();
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('gatekeepers', function (Blueprint $table) {
             $table->dropColumn('type');

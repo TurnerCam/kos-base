@@ -3,30 +3,18 @@
 namespace App\Console\Commands;
 
 use App\Models\ApiToken;
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 
+#[Signature('api-token:list {--revoked : Show revoked tokens only} {--active : Show active tokens only}')]
+#[Description('List API tokens')]
 class ListApiTokens extends Command
 {
     /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'api-token:list {--revoked : Show revoked tokens only} {--active : Show active tokens only}';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'List API tokens';
-
-    /**
      * Execute the console command.
-     *
-     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         $query = ApiToken::query()->orderBy('id');
 
@@ -60,10 +48,10 @@ class ListApiTokens extends Command
                     $token->id,
                     $token->name,
                     $token->abilities ? implode(',', $token->abilities) : '',
-                    optional($token->last_used_at)->toDateTimeString(),
-                    optional($token->expires_at)->toDateTimeString(),
-                    optional($token->revoked_at)->toDateTimeString(),
-                    optional($token->created_at)->toDateTimeString(),
+                    $token->last_used_at?->toDateTimeString(),
+                    $token->expires_at?->toDateTimeString(),
+                    $token->revoked_at?->toDateTimeString(),
+                    $token->created_at?->toDateTimeString(),
                 ];
             })->all()
         );

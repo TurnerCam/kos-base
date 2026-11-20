@@ -3,24 +3,14 @@
 namespace App\Console\Commands;
 
 use Carbon\Carbon;
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 
+#[Signature('generate:recentmembersemail')]
+#[Description('Generates an emailed report of active members with 3 or more key events in the past month')]
 class SendActiveMembersEmail extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'generate:recentmembersemail';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Generates an emailed report of active members with 3 or more key events in the past month';
-
     /**
      * Create a new command instance.
      *
@@ -33,8 +23,6 @@ class SendActiveMembersEmail extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return mixed
      */
     public function handle()
     {

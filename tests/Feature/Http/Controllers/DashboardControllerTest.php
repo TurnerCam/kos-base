@@ -4,11 +4,12 @@ namespace Tests\Feature\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Spatie\GoogleCalendar\Event;
 use Tests\Fakes\Event as FakeEvent;
 use Tests\TestCase;
 
-class DashboardControllerTest extends TestCase
+final class DashboardControllerTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -20,7 +21,7 @@ class DashboardControllerTest extends TestCase
         $this->user = User::factory()->active()->create();
     }
 
-    public function test_it_loads_calendar_events_in_production_environment()
+    public function test_it_loads_calendar_events_in_production_environment(): void
     {
         config(['app.env' => 'production']);
         $this->app->bind(Event::class, fn () => new FakeEvent);
@@ -30,7 +31,7 @@ class DashboardControllerTest extends TestCase
         $this->assertEquals(1, FakeEvent::$callCount);
     }
 
-    public function provideNonProductionEnvironments(): array
+    public static function provideNonProductionEnvironments(): array
     {
         return [
             'testing' => ['environment' => 'testing'],
@@ -39,10 +40,8 @@ class DashboardControllerTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provideNonProductionEnvironments
-     */
-    public function test_it_does_not_load_calendar_events_in_non_production_environment(string $environment)
+    #[DataProvider('provideNonProductionEnvironments')]
+    public function test_it_does_not_load_calendar_events_in_non_production_environment(string $environment): void
     {
         config(['app.env' => $environment]);
         $this->app->bind(Event::class, fn () => new FakeEvent);

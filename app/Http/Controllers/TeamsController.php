@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class TeamsController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): View
     {
 
         // get teams user belongs to
@@ -38,6 +39,10 @@ class TeamsController extends Controller
             $team_assignments = \App\Models\TeamAssignment::where('status', 'new')->orderby('gatekeeper_id')->get();
 
             return view('teams.manage', compact('teams', 'team_assignments'));
+        } else {
+            $message = 'You do not have access to that resource.';
+
+            return redirect('/')->with('error', $message);
         }
     }
 
@@ -59,10 +64,8 @@ class TeamsController extends Controller
 
     /**
      * Send training requests & view past requests
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function training()
+    public function training(): View
     {
         $gatekeepers = \App\Models\Gatekeeper::where('status', 'enabled')->orderby('name')->get();
         $request_status = config('kwartzlabos.team_request_status');
@@ -125,7 +128,7 @@ class TeamsController extends Controller
         return ($team != null) && ((\Auth::user()->can('manage-teams')) || ($team->is_lead()));
     }
 
-    public function training_cancel($request_id)
+    public function training_cancel($request_id): JsonResponse
     {
         $training_request = \App\Models\TeamRequest::find($request_id);
 
@@ -140,7 +143,7 @@ class TeamsController extends Controller
         }
     }
 
-    public function training_pass($request_id)
+    public function training_pass($request_id): JsonResponse
     {
         $training_request = \App\Models\TeamRequest::find($request_id);
 
@@ -166,7 +169,7 @@ class TeamsController extends Controller
         }
     }
 
-    public function training_fail($request_id)
+    public function training_fail($request_id): JsonResponse
     {
         $training_request = \App\Models\TeamRequest::find($request_id);
 
@@ -219,13 +222,15 @@ class TeamsController extends Controller
             }
 
             return view('teams.create', ['user_list' => $user_list]);
+        } else {
+            $message = 'You do not have access to that resource.';
+
+            return redirect('/')->with('error', $message);
         }
     }
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
@@ -272,9 +277,6 @@ class TeamsController extends Controller
 
     /**
      * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
@@ -290,7 +292,6 @@ class TeamsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -330,11 +331,8 @@ class TeamsController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id): RedirectResponse
     {
         // load existing record
         $team = \App\Models\Team::find($id);
@@ -398,11 +396,8 @@ class TeamsController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id): JsonResponse
     {
         if (\Gate::allows('manage-teams')) {
             $team = \App\Models\Team::find($id);

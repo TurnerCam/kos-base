@@ -8,30 +8,26 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('forms', function (Blueprint $table) {
             $table->string('special_form', 50)->after('status')->nullable();
-            $table->text('description')->change();
+            $table->text('description')->nullable()->change();
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('forms', function (Blueprint $table) {
             $table->dropColumn('special_form');
         });
 
         Schema::table('forms', function (Blueprint $table) {
-            $table->string('description')->change();
+            $table->string('description')->nullable()->change();
         });
     }
 };

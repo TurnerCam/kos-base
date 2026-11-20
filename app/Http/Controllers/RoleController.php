@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class RoleController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): View
     {
         $roles = \App\Models\Role::orderby('name')->get();
 
@@ -20,10 +20,8 @@ class RoleController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(): View
     {
 
         // Build permissions array for easy searching to build dropdown
@@ -46,10 +44,8 @@ class RoleController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $request->validate([
             'name' => 'required|unique:roles',
@@ -91,7 +87,6 @@ class RoleController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -101,11 +96,8 @@ class RoleController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id): View
     {
         $role = \App\Models\Role::find($id);
 
@@ -141,11 +133,8 @@ class RoleController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id): RedirectResponse
     {
         $request->validate([
             'name' => 'required',
@@ -191,13 +180,10 @@ class RoleController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id): RedirectResponse
     {
-        $this->validate(request(), [
+        request()->validate([
             'confirm' => 'required',
         ]);
 
@@ -221,7 +207,7 @@ class RoleController extends Controller
     }
 
     // post new trainer to gatekeeper
-    public function add_user($role_id)
+    public function add_user($role_id): RedirectResponse
     {
 
         // make sure trainer isn't already in there
@@ -245,7 +231,7 @@ class RoleController extends Controller
     }
 
     // delete trainer from gatekeeper
-    public function remove_user($role_id, $user_id)
+    public function remove_user($role_id, $user_id): RedirectResponse
     {
 
         // ensure there is at least one superuser remaining

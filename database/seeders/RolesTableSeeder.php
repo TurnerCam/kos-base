@@ -8,7 +8,7 @@ use Illuminate\Database\Seeder;
 
 class RolesTableSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         Role::query()->create(['name' => Role::ROLE_SUPERUSER_NAME, 'description' => '']);
         $bodRole = Role::query()->create(['name' => Role::ROLE_BOD_NAME, 'description' => '']);

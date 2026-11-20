@@ -9,7 +9,7 @@ use Illuminate\Http\Response;
 use Tests\TestCase;
 use Tests\Traits\MocksGuzzleHistory;
 
-class SlackTest extends TestCase
+final class SlackTest extends TestCase
 {
     use MocksGuzzleHistory;
 

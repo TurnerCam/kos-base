@@ -2,31 +2,33 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use OwenIt\Auditing\Contracts\Auditable;
 
+#[Fillable('name', 'description')]
 class Team extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
 
-    protected $fillable = ['name', 'description'];
-
-    public function assignments()
+    public function assignments(): HasMany
     {
         return $this->hasMany(TeamAssignment::class, 'team_id', 'id');
     }
 
-    public function members()
+    public function members(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'team_assignments');
     }
 
-    public function requests()
+    public function requests(): HasMany
     {
         return $this->hasMany(TeamRequest::class, 'team_id', 'id');
     }
 
-    public function leads()
+    public function leads(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'team_assignments')->where('team_role', 'lead');
     }
@@ -43,7 +45,7 @@ class Team extends Model implements Auditable
     }
 
     // returns the gatekeepers team is responsible for
-    public function gatekeepers()
+    public function gatekeepers(): HasMany
     {
         return $this->hasMany(Gatekeeper::class, 'team_id');
     }
@@ -101,7 +103,7 @@ class Team extends Model implements Auditable
     }
 
     // returns all team assignment records for a specific role
-    public function role_members($team_role)
+    public function role_members($team_role): HasMany
     {
         return $this->hasMany(TeamAssignment::class)->where('team_role', $team_role);
     }

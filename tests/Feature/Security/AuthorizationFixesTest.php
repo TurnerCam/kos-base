@@ -13,6 +13,7 @@ use Database\Seeders\FormsTableSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 /**
@@ -46,7 +47,7 @@ use Tests\TestCase;
  * A failure here means one of the holes above may have re-opened; do not relax a test to make it
  * pass without understanding which problem it guards.
  */
-class AuthorizationFixesTest extends TestCase
+final class AuthorizationFixesTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -131,7 +132,7 @@ class AuthorizationFixesTest extends TestCase
      * Why: this is the original attack. It let any member give themselves access to any tool
      * without ever being trained. The request must stay open and no access may be granted.
      */
-    public function test_a_member_cannot_pass_their_own_training_request()
+    public function test_a_member_cannot_pass_their_own_training_request(): void
     {
         $request = $this->trainingRequest($this->member);
 
@@ -148,7 +149,7 @@ class AuthorizationFixesTest extends TestCase
      * trainer into clicking a link or loading an image. They must only answer to a POST, which
      * carries a CSRF token. Guards against the routes being changed back to GET.
      */
-    public function test_passing_and_failing_are_not_reachable_as_plain_links()
+    public function test_passing_and_failing_are_not_reachable_as_plain_links(): void
     {
         $request = $this->trainingRequest($this->member);
 
@@ -164,7 +165,7 @@ class AuthorizationFixesTest extends TestCase
      * Why: proves the fix did not break the normal training workflow. Without this, the refusal
      * tests above would still pass if passing a request were broken for everyone.
      */
-    public function test_an_approved_trainer_for_the_tool_can_pass_a_request()
+    public function test_an_approved_trainer_for_the_tool_can_pass_a_request(): void
     {
         $request = $this->trainingRequest($this->member);
 
@@ -180,7 +181,7 @@ class AuthorizationFixesTest extends TestCase
      * Why: failing a request goes through the same permission check as passing one, so the
      * legitimate path needs the same proof that it still works.
      */
-    public function test_an_approved_trainer_for_the_tool_can_fail_a_request()
+    public function test_an_approved_trainer_for_the_tool_can_fail_a_request(): void
     {
         $request = $this->trainingRequest($this->member);
 
@@ -196,7 +197,7 @@ class AuthorizationFixesTest extends TestCase
      * Why: trainer assignments need approval. Before the fix a pending trainer already counted as
      * a trainer, so the approval step could be skipped entirely.
      */
-    public function test_a_trainer_still_awaiting_approval_cannot_pass_a_request()
+    public function test_a_trainer_still_awaiting_approval_cannot_pass_a_request(): void
     {
         $request = $this->trainingRequest($this->member);
 
@@ -212,7 +213,7 @@ class AuthorizationFixesTest extends TestCase
      * Why: leading a team is not the same as being qualified to train on a specific tool. The
      * agreed rule is that only trainers for that tool sign off training, and this pins it down.
      */
-    public function test_a_team_lead_who_is_not_a_trainer_cannot_pass_a_request()
+    public function test_a_team_lead_who_is_not_a_trainer_cannot_pass_a_request(): void
     {
         $lead = User::factory()->create();
         $this->assign($lead, 'lead');
@@ -230,7 +231,7 @@ class AuthorizationFixesTest extends TestCase
      * Why: the other half of the rule above. Being a lead must not take away the rights a person
      * has as a trainer.
      */
-    public function test_a_team_lead_who_is_also_a_trainer_for_the_tool_can_pass_a_request()
+    public function test_a_team_lead_who_is_also_a_trainer_for_the_tool_can_pass_a_request(): void
     {
         $lead = $this->trainer();
         $this->assign($lead, 'lead');
@@ -247,7 +248,7 @@ class AuthorizationFixesTest extends TestCase
      * Why: trainer rights are per tool. Checking only "is this person a trainer on the team"
      * would let a trainer sign people off on tools they are not qualified to teach.
      */
-    public function test_a_trainer_for_a_different_tool_cannot_pass_a_request()
+    public function test_a_trainer_for_a_different_tool_cannot_pass_a_request(): void
     {
         $otherTool = Gatekeeper::factory()->create(['name' => 'Band saw', 'team_id' => $this->team->id]);
         $request = $this->trainingRequest($this->member);
@@ -263,7 +264,7 @@ class AuthorizationFixesTest extends TestCase
      * Why: the fix removed the requester's right to pass or fail their own request, but they must
      * keep the right to withdraw it. They must not be able to withdraw another member's request.
      */
-    public function test_a_member_can_still_cancel_their_own_request_but_not_someone_elses()
+    public function test_a_member_can_still_cancel_their_own_request_but_not_someone_elses(): void
     {
         $mine = $this->trainingRequest($this->member);
         $theirs = $this->trainingRequest(User::factory()->create());
@@ -284,7 +285,7 @@ class AuthorizationFixesTest extends TestCase
      * read the list and nothing more: no action buttons on the page, and the server must refuse
      * the action if they try it anyway.
      */
-    public function test_a_trainer_still_awaiting_approval_can_see_training_requests_but_not_act_on_them()
+    public function test_a_trainer_still_awaiting_approval_can_see_training_requests_but_not_act_on_them(): void
     {
         $pending = $this->trainer('new');
         // the page layout reads the viewer's status history
@@ -309,7 +310,7 @@ class AuthorizationFixesTest extends TestCase
      * Why: proves the page and the cancel action still work for the people who run training.
      * Without this, the refusal test above would still pass if the page were closed to everyone.
      */
-    public function test_an_approved_trainer_can_see_and_cancel_training_requests_for_their_tool()
+    public function test_an_approved_trainer_can_see_and_cancel_training_requests_for_their_tool(): void
     {
         $trainer = $this->trainer();
         // the page layout reads the viewer's status history
@@ -334,7 +335,7 @@ class AuthorizationFixesTest extends TestCase
      * for a tool they do not train on. The page must not offer them buttons that the server will
      * refuse, which is what made the pending-trainer problem look worse than it was.
      */
-    public function test_a_team_lead_who_is_not_a_trainer_sees_requests_without_action_buttons()
+    public function test_a_team_lead_who_is_not_a_trainer_sees_requests_without_action_buttons(): void
     {
         $lead = User::factory()->create();
         $this->assign($lead, 'lead');
@@ -360,7 +361,7 @@ class AuthorizationFixesTest extends TestCase
      * Why: this is the original attack. Any logged-in member could rename a team and take it
      * over. The team must be unchanged and the member must hold no role on it afterwards.
      */
-    public function test_a_member_cannot_open_or_save_another_teams_settings()
+    public function test_a_member_cannot_open_or_save_another_teams_settings(): void
     {
         $this->actingAs($this->member)->get('/teams/'.$this->team->id.'/edit')->assertRedirect('/teams');
 
@@ -382,7 +383,7 @@ class AuthorizationFixesTest extends TestCase
      * the form must not remove the existing lead: before the fix, a lead's save deleted every lead
      * on the team, because the missing field was read as "no leads".
      */
-    public function test_a_team_lead_can_edit_their_team_but_cannot_change_who_leads_it()
+    public function test_a_team_lead_can_edit_their_team_but_cannot_change_who_leads_it(): void
     {
         $lead = User::factory()->create();
         $this->assign($lead, 'lead');
@@ -408,7 +409,7 @@ class AuthorizationFixesTest extends TestCase
      * Why: a lead's rights stop at their own team. Checking only "is this person a lead of
      * something" would let any lead edit every team.
      */
-    public function test_a_team_lead_cannot_edit_a_different_team()
+    public function test_a_team_lead_cannot_edit_a_different_team(): void
     {
         $lead = User::factory()->create();
         $this->assign($lead, 'lead');
@@ -425,7 +426,7 @@ class AuthorizationFixesTest extends TestCase
      * Why: proves the fix did not lock out the people who are supposed to manage teams. This is
      * now the only way a lead can be appointed, so it has to keep working.
      */
-    public function test_a_team_manager_can_still_assign_the_lead()
+    public function test_a_team_manager_can_still_assign_the_lead(): void
     {
         $this->actingAs($this->teamManager())
             ->put('/teams/'.$this->team->id, ['name' => 'Woodshop', 'lead' => [$this->member->id]])
@@ -446,7 +447,7 @@ class AuthorizationFixesTest extends TestCase
      * or take away tool access. Nothing may change: the attacker gains no access and the other
      * member keeps theirs.
      */
-    public function test_a_plain_team_member_cannot_grant_or_revoke_tool_access()
+    public function test_a_plain_team_member_cannot_grant_or_revoke_tool_access(): void
     {
         $this->assign($this->member, 'sme');
         $victim = User::factory()->create();
@@ -467,7 +468,7 @@ class AuthorizationFixesTest extends TestCase
      * Why: same rule as for passing training requests. Granting access is a statement that the
      * person is trained, so it belongs to trainers for that tool, not to leads.
      */
-    public function test_a_team_lead_who_is_not_a_trainer_cannot_grant_tool_access()
+    public function test_a_team_lead_who_is_not_a_trainer_cannot_grant_tool_access(): void
     {
         $lead = User::factory()->create();
         $this->assign($lead, 'lead');
@@ -483,7 +484,7 @@ class AuthorizationFixesTest extends TestCase
      * Why: a pending trainer must not have a trainer's rights. Otherwise the approval step can
      * be skipped, as it could before the fix.
      */
-    public function test_a_trainer_still_awaiting_approval_cannot_grant_tool_access()
+    public function test_a_trainer_still_awaiting_approval_cannot_grant_tool_access(): void
     {
         $pending = $this->trainer('new');
 
@@ -498,7 +499,7 @@ class AuthorizationFixesTest extends TestCase
      * Why: proves the fix did not break the normal way trainers manage who may use their tool.
      * Without this, the refusal tests above would still pass if granting were broken for everyone.
      */
-    public function test_an_approved_trainer_for_the_tool_can_grant_and_revoke_access()
+    public function test_an_approved_trainer_for_the_tool_can_grant_and_revoke_access(): void
     {
         $trainer = $this->trainer();
 
@@ -518,7 +519,7 @@ class AuthorizationFixesTest extends TestCase
      * Why: before the fix this crashed with a server error, because the permission check read
      * from the missing record. The page expects a normal "error" answer it can show to the user.
      */
-    public function test_revoking_an_unknown_authorization_is_an_error_not_a_crash()
+    public function test_revoking_an_unknown_authorization_is_an_error_not_a_crash(): void
     {
         $this->actingAs($this->trainer())->post('/gatekeepers/revoke/999999')->assertOk()->assertJson(['status' => 'error']);
     }
@@ -557,10 +558,9 @@ class AuthorizationFixesTest extends TestCase
      * Why: this is the original attack. The application would overwrite the named record,
      * replacing its name, contact details and status. The application must be refused and the
      * record must be exactly as it was, including its password.
-     *
-     * @dataProvider protectedStatuses
      */
-    public function test_an_application_cannot_overwrite_a_record_in_a_protected_status(string $status)
+    #[DataProvider('protectedStatuses')]
+    public function test_an_application_cannot_overwrite_a_record_in_a_protected_status(string $status): void
     {
         $victim = User::factory()->create(['status' => $status, 'first_name' => 'Victor', 'email' => 'victor@example.com']);
         $passwordBefore = $victim->password;
@@ -573,7 +573,7 @@ class AuthorizationFixesTest extends TestCase
     }
 
     // statuses whose records an application must never be allowed to re-use
-    public function protectedStatuses(): array
+    public static function protectedStatuses(): array
     {
         return [['active'], ['hiatus'], ['suspended'], ['terminated'], ['applicant'], ['applicant-denied'], ['inactive-in-memoriam']];
     }
@@ -585,7 +585,7 @@ class AuthorizationFixesTest extends TestCase
      * match, anyone could take over a former member's record and put their own email on it. The
      * record must be unchanged and no account may be created for the attacker's email.
      */
-    public function test_an_application_cannot_take_over_a_former_members_record_under_a_different_email()
+    public function test_an_application_cannot_take_over_a_former_members_record_under_a_different_email(): void
     {
         $victim = User::factory()->create(['status' => 'inactive', 'first_name' => 'Victor', 'email' => 'victor@example.com']);
         $passwordBefore = $victim->password;
@@ -606,10 +606,9 @@ class AuthorizationFixesTest extends TestCase
      * to look up and match a member record, so their shape must be checked first. Each case must be
      * refused as an ordinary form error (not a crash), the former member's record must be unchanged
      * and no new account may be created.
-     *
-     * @dataProvider malformedApplications
      */
-    public function test_an_application_with_a_malformed_record_id_or_email_is_refused(string $case, string $fieldInError)
+    #[DataProvider('malformedApplications')]
+    public function test_an_application_with_a_malformed_record_id_or_email_is_refused(string $case, string $fieldInError): void
     {
         $victim = User::factory()->create(['status' => 'inactive', 'first_name' => 'Victor', 'email' => 'victor@example.com']);
         $passwordBefore = $victim->password;
@@ -630,7 +629,7 @@ class AuthorizationFixesTest extends TestCase
     }
 
     // each malformed application, and the form field the error must be reported on
-    public function malformedApplications(): array
+    public static function malformedApplications(): array
     {
         return [
             'returning, email is a list' => ['returning, email is a list', 'email'],
@@ -648,10 +647,9 @@ class AuthorizationFixesTest extends TestCase
      * Why: proves the fix did not break re-applying, which is a normal thing for a returning
      * member to do. Their old record must become an applicant again, with the new details, and
      * no second record may be created for the same person.
-     *
-     * @dataProvider returningStatuses
      */
-    public function test_a_returning_applicant_re_uses_their_old_record(string $status)
+    #[DataProvider('returningStatuses')]
+    public function test_a_returning_applicant_re_uses_their_old_record(string $status): void
     {
         $returning = User::factory()->create(['status' => $status, 'first_name' => 'Old', 'email' => 'returning@example.com']);
 
@@ -664,7 +662,7 @@ class AuthorizationFixesTest extends TestCase
     }
 
     // statuses whose records a returning applicant is allowed to re-use
-    public function returningStatuses(): array
+    public static function returningStatuses(): array
     {
         return [['inactive'], ['inactive-abandoned'], ['applicant-abandoned']];
     }
@@ -677,7 +675,7 @@ class AuthorizationFixesTest extends TestCase
      * second account could be created under an existing member's email. The application must be
      * refused and the existing member must be untouched.
      */
-    public function test_a_new_application_with_an_email_already_in_use_is_refused()
+    public function test_a_new_application_with_an_email_already_in_use_is_refused(): void
     {
         $existing = User::factory()->create(['email' => 'taken@example.com']);
 
@@ -693,7 +691,7 @@ class AuthorizationFixesTest extends TestCase
      * Why: proves the ordinary application path still works after the extra checks were added.
      * Without this, the refusal tests above would still pass if every application were refused.
      */
-    public function test_a_new_application_still_creates_an_applicant()
+    public function test_a_new_application_still_creates_an_applicant(): void
     {
         $this->submitApplication([])->assertSessionHasNoErrors();
 
@@ -713,10 +711,9 @@ class AuthorizationFixesTest extends TestCase
      *
      * Why: this is the original attack. With no secret, anyone can calculate a signature the
      * server accepts, and so trigger a deployment. A server with no secret must refuse everything.
-     *
-     * @dataProvider blankSecrets
      */
-    public function test_the_deploy_webhook_refuses_everything_when_no_secret_is_configured($secret)
+    #[DataProvider('blankSecrets')]
+    public function test_the_deploy_webhook_refuses_everything_when_no_secret_is_configured($secret): void
     {
         config(['app.deploy_secret' => $secret]);
         $body = '{"ref":"refs/heads/main"}';
@@ -727,7 +724,7 @@ class AuthorizationFixesTest extends TestCase
     }
 
     // the two ways a deploy secret can be missing: not set at all, or set to nothing
-    public function blankSecrets(): array
+    public static function blankSecrets(): array
     {
         return [[null], ['']];
     }
@@ -738,7 +735,7 @@ class AuthorizationFixesTest extends TestCase
      * Why: before the fix this caused a server error instead of a clean refusal. An unsigned
      * request must be turned away with "forbidden" and must never reach the deploy step.
      */
-    public function test_the_deploy_webhook_refuses_a_request_with_no_signature()
+    public function test_the_deploy_webhook_refuses_a_request_with_no_signature(): void
     {
         config(['app.deploy_secret' => 'a-real-secret']);
 
@@ -751,7 +748,7 @@ class AuthorizationFixesTest extends TestCase
      * Why: before the fix a wrong signature was silently ignored with a "success" answer, which
      * hides failed attempts and misconfigured webhooks. It must be an explicit "forbidden".
      */
-    public function test_the_deploy_webhook_refuses_a_wrong_signature()
+    public function test_the_deploy_webhook_refuses_a_wrong_signature(): void
     {
         config(['app.deploy_secret' => 'a-real-secret']);
 

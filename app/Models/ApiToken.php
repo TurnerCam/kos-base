@@ -8,12 +8,15 @@ class ApiToken extends Model
         'token_hash',
     ];
 
-    protected $casts = [
-        'abilities' => 'array',
-        'last_used_at' => 'datetime',
-        'expires_at' => 'datetime',
-        'revoked_at' => 'datetime',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'abilities' => 'array',
+            'last_used_at' => 'datetime',
+            'expires_at' => 'datetime',
+            'revoked_at' => 'datetime',
+        ];
+    }
 
     public static function hashToken(string $token): string
     {

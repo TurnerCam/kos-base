@@ -2,30 +2,18 @@
 
 namespace App\Console\Commands;
 
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 
+#[Signature('email:memberapp {--email= : Member email address (will re-send latest application) } {--recipient= : Recipient address to send emails (overrides pre-configured options)}')]
+#[Description('Resends a membership application')]
 class ResendMembersApp extends Command
 {
     /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'email:memberapp {--email= : Member email address (will re-send latest application) } {--recipient= : Recipient address to send emails (overrides pre-configured options)}';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Resends a membership application';
-
-    /**
      * Execute the console command.
-     *
-     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         if ($this->option('email')) {
 

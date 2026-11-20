@@ -5,10 +5,12 @@ namespace Tests\Unit\Http\Middleware;
 use App\Http\Middleware\HttpsProtocol;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\URL;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
-class HttpsProtocolTest extends TestCase
+final class HttpsProtocolTest extends TestCase
 {
     public function test_it_redirects_to_https_in_production_environment(): void
     {
@@ -30,7 +32,7 @@ class HttpsProtocolTest extends TestCase
         );
     }
 
-    /** @dataProvider provideNonProductionEnvironments */
+    #[DataProvider('provideNonProductionEnvironments')]
     public function test_it_does_not_redirect_to_https_outside_production_environment(string $environment): void
     {
         config(['app.env' => $environment]);
@@ -42,18 +44,30 @@ class HttpsProtocolTest extends TestCase
 
         $this->assertFalse($request->isSecure());
 
+        // A real next middleware always returns a response; the request is not
+        // redirected when that same response is passed straight back.
         $nextMiddlewareCalled = false;
-        $response = $middleware->handle(app(Request::class), function () use (&$nextMiddlewareCalled) {
+        $nextResponse = new Response;
+        $response = $middleware->handle(app(Request::class), function () use (&$nextMiddlewareCalled, $nextResponse) {
             $nextMiddlewareCalled = true;
+
+            return $nextResponse;
         });
 
         $this->assertTrue(
-            $nextMiddlewareCalled === true && is_null($response),
+            $nextMiddlewareCalled === true && $response === $nextResponse,
             "Failed asserting that non-secure request is not redirected in $environment environment."
         );
     }
 
-    public function provideNonProductionEnvironments(): array
+    /** $_SERVER is shared by every test in the run, so the HTTPS flag set above must not leak out. */
+    protected function tearDown(): void
+    {
+        unset($_SERVER['HTTPS']);
+        parent::tearDown();
+    }
+
+    public static function provideNonProductionEnvironments(): array
     {
         return [
             'local' => ['environment' => 'local'],

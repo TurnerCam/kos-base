@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use App\Mail\SlackInvite;
 use App\Models\UserStatus;
 use App\Traits\UserStatusTrait;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\View\View;
 
 class UsersController extends Controller
 {
@@ -16,10 +19,8 @@ class UsersController extends Controller
 
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function index($filter = 'active')
+    public function index($filter = 'active'): View
     {
         $user_status = config('kwartzlabos.user_status');
 
@@ -55,8 +56,6 @@ class UsersController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -83,7 +82,6 @@ class UsersController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -93,11 +91,8 @@ class UsersController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id): View
     {
         $user = \App\Models\User::find($id);
 
@@ -108,7 +103,7 @@ class UsersController extends Controller
     }
 
     // (ajax) checks an email address and returns user data if it exists (used in new user process for returning users)
-    public function check_attributes(Request $request)
+    public function check_attributes(Request $request): JsonResponse
     {
         if ($request->has('email')) {
             $user = \App\Models\User::where('email', $request->input('email'))->first();
@@ -130,23 +125,28 @@ class UsersController extends Controller
         return response()->json(['user_id' => 0]);
     }
 
-    public function do_stuff(Request $request, $id)
+    public function do_stuff(Request $request, $id): JsonResponse
     {
         return response()->json(['status' => 'wheeeee']);
     }
 
     // adds or modifies a user status update
-    public function update_status(Request $request, $id)
+    public function update_status(Request $request, $id): JsonResponse
     {
         $user = \App\Models\User::find($id);
 
         if ($user == null) {
-            return view('errors.403', null, 403);
+            abort(403);
         }
 
         if ($request->isMethod('post')) {
             if (! $request->has('status_type')) {
-                return view('errors.403', null, 403);
+                abort(403);
+            }
+
+            // refuse status types the switch below does not handle, so nothing is silently skipped
+            if (! in_array($request->input('status_type'), ['active', 'inactive', 'inactive-abandoned', 'inactive-in-memoriam', 'hiatus', 'suspended', 'terminated', 'applicant-abandoned', 'applicant-denied'])) {
+                abort(422);
             }
 
             // create new status update
@@ -227,7 +227,7 @@ class UsersController extends Controller
                 $status = \App\Models\UserStatus::find($request->input('status_id'));
 
                 // ensure this update is related to supplied user and was not created by kOS (not deletable)
-                if (($status->user_id == $user->id) && ($status->updated_by > 0)) {
+                if (($status != null) && ($status->user_id == $user->id) && ($status->updated_by > 0)) {
                     $status->delete();
                 } else {
                     return response()->json(['error' => 'error']);
@@ -245,9 +245,6 @@ class UsersController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
@@ -258,6 +255,11 @@ class UsersController extends Controller
                 'first_preferred' => 'required',
                 'last_preferred' => 'required',
                 'email' => 'required',
+                // The address columns cannot be null; blank fields arrive as null.
+                'address' => 'required',
+                'city' => 'required',
+                'province' => 'required',
+                'postal' => 'required',
                 'password' => 'confirmed',
             ]);
 
@@ -294,14 +296,11 @@ class UsersController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         if (Gate::allows('manage-users')) {
-            $this->validate(request(), [
+            request()->validate([
                 'confirm' => 'required',
             ]);
 
@@ -333,7 +332,7 @@ class UsersController extends Controller
     }
 
     // toggles a user flag
-    public function toggle_flag($user_id, $flag)
+    public function toggle_flag($user_id, $flag): JsonResponse
     {
 
         // ensure specified flag exists
@@ -367,7 +366,7 @@ class UsersController extends Controller
     }
 
     // post new key
-    public function store_key($user_id)
+    public function store_key($user_id): RedirectResponse
     {
         $request->validate([
             'rfid' => 'required',
@@ -385,7 +384,7 @@ class UsersController extends Controller
     }
 
     // delete single key
-    public function destroy_key($user_id, $key_id)
+    public function destroy_key($user_id, $key_id): RedirectResponse
     {
         $key = \App\Models\Key::find($key_id);
         $key->delete();

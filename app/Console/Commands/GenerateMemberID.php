@@ -2,24 +2,14 @@
 
 namespace App\Console\Commands;
 
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 
+#[Signature('generate:memberids')]
+#[Description('Generates a unique membership ID for all users based on date_admitted (sorted alphabetically)')]
 class GenerateMemberID extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'generate:memberids';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Generates a unique membership ID for all users based on date_admitted (sorted alphabetically)';
-
     /**
      * Create a new command instance.
      *
@@ -32,10 +22,8 @@ class GenerateMemberID extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return mixed
      */
-    public function handle()
+    public function handle(): void
     {
         $this->info('Generating membership IDs');
 

@@ -25,7 +25,7 @@ class UserCertsTableSeeder extends Seeder
         $this->faker = Faker::create();
     }
 
-    public function run()
+    public function run(): void
     {
         User::query()
             ->whereIn('status', [

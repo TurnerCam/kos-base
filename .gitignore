@@ -1,3 +1,4 @@
+*.log
 # imported from github laravel template
 
 vendor/
@@ -7,6 +8,7 @@ npm-debug.log
 # Laravel 4 specific
 bootstrap/compiled.php
 app/storage/
+/storage/pail
 
 # Laravel 5 & Lumen specific
 public/storage
@@ -33,7 +35,8 @@ backups
 *.swp
 
 # PHPUnit
-.phpunit.result.cache
+/.phpunit.cache
 
 # Local Development
 tink.php
+/.nova

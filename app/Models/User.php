@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -11,28 +13,13 @@ use Illuminate\Support\Facades\DB;
 use OwenIt\Auditing\Auditable as AuditableTrait;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
+#[Fillable('first_name', 'last_name', 'first_preferred', 'last_preferred', 'email', 'password', 'status', 'acl', 'member_id', 'phone', 'address', 'city', 'province', 'postal', 'photo', 'notes', 'pronouns', 'date_applied')]
+#[Hidden('password', 'remember_token')]
 class User extends Authenticatable implements AuditableContract
 {
     use AuditableTrait;
     use HasFactory;
     use Notifiable;
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'first_name', 'last_name', 'first_preferred', 'last_preferred', 'email', 'password', 'status', 'acl', 'member_id', 'phone', 'address', 'city', 'province', 'postal', 'photo', 'notes', 'pronouns',
-    ];
-
-    protected $casts = [
-        'date_applied' => 'datetime',
-        'date_admitted' => 'datetime',
-        'date_hiatus_start' => 'datetime',
-        'date_hiatus_end' => 'datetime',
-        'date_withdrawn' => 'datetime',
-    ];
 
     /**
      * Attributes to exclude from the Audit.
@@ -43,57 +30,59 @@ class User extends Authenticatable implements AuditableContract
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'date_applied' => 'datetime',
+            'date_admitted' => 'datetime',
+            'date_hiatus_start' => 'datetime',
+            'date_hiatus_end' => 'datetime',
+            'date_withdrawn' => 'datetime',
+        ];
+    }
 
-    public function keys()
+    public function keys(): HasMany
     {
         return $this->hasMany(Key::class);
     }
 
-    public function authentications()
+    public function authentications(): HasMany
     {
         return $this->hasMany(Authentication::class);
     }
 
-    public function authorizations()
+    public function authorizations(): HasMany
     {
         return $this->hasMany(Authorization::class);
     }
 
-    public function socials()
+    public function socials(): HasMany
     {
         return $this->hasMany(UserSocial::class);
     }
 
-    public function skills()
+    public function skills(): HasMany
     {
         return $this->hasMany(UserSkill::class);
     }
 
-    public function certs()
+    public function certs(): HasMany
     {
         return $this->hasMany(UserCert::class);
     }
 
-    public function status_history()
+    public function status_history(): HasMany
     {
         return $this->hasMany(UserStatus::class)->orderby('created_at');
     }
 
-    public function flags()
+    public function flags(): HasMany
     {
         return $this->hasMany(UserFlag::class);
     }
 
     // returns first instance of status type
-    public function first_status($type = null)
+    public function first_status($type = null): HasMany
     {
         if ($type == null) {
             return $this->hasMany(UserStatus::class)->orderby('created_at')->limit(1);
@@ -103,7 +92,7 @@ class User extends Authenticatable implements AuditableContract
     }
 
     // returns last instance of status type
-    public function last_status($type = null)
+    public function last_status($type = null): HasMany
     {
         if ($type == null) {
             return $this->hasMany(UserStatus::class)->orderby('created_at', 'desc')->limit(1);
@@ -112,12 +101,12 @@ class User extends Authenticatable implements AuditableContract
         }
     }
 
-    public function current_status()
+    public function current_status(): HasMany
     {
         return $this->hasMany(UserStatus::class)->where('created_at', '<', date('Y-m-d H:i:s', strtotime('tomorrow midnight')))->orderby('created_at', 'desc')->limit(1);
     }
 
-    public function team_assignments($team_id = 'all')
+    public function team_assignments($team_id = 'all'): HasMany
     {
         if ($team_id == 'all') {
             return $this->hasMany(TeamAssignment::class);
@@ -127,13 +116,13 @@ class User extends Authenticatable implements AuditableContract
     }
 
     // returns user's membership application (if exists)
-    public function memberapp()
+    public function memberapp(): HasMany
     {
         return $this->hasMany(FormSubmission::class, 'user_id', 'id')->where('special_form', 'new_user_app');
     }
 
     // returns all forms the user has submitted (with optional special form filter)
-    public function submitted_forms($special_form = null)
+    public function submitted_forms($special_form = null): HasMany
     {
         if ($special_form != null) {
             return $this->hasMany(FormSubmission::class, 'submitted_by', 'id')->where('special_form', $special_form)->orderby('created_at');
@@ -271,7 +260,7 @@ class User extends Authenticatable implements AuditableContract
     }
 
     // returns all teams the user is part of
-    public function teams()
+    public function teams(): BelongsToMany
     {
         return $this->belongsToMany(Team::class, 'team_assignments', 'user_id');
     }
@@ -289,10 +278,8 @@ class User extends Authenticatable implements AuditableContract
      * This method should have been a relationship THROUGH `user_roles` to the `roles` table.
      * The $relational parameter has been introduced to switch between the old relationship, and the correct one.
      * TODO: refactor all instances of the old relationship, then remove the switch and only return the belongsToMany
-     *
-     * @return HasMany|BelongsToMany
      */
-    public function roles($relational = false)
+    public function roles($relational = false): HasMany|BelongsToMany
     {
         if ($relational) {
             return $this->belongsToMany(Role::class, 'user_roles');

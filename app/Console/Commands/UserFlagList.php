@@ -2,24 +2,14 @@
 
 namespace App\Console\Commands;
 
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 
+#[Signature('userflag:list {--email= : List flags for specific user by email address (if omitted, will list all users)}')]
+#[Description('Lists user flags for one or all users')]
 class UserFlagList extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'userflag:list {--email= : List flags for specific user by email address (if omitted, will list all users)}';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Lists user flags for one or all users';
-
     /**
      * Create a new command instance.
      *
@@ -32,10 +22,8 @@ class UserFlagList extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return mixed
      */
-    public function handle()
+    public function handle(): void
     {
         if ($this->option('email')) {                   // specific user
             // lookup email address

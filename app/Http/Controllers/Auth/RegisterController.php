@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Illuminate\Support\Facades\Validator;
 
+#[Middleware('guest')]
 class RegisterController extends Controller
 {
     /*
@@ -30,21 +33,9 @@ class RegisterController extends Controller
     protected $redirectTo = '/dashboard';
 
     /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('guest');
-    }
-
-    /**
      * Get a validator for an incoming registration request.
-     *
-     * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator(array $data)
+    protected function validator(array $data): \Illuminate\Contracts\Validation\Validator
     {
         return Validator::make($data, [
             'name' => 'required|max:255',
@@ -55,8 +46,6 @@ class RegisterController extends Controller
 
     /**
      * Create a new user instance after a valid registration.
-     *
-     * @return User
      */
     protected function create(array $data)
     {
@@ -67,7 +56,7 @@ class RegisterController extends Controller
                 ]); */
     }
 
-    public function showRegistrationForm()
+    public function showRegistrationForm(): RedirectResponse
     {
         return redirect('/');
     }

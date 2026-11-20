@@ -2,15 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
+#[Fillable('user_id', 'skill')]
 class UserSkill extends Model
 {
-    //
-
-    protected $fillable = ['user_id', 'skill'];
-
-    public function user()
+    public function user(): HasOne
     {
         return $this->hasOne(\App\Models\User::class);
     }

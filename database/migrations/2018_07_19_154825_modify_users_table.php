@@ -8,10 +8,8 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('last_name')->after('id')->nullable();
@@ -32,14 +30,23 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('name');
         });
+
+        // Production made these required after they were filled in. Done as a change, not on the
+        // add above, because SQLite cannot add a required column without a default.
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('first_name')->nullable(false)->change();
+            $table->string('last_name')->nullable(false)->change();
+            $table->string('address')->nullable(false)->change();
+            $table->string('city')->nullable(false)->change();
+            $table->string('province')->nullable(false)->change();
+            $table->string('postal')->nullable(false)->change();
+        });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
             //

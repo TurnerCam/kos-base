@@ -11,7 +11,7 @@ class GatekeepersTableSeeder extends Seeder
 
     private array $door_names = ['Door 1', 'Door 2', 'Door 3', 'Door 4'];
 
-    public function run()
+    public function run(): void
     {
         foreach ($this->tool_names as $name) {
             $this->createGatekeeper(1, $name, 'lockout');

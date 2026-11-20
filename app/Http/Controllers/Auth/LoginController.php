@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Routing\Attributes\Controllers\Middleware;
+use Illuminate\View\View;
 
+#[Middleware('guest', except: ['logout'])]
 class LoginController extends Controller
 {
     /*
@@ -27,17 +30,7 @@ class LoginController extends Controller
      */
     protected $redirectTo = '/dashboard';
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('guest')->except('logout');
-    }
-
-    public function showLoginForm()
+    public function showLoginForm(): View
     {
         if (! session()->has('url.intended')) {
             session(['url.intended' => url()->previous()]);

@@ -17,7 +17,7 @@ class UserSocialsTableSeeder extends Seeder
         $this->faker = Faker::create();
     }
 
-    public function run()
+    public function run(): void
     {
         User::all()->each(function (User $user) {
             if (random_int(0, 10) >= 2) {
@@ -48,11 +48,11 @@ class UserSocialsTableSeeder extends Seeder
     {
         switch ($service) {
             case 'twitter':
-                return '@'.$this->faker->word;
+                return '@'.$this->faker->word();
             case 'facebook':
-                return 'https://facebook.com/'.$this->faker->word;
+                return 'https://facebook.com/'.$this->faker->word();
             case 'instagram':
-                return $this->faker->word;
+                return $this->faker->word();
             default:
                 return '';
         }

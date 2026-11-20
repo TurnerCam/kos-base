@@ -2,28 +2,22 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use OwenIt\Auditing\Contracts\Auditable;
 
+#[Fillable('form_id', 'form_name', 'submitted_by', 'user_id', 'data', 'submitter_ip', 'submitter_agent', 'special_form')]
 class FormSubmission extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'form_id', 'form_name', 'submitted_by', 'user_id', 'data', 'submitter_ip', 'submitter_agent', 'special_form',
-    ];
-
-    public function user()
+    public function user(): HasOne
     {
         return $this->hasOne(User::class, 'id', 'user_id');
     }
 
-    public function submitter()
+    public function submitter(): HasOne
     {
         return $this->hasOne(User::class, 'id', 'submitted_by');
     }

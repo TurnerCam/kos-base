@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class UsersController extends Controller
@@ -28,7 +29,7 @@ class UsersController extends Controller
             ->paginate($perPage);
     }
 
-    public function show(User $user)
+    public function show(User $user): JsonResponse
     {
         return response()->json([
             'id' => $user->id,

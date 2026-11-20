@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\View\View;
 
 class MembersController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function index($view = 'default')
+    public function index($view = 'default'): View
     {
         $users = \App\Models\User::where('status', 'active')->orwhere('status', 'hiatus')->orderby('first_preferred')->get();
 
@@ -56,7 +56,6 @@ class MembersController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -66,11 +65,8 @@ class MembersController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id): View
     {
         $user = \App\Models\User::find($id);
 
@@ -142,11 +138,8 @@ class MembersController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id): RedirectResponse
     {
         $user = \App\Models\User::find($id);
 
@@ -233,7 +226,6 @@ class MembersController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

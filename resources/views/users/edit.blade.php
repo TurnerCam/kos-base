@@ -60,7 +60,7 @@
 
           <div class="row">
             <div class="form-group col-md-8">
-              <label for="address">Street Address</label>
+              <label for="address">Street Address <span class="text-danger">*</span></label>
               <input type="text" class="form-control" name="address" id="address" value="@if(!old('address')){{$user->address}}@endif{{ old('address') }}">
 
             </div>
@@ -68,15 +68,15 @@
 
           <div class="row">
             <div class="form-group col-md-4">
-              <label for="city">City</label>
+              <label for="city">City <span class="text-danger">*</span></label>
               <input type="text" class="form-control" name="city" id="city" value="@if(!old('city')){{$user->city}}@endif{{ old('city') }}">
             </div>
             <div class="form-group col-md-4">
-              <label for="province">Province</label>
+              <label for="province">Province <span class="text-danger">*</span></label>
               <input type="text" class="form-control" name="province" id="province" value="@if(!old('province')){{$user->province}}@endif{{ old('province') }}">
             </div>
             <div class="form-group col-md-4">
-              <label for="postal">Postal Code</label>
+              <label for="postal">Postal Code <span class="text-danger">*</span></label>
               <input type="text" class="form-control" name="postal" id="postal" value="@if(!old('postal')){{$user->postal}}@endif{{ old('postal') }}">
             </div>
           </div>

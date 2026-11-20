@@ -7,9 +7,10 @@ use App\Models\UserStatus;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Crypt;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
-class SlackInviteControllerTest extends TestCase
+final class SlackInviteControllerTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -42,7 +43,7 @@ class SlackInviteControllerTest extends TestCase
         $this->get("/slack/invite?t={$token}")->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
-    public function provideNonActiveMemberStatuses(): array
+    public static function provideNonActiveMemberStatuses(): array
     {
         return [
             UserStatus::STATUS_INACTIVE => ['status' => UserStatus::STATUS_INACTIVE],
@@ -56,7 +57,7 @@ class SlackInviteControllerTest extends TestCase
         ];
     }
 
-    /** @dataProvider provideNonActiveMemberStatuses */
+    #[DataProvider('provideNonActiveMemberStatuses')]
     public function test_it_returns_forbidden_with_a_valid_user_token_that_is_not_an_active_member(string $status): void
     {
         config(['services.slack.auto_invite.enabled' => true]);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\FormSubmissionOutbox;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class FormSubmissionOutboxController extends Controller
@@ -26,7 +27,7 @@ class FormSubmissionOutboxController extends Controller
             ->paginate($perPage);
     }
 
-    public function next()
+    public function next(): JsonResponse
     {
         $cutoff = now()->subMinutes(5);
 
@@ -56,13 +57,13 @@ class FormSubmissionOutboxController extends Controller
             'submitted_by' => $formSubmission->submitted_by,
             'user_id' => $formSubmission->user_id,
             'data' => json_decode($formSubmission->data, true),
-            'created_at' => optional($formSubmission->created_at)->toDateTimeString(),
+            'created_at' => $formSubmission->created_at?->toDateTimeString(),
             'last_error' => $outboxItem->last_error,
-            'last_error_at' => optional($outboxItem->last_error_at)->toDateTimeString(),
+            'last_error_at' => $outboxItem->last_error_at?->toDateTimeString(),
         ]);
     }
 
-    public function markProcessed(Request $request, FormSubmissionOutbox $formSubmissionOutbox)
+    public function markProcessed(Request $request, FormSubmissionOutbox $formSubmissionOutbox): JsonResponse
     {
         $lastError = $request->input('last_error');
         $updates = [];
@@ -79,13 +80,13 @@ class FormSubmissionOutboxController extends Controller
 
         return response()->json([
             'outbox_id' => $formSubmissionOutbox->id,
-            'processed_at' => optional($formSubmissionOutbox->processed_at)->toDateTimeString(),
+            'processed_at' => $formSubmissionOutbox->processed_at?->toDateTimeString(),
             'last_error' => $formSubmissionOutbox->last_error,
-            'last_error_at' => optional($formSubmissionOutbox->last_error_at)->toDateTimeString(),
+            'last_error_at' => $formSubmissionOutbox->last_error_at?->toDateTimeString(),
         ]);
     }
 
-    public function show(FormSubmissionOutbox $formSubmissionOutbox)
+    public function show(FormSubmissionOutbox $formSubmissionOutbox): JsonResponse
     {
         $formSubmission = $formSubmissionOutbox->formSubmission;
 
@@ -101,9 +102,9 @@ class FormSubmissionOutboxController extends Controller
             'submitted_by' => $formSubmission->submitted_by,
             'user_id' => $formSubmission->user_id,
             'data' => json_decode($formSubmission->data, true),
-            'created_at' => optional($formSubmission->created_at)->toDateTimeString(),
+            'created_at' => $formSubmission->created_at?->toDateTimeString(),
             'last_error' => $formSubmissionOutbox->last_error,
-            'last_error_at' => optional($formSubmissionOutbox->last_error_at)->toDateTimeString(),
+            'last_error_at' => $formSubmissionOutbox->last_error_at?->toDateTimeString(),
         ]);
     }
 }

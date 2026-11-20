@@ -8,23 +8,23 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
+        // Two steps: since Laravel 11 a column added in the same step as a rename is created
+        // before the rename, so "after" must name the column as it is after the rename.
         Schema::table('forms', function (Blueprint $table) {
             $table->renameColumn('submit_options', 'actions');
-            $table->text('conditions')->after('submit_options')->nullable();
+        });
+        Schema::table('forms', function (Blueprint $table) {
+            $table->text('conditions')->after('actions')->nullable();
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('forms', function (Blueprint $table) {
             $table->renameColumn('actions', 'submit_options');

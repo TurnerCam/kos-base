@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Image;
+use Illuminate\View\View;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class ImageController extends Controller
 {
     /* Displays image upload and crop interface */
-    public function imageCrop($photo_type = null, $id = null)
+    public function imageCrop($photo_type = null, $id = null): View
     {
         if (! in_array($photo_type, ['users', 'teams', 'gatekeepers'])) {
             $photo_type = null;
@@ -21,13 +23,13 @@ class ImageController extends Controller
 
     /* returns the last image uploaded by user */
 
-    public function getLastImage()
+    public function getLastImage(): JsonResponse
     {
         return response()->json(['success' => 'done', 'filename' => session('last_image_upload')]);
     }
 
     /* Process cropped image for use by kOS */
-    public function imageCropPost(Request $request)
+    public function imageCropPost(Request $request): JsonResponse
     {
 
         // parse input from croppie

@@ -9,7 +9,7 @@ use Illuminate\Database\Seeder;
 
 class UsersTableSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         $superuserUser = User::factory()->active()->create([
             'first_name' => 'Superuser',

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DeployController;
+use App\Http\Controllers\DevInfoController;
 use App\Http\Controllers\FormsController;
 use App\Http\Controllers\GatekeepersController;
 use App\Http\Controllers\HelpdeskController;
@@ -146,6 +147,9 @@ Route::middleware(['auth'])->group(function () {
 
 // Slack route
 Route::get('/slack/invite', SlackInviteController::class)->name('slack.invite');
+
+// Server environment details, superusers only
+Route::get('/devinfo', DevInfoController::class)->middleware('auth');
 
 // Deploy (from Github Actions) route
 Route::post('/deploy', [DeployController::class, 'deploy']);

@@ -4,15 +4,14 @@ namespace Tests\Feature\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
-class PublicInfoControllerTest extends TestCase
+final class PublicInfoControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * @dataProvider publicUserCountData
-     */
+    #[DataProvider('publicUserCountData')]
     public function test_public_user_count(int $activeUsers, int $expectedUserCount, int $hiatusUsers = 0): void
     {
         User::factory($activeUsers)->active()->create();
@@ -28,7 +27,7 @@ class PublicInfoControllerTest extends TestCase
     /**
      * @return int[][]
      */
-    public function publicUserCountData(): array
+    public static function publicUserCountData(): array
     {
         return [
             // [activeUsers, expectedUserCount, hiatusUsers = 0]

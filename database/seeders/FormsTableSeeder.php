@@ -7,7 +7,7 @@ use Illuminate\Database\Seeder;
 
 class FormsTableSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         Form::query()->create([
             'name' => 'New Member Application',

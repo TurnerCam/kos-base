@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class KioskController extends Controller
 {
-    public function index()
+    public function index(): View
     {
         if (\Auth::check()) {
             $page = [
@@ -68,7 +70,7 @@ class KioskController extends Controller
         return view('kiosk.page', compact('page'));
     }
 
-    public function logout()
+    public function logout(): RedirectResponse
     {
         if (\Auth::check()) {
             \Auth::logout();
@@ -191,7 +193,7 @@ class KioskController extends Controller
     }
 
     // confirms assignment, saves key to database
-    public function store_key(Request $request)
+    public function store_key(Request $request): View
     {
 
         // only proceed if user had confirmed, otherwise bail

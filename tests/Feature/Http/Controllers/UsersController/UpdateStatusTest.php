@@ -9,9 +9,10 @@ use App\Models\User;
 use App\Models\UserStatus;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
-class UpdateStatusTest extends TestCase
+final class UpdateStatusTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -30,7 +31,7 @@ class UpdateStatusTest extends TestCase
         $this->adminUser->roles(true)->attach($role);
     }
 
-    public function provideValidInviteStatuses(): array
+    public static function provideValidInviteStatuses(): array
     {
         return [
             UserStatus::STATUS_INACTIVE => [
@@ -72,7 +73,7 @@ class UpdateStatusTest extends TestCase
         ];
     }
 
-    /** @dataProvider provideValidInviteStatuses */
+    #[DataProvider('provideValidInviteStatuses')]
     public function test_it_queues_slack_invite_email_when_user_is_moved_from_valid_status_to_active(
         string $status,
         bool $shouldSend
@@ -101,9 +102,10 @@ class UpdateStatusTest extends TestCase
         Mail::assertNotQueued(SlackInvite::class);
     }
 
-    /** @dataProvider provideValidInviteStatuses */
+    #[DataProvider('provideValidInviteStatuses')]
     public function test_it_does_not_queue_slack_invite_email_when_user_is_moved_from_valid_status_to_active_when_not_enabled(
-        string $status
+        string $status,
+        bool $shouldSend // supplied by the shared provider; unused, since nothing is sent while invites are disabled
     ): void {
         Mail::fake();
         config(['services.slack.auto_invite.enabled' => false]);

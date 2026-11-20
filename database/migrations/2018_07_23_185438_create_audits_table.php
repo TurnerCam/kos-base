@@ -21,17 +21,20 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('audits', function (Blueprint $table) {
             $table->increments('id');
             $table->string('user_type')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->string('event');
-            $table->morphs('auditable');
+            // Not morphs(): production's audits table was created when morphs() made an unsigned
+            // integer id followed by the type, indexed in that order. Kept the same so a new
+            // install has production's schema (ids in this app are unsigned integers anyway).
+            $table->unsignedInteger('auditable_id');
+            $table->string('auditable_type');
+            $table->index(['auditable_id', 'auditable_type']);
             $table->text('old_values')->nullable();
             $table->text('new_values')->nullable();
             $table->text('url')->nullable();
@@ -46,10 +49,8 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::drop('audits');
     }

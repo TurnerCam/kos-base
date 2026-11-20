@@ -9,20 +9,14 @@ class UserStatusFactory extends Factory
 {
     /**
      * Define the model's default state.
-     *
-     * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
-            'user_id' => array_key_exists('user_id', $attributes)
-                ? $attributes['user_id']
-                : User::factory()->create()->id,
+            'user_id' => User::factory(),
             'status' => 'active',
             'note' => $this->faker->paragraph(),
-            'updated_by' => array_key_exists('updated_by', $attributes)
-                ? $attributes['updated_by']
-                : User::factory()->create()->id,
+            'updated_by' => 0,
         ];
     }
 }
