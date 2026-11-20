@@ -16,6 +16,12 @@ return new class extends Migration
             $table->string('submitter_agent')->after('submitter_ip')->nullable();
             $table->string('special_form')->nullable()->after('form_id')->nullable();
         });
+
+        // Production made these required after they were filled in (SQLite cannot add them required).
+        Schema::table('form_submissions', function (Blueprint $table) {
+            $table->ipAddress('submitter_ip')->nullable(false)->change();
+            $table->string('submitter_agent')->nullable(false)->change();
+        });
     }
 
     /**

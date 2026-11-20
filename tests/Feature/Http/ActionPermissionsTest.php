@@ -198,7 +198,9 @@ final class ActionPermissionsTest extends TestCase
         $gatekeeperForm = ['name' => 'Renamed Saw', 'status' => 'enabled', 'type' => 'lockout', 'auth_key' => 'new-auth-key', 'team_id' => $this->team->id, 'shared_auth' => 0];
 
         [$method, $uri, $data] = match ($action) {
-            'edit a member' => ['put', "/users/{$this->target->id}", ['first_name' => 'Changed', 'last_name' => 'Name', 'first_preferred' => 'Changed', 'last_preferred' => 'Name', 'email' => 'changed@example.com']],
+            // The edit form always sends the address fields, filled in; the columns are required.
+            'edit a member' => ['put', "/users/{$this->target->id}", ['first_name' => 'Changed', 'last_name' => 'Name', 'first_preferred' => 'Changed', 'last_preferred' => 'Name', 'email' => 'changed@example.com',
+                'address' => '1 Test St', 'city' => 'Kitchener', 'province' => 'Ontario', 'postal' => 'N2G 1A1']],
             'delete an applicant' => ['delete', "/users/{$this->applicant->id}", ['confirm' => 'on']],
             'create a form' => ['post', '/forms', ['name' => 'New form', 'description' => '', 'status' => 'enabled', 'element' => ['q1' => ['type' => 'input', 'label' => 'Question', 'name' => 'question', 'length' => 50, 'mask' => '']]]],
             'delete a key from a member' => ['get', "/users/{$this->target->id}/destroy_key/{$this->key->id}", []],

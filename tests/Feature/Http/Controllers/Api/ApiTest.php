@@ -399,6 +399,8 @@ final class ApiTest extends TestCase
             'special_form' => 'new_user_app',
             'submitted_by' => 0,
             'user_id' => 0,
+            'submitter_ip' => '192.0.2.1',      // the app always records these, and the columns are required
+            'submitter_agent' => 'Mozilla/5.0',
             'data' => json_encode($data),
         ]);
     }

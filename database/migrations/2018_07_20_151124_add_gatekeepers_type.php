@@ -14,6 +14,11 @@ return new class extends Migration
         Schema::table('gatekeepers', function (Blueprint $table) {
             $table->string('type')->after('description')->nullable();
         });
+
+        // Production made this required after it was filled in (SQLite cannot add it required).
+        Schema::table('gatekeepers', function (Blueprint $table) {
+            $table->string('type')->nullable(false)->change();
+        });
     }
 
     /**
