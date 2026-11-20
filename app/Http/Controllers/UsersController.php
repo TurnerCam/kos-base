@@ -255,6 +255,11 @@ class UsersController extends Controller
                 'first_preferred' => 'required',
                 'last_preferred' => 'required',
                 'email' => 'required',
+                // The address columns cannot be null; blank fields arrive as null.
+                'address' => 'required',
+                'city' => 'required',
+                'province' => 'required',
+                'postal' => 'required',
                 'password' => 'confirmed',
             ]);
 
